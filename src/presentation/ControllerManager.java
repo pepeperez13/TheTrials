@@ -87,7 +87,7 @@ public class ControllerManager {
         compositor.run();
     }
 
-    private int executeConductor(int finalIndex) throws FileNotFoundException {
+    private int executeConductor(int finalIndex) throws IOException {
         return conductor.run(finalIndex);
     }
 }

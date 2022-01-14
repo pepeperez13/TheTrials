@@ -17,8 +17,7 @@ public class PaperCsvDAO implements PaperDAO {
                 separator + article.getRejectedProbability() + separator + article.InUse();
     }
 
-    @Override
-    public PaperPublication trialFromCsv(String csv) { //Una linea del archivo Aritulos
+    private PaperPublication trialFromCsv(String csv) { //Una linea del archivo Aritulos
         String[] parts = csv.split(separator);
 
         return new PaperPublication(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Boolean.valueOf(parts[6]));

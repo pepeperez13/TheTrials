@@ -27,8 +27,8 @@ public class TeamCsvDAO implements TeamDAO {
         return name + separator +  PI;
     }
 
-    @Override
-    public Player playerFromCsv(String csv) { //Una linea del archivo Aritulos
+
+    private Player playerFromCsv(String csv) { //Una linea del archivo Aritulos
         String[] parts = csv.split(separator);
         return new Player(parts[0], Integer.parseInt(parts[1]));
     }

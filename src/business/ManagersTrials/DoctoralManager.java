@@ -12,7 +12,7 @@ public class DoctoralManager {
     private DoctoralDAO doctoralDAO;
     public DoctoralManager(DataSourceOptions options) {
         switch (options) {
-            case JSON -> doctoralDAO = new DoctoralJsonDAO();
+            //case JSON -> doctoralDAO = new DoctoralJsonDAO();
             case CSV -> doctoralDAO = new DoctoralCsvDAO();
         }
     }

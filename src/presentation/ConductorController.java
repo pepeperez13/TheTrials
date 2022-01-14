@@ -5,6 +5,7 @@ import business.ManagersTrials.PaperPublicationManager;
 import business.typeTrials.PaperPublication;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -29,7 +30,7 @@ public class ConductorController {
      * vez que entremos tiene que continuar la ejecución o empezar de nuevo
      * @param finalIndex
      */
-    public int run (int finalIndex) throws FileNotFoundException {
+    public int run (int finalIndex) throws IOException {
         // Variable que nos permitirá saber qué prueba se ha ejecutado la última, y por tanto si la próxima
         // vez que entremos tiene que continuar la ejecución o empezar de nuevo
         view.showMessage("\nEntering execution mode ...");
@@ -64,7 +65,7 @@ public class ConductorController {
         return finalIndex;
     }
 
-    private void savePlayers () throws FileNotFoundException {
+    private void savePlayers () throws IOException {
         int numPlayers = editionManager.getEditionCurrentYear().getNumPlayers();
 
         for (int j = 0; j < numPlayers; j++) {
@@ -73,7 +74,7 @@ public class ConductorController {
 
     }
 
-    private int playTrials (int numTrials, int index) throws FileNotFoundException {
+    private int playTrials (int numTrials, int index) throws IOException {
         boolean continueExecution = true;
         String aux = "";
         int i;
@@ -102,7 +103,7 @@ public class ConductorController {
         return i;
     }
 
-    private void playTrial (PaperPublication article) { //Este método falla
+    private void playTrial (PaperPublication article) throws IOException { //Este método falla
         int i = 0;
 
         for (Player player: teamManager.getPlayers()) {

@@ -12,7 +12,7 @@ public class BudgetManager {
     private BudgetDAO budgetDAO;
     public BudgetManager(DataSourceOptions options) {
         switch (options) {
-            case JSON -> budgetDAO = new BudgetJsonDAO();
+            //case JSON -> budgetDAO = new BudgetJsonDAO();
             case CSV -> budgetDAO = new BudgetCsvDAO();
         }
     }

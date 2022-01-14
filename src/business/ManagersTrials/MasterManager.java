@@ -13,7 +13,7 @@ public class MasterManager {
     private MasterDAO masterDAO;
     public MasterManager(DataSourceOptions options) {
         switch (options) {
-            case JSON -> masterDAO = new MasterJsonDAO();
+            //case JSON -> masterDAO = new MasterJsonDAO();
             case CSV -> masterDAO = new MasterCsvDAO();
         }
     }

@@ -10,63 +10,75 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class PaperJsonDAO implements PaperDAO {
 
     private static final String filename = "files/papers.json";
     private final Gson gson;
+    PaperPublication[] articles;
 
-    public PaperJsonDAO() {
+    public static void main (String[] args) throws IOException {
+        PaperJsonDAO paper = new PaperJsonDAO();
+
+        //paper.create(new PaperPublication("Article1", "Magazine1", "Q2", 70, 20, 10));
+        //paper.readAll();
+        //paper.delete(0);
+        paper.changeLine(1, new PaperPublication("pito", "Pita", "Q1", 20, 20, 60 ));
+
+    }
+
+    public PaperJsonDAO() throws FileNotFoundException {
         gson = new GsonBuilder().setPrettyPrinting().create();
+        articles = gson.fromJson(gson.newJsonReader(new FileReader(filename)), PaperPublication[].class);
     }
 
     @Override
     public boolean create (PaperPublication article) throws IOException {
-        FileReader reader = new FileReader(filename);
         FileWriter writer = new FileWriter(filename);
 
-        PaperPublication[] articles = gson.fromJson(reader, PaperPublication[].class);
-        LinkedList<PaperPublication> articlesList = new LinkedList<>(Arrays.asList(articles));
-
-        gson.toJson(articlesList.add(article), writer);
+        LinkedList<PaperPublication> articlesList = new LinkedList<>();
+        if (articles != null) { // Sólo leeremos elementos si el json no está vacío
+            articlesList = new LinkedList<>(Arrays.asList(articles));
+        }
+        articlesList.add(article);
+        gson.toJson(articlesList, writer);
         writer.close();
         return false;
     }
 
     @Override
     public LinkedList<PaperPublication> readAll () throws FileNotFoundException {
-        FileReader reader = new FileReader(filename);
-
-        PaperPublication[] articles = gson.fromJson(reader, PaperPublication[].class);
-
+        // Nunca va estar vacia (comprobamos antes de llamar)
         return new LinkedList<>(Arrays.asList(articles));
     }
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileReader reader = new FileReader(filename);
         FileWriter writer = new FileWriter(filename);
 
-        PaperPublication[] articles = gson.fromJson(reader, PaperPublication[].class);
+        // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<PaperPublication> articlesList = new LinkedList<>(Arrays.asList(articles));
+        articlesList.remove(index);
 
-        gson.toJson(articlesList.remove(index), writer);
+        gson.toJson(articlesList, writer);
+        writer.close();
         return false;
     }
 
     @Override
     public boolean changeLine(int index, PaperPublication article) throws IOException {
-        FileReader reader = new FileReader(filename);
         FileWriter writer = new FileWriter(filename);
 
-        PaperPublication[] articles = gson.fromJson(reader, PaperPublication[].class);
+        // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<PaperPublication> articlesList = new LinkedList<>(Arrays.asList(articles));
 
         articlesList.remove(index);
         articlesList.add(index, article);
 
         gson.toJson(articlesList, writer);
+        writer.close();
         return false;
     }
 }
