@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class EditionManager {
     private EditionDAO editionDAO;
 
-    public EditionManager (DataSourceOptions options) {
+    public EditionManager (DataSourceOptions options) throws IOException {
         switch (options) {
             case JSON -> editionDAO = new EditionJsonDAO();
             case CSV -> editionDAO = new EditionCsvDAO();

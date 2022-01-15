@@ -10,14 +10,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 
 public class PaperJsonDAO implements PaperDAO {
 
     private static final String filename = "files/papers.json";
     private final Gson gson;
-    PaperPublication[] articles;
+    private final PaperPublication[] articles;
 
     public static void main (String[] args) throws IOException {
         PaperJsonDAO paper = new PaperJsonDAO();
@@ -42,6 +41,7 @@ public class PaperJsonDAO implements PaperDAO {
         if (articles != null) { // Sólo leeremos elementos si el json no está vacío
             articlesList = new LinkedList<>(Arrays.asList(articles));
         }
+
         articlesList.add(article);
         gson.toJson(articlesList, writer);
         writer.close();

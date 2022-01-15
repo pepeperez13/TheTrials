@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class TeamManager {
     private TeamDAO teamDAO;
-    public TeamManager(DataSourceOptions options) {
+    public TeamManager(DataSourceOptions options) throws FileNotFoundException {
         switch (options) {
             case JSON -> teamDAO = new TeamJsonDAO();
             case CSV -> teamDAO = new TeamCsvDAO();

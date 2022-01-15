@@ -1,5 +1,6 @@
 package persistance.JSON;
 
+import business.Edition;
 import business.Player;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,20 +17,24 @@ public class TeamJsonDAO implements TeamDAO {
 
     private static final String filename = "files/team.json";
     private final Gson gson;
+    private final Player[] team;
 
-    public TeamJsonDAO () {
+    public TeamJsonDAO () throws FileNotFoundException {
         gson = new GsonBuilder().setPrettyPrinting().create();
+        team = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Player.class);
     }
 
     @Override
     public boolean create (String name, int PI) throws IOException {
-        FileReader reader = new FileReader(filename);
         FileWriter writer = new FileWriter(filename);
 
-        Player[] players = gson.fromJson(reader, Player[].class);
-        LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(players));
+        LinkedList<Player> playersList = new LinkedList<>();
+        if (team != null) {// Sólo leeremos elementos si el json no está vacío
+            playersList = new LinkedList<>(Arrays.asList(team));
+        }
 
-        gson.toJson(playersList.add(new Player(name, PI)), writer);
+        playersList.add(new Player(name, PI));
+        gson.toJson(playersList, writer);
         writer.close();
         return false;
 
@@ -37,37 +42,34 @@ public class TeamJsonDAO implements TeamDAO {
 
     @Override
     public LinkedList<Player> readAll () throws FileNotFoundException {
-        FileReader reader = new FileReader(filename);
-
-        Player[] players = gson.fromJson(reader, Player[].class);
-
-        return new LinkedList<>(Arrays.asList(players));
+        // Nunca va estar vacia (comprobamos antes de llamar)
+        return new LinkedList<>(Arrays.asList(team));
     }
 
     @Override
     public boolean delete (int index) throws IOException {
-        FileReader reader = new FileReader(filename);
         FileWriter writer = new FileWriter(filename);
 
-        Player[] players = gson.fromJson(reader, Player[].class);
-        LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(players));
+        // Nunca va estar vacia (comprobamos antes de llamar)
+        LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(team));
+        playersList.remove(index);
 
-        gson.toJson(playersList.remove(index), writer);
+        gson.toJson(playersList, writer);
+        writer.close();
         return false;
     }
 
     @Override
     public boolean changeLine (int index, String name, int PI) throws IOException {
-        FileReader reader = new FileReader(filename);
         FileWriter writer = new FileWriter(filename);
 
-        Player[] players = gson.fromJson(reader, Player[].class);
-        LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(players));
+        LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(team));
 
         playersList.remove(index);
         playersList.add(index, new Player(name, PI));
 
         gson.toJson(playersList, writer);
+        writer.close();
         return false;
     }
 
