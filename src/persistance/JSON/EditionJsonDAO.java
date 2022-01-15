@@ -4,7 +4,6 @@ import business.Edition;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import business.Edition;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.EditionDAO;
@@ -22,7 +21,7 @@ public class EditionJsonDAO implements EditionDAO {
 
     public EditionJsonDAO () throws FileNotFoundException {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        editions = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Edition.class);
+        editions = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Edition[].class);
     }
 
     @Override

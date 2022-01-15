@@ -6,18 +6,21 @@ import persistance.BudgetDAO;
 import persistance.CSV.BudgetCsvDAO;
 import persistance.JSON.BudgetJsonDAO;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class BudgetManager {
     private BudgetDAO budgetDAO;
-    public BudgetManager(DataSourceOptions options) {
+
+    public BudgetManager(DataSourceOptions options) throws FileNotFoundException {
         switch (options) {
-            //case JSON -> budgetDAO = new BudgetJsonDAO();
+            case JSON -> budgetDAO = new BudgetJsonDAO();
             case CSV -> budgetDAO = new BudgetCsvDAO();
         }
     }
 
-    public boolean addBudget (String nameTrial, String nameEntity, int amount) {
+    public boolean addBudget (String nameTrial, String nameEntity, int amount) throws IOException {
         Budget budget = new Budget(nameTrial, nameEntity, amount);
         return budgetDAO.create(budget);
     }
@@ -52,7 +55,7 @@ public class BudgetManager {
         return nombres;
     }
 
-    public boolean deleteBudget (int index) {
+    public boolean deleteBudget (int index) throws IOException {
         return budgetDAO.delete(index);
     }
 }

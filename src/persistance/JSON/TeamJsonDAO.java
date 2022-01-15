@@ -1,6 +1,5 @@
 package persistance.JSON;
 
-import business.Edition;
 import business.Player;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +20,7 @@ public class TeamJsonDAO implements TeamDAO {
 
     public TeamJsonDAO () throws FileNotFoundException {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        team = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Player.class);
+        team = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Player[].class);
     }
 
     @Override

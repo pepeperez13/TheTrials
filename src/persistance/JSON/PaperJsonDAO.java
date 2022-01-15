@@ -22,9 +22,9 @@ public class PaperJsonDAO implements PaperDAO {
         PaperJsonDAO paper = new PaperJsonDAO();
 
         //paper.create(new PaperPublication("Article1", "Magazine1", "Q2", 70, 20, 10));
-        //paper.readAll();
+        //LinkedList<PaperPublication> papers = paper.readAll();
         //paper.delete(0);
-        paper.changeLine(1, new PaperPublication("pito", "Pita", "Q1", 20, 20, 60 ));
+        //paper.changeLine(1, new PaperPublication("pito", "Pita", "Q1", 20, 20, 60 ));
 
     }
 

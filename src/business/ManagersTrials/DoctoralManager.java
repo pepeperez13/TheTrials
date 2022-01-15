@@ -6,18 +6,21 @@ import persistance.CSV.DoctoralCsvDAO;
 import persistance.DoctoralDAO;
 import persistance.JSON.DoctoralJsonDAO;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class DoctoralManager {
     private DoctoralDAO doctoralDAO;
-    public DoctoralManager(DataSourceOptions options) {
+
+    public DoctoralManager(DataSourceOptions options) throws FileNotFoundException {
         switch (options) {
-            //case JSON -> doctoralDAO = new DoctoralJsonDAO();
+            case JSON -> doctoralDAO = new DoctoralJsonDAO();
             case CSV -> doctoralDAO = new DoctoralCsvDAO();
         }
     }
 
-    public boolean addDoctoralThesis (String name, String field, int difficulty) {
+    public boolean addDoctoralThesis (String name, String field, int difficulty) throws IOException {
         DoctoralThesis doctoralThesis = new DoctoralThesis(name, field, difficulty);
         return doctoralDAO.create(doctoralThesis);
     }
@@ -27,8 +30,7 @@ public class DoctoralManager {
     }
 
     public DoctoralThesis geDoctoralByIndex (int index) {
-        DoctoralThesis doctoralThesis = doctoralDAO.findByIndex(index);
-        return doctoralThesis;
+        return doctoralDAO.findByIndex(index);
     }
 
     public DoctoralThesis getDoctoralByName (String name) {
@@ -52,7 +54,7 @@ public class DoctoralManager {
         return nombres;
     }
 
-    public boolean deleteMaster (int index) {
+    public boolean deleteMaster (int index) throws IOException {
         return doctoralDAO.delete(index);
     }
 }

@@ -6,6 +6,7 @@ import persistance.CSV.MasterCsvDAO;
 import persistance.JSON.MasterJsonDAO;
 import persistance.MasterDAO;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 
@@ -18,7 +19,7 @@ public class MasterManager {
         }
     }
 
-    public boolean addMasterManager (String name, String nom, int numberCredits, int probability) {
+    public boolean addMasterManager (String name, String nom, int numberCredits, int probability) throws IOException {
         MasterStudies masterStudies = new MasterStudies(name, nom, numberCredits, probability);
         return masterDAO.create(masterStudies);
     }
@@ -53,7 +54,7 @@ public class MasterManager {
         return nombres;
     }
 
-    public boolean deleteMaster (int index) {
+    public boolean deleteMaster (int index) throws IOException {
         return masterDAO.delete(index);
     }
 
