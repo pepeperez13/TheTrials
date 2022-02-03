@@ -18,16 +18,6 @@ public class PaperJsonDAO implements PaperDAO {
     private final Gson gson;
     private final PaperPublication[] articles;
 
-    public static void main (String[] args) throws IOException {
-        PaperJsonDAO paper = new PaperJsonDAO();
-
-        //paper.create(new PaperPublication("Article1", "Magazine1", "Q2", 70, 20, 10));
-        //LinkedList<PaperPublication> papers = paper.readAll();
-        //paper.delete(0);
-        //paper.changeLine(1, new PaperPublication("pito", "Pita", "Q1", 20, 20, 60 ));
-
-    }
-
     public PaperJsonDAO() throws FileNotFoundException {
         gson = new GsonBuilder().setPrettyPrinting().create();
         articles = gson.fromJson(gson.newJsonReader(new FileReader(filename)), PaperPublication[].class);
