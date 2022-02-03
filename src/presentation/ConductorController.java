@@ -69,7 +69,9 @@ public class ConductorController {
         int numPlayers = editionManager.getEditionCurrentYear().getNumPlayers();
 
         for (int j = 0; j < numPlayers; j++) {
-            teamManager.addPlayer(view.askForString("Enter the player's name" + " (" + (j+1) +"/" + numPlayers + "): "), 5);
+            String name = view.askForString("Enter the player's name" + " (" + (j+1) +"/" + numPlayers + "): ");
+            Player newPlayer = new Player(name, 5);
+            teamManager.addPlayer(newPlayer);
         }
 
     }
@@ -110,7 +112,7 @@ public class ConductorController {
             if (player.getPI() != 0) {
                 view.showMessageLine(player.getName() + " is submitting... ");
                 player = gameLogic.publishArticle(article, player); // Publicamos articulo
-                teamManager.updatePlayer(i, player.getName(), player.getPI()); // Actualizamos la info del jugador
+                teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
                 view.showMessageLine(" PI count: " + player.getPI() + "\n");
             }
             i++;

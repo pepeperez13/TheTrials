@@ -24,7 +24,7 @@ public class TeamJsonDAO implements TeamDAO {
     }
 
     @Override
-    public boolean create (String name, int PI) throws IOException {
+    public boolean create (Player player) throws IOException {
         FileWriter writer = new FileWriter(filename);
 
         LinkedList<Player> playersList = new LinkedList<>();
@@ -32,7 +32,7 @@ public class TeamJsonDAO implements TeamDAO {
             playersList = new LinkedList<>(Arrays.asList(team));
         }
 
-        playersList.add(new Player(name, PI));
+        playersList.add(player);
         gson.toJson(playersList, writer);
         writer.close();
         return false;
@@ -59,13 +59,13 @@ public class TeamJsonDAO implements TeamDAO {
     }
 
     @Override
-    public boolean changeLine (int index, String name, int PI) throws IOException {
+    public boolean changeLine (int index, Player player) throws IOException {
         FileWriter writer = new FileWriter(filename);
 
         LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(team));
 
         playersList.remove(index);
-        playersList.add(index, new Player(name, PI));
+        playersList.add(index, player);
 
         gson.toJson(playersList, writer);
         writer.close();

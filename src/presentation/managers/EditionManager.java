@@ -1,4 +1,4 @@
 package presentation.managers;
-public class ManagerEditions {
+public class EditionManager {
 
 }

@@ -19,14 +19,13 @@ public class TeamManager {
 
     /** Método que añade un nuevo participante
      * @param player Nombre del jugador
-     * @param PI Puntuación inicial del jugador
      */
-    public void addPlayer (String player, int PI) throws IOException {
-        teamDAO.create(player, PI);
+    public void addPlayer (Player player) throws IOException {
+        teamDAO.create(player);
     }
 
-    public void updatePlayer(int index, String player, int PI) throws IOException {
-        teamDAO.changeLine(index, player, PI);
+    public void updatePlayer(int index, Player player) throws IOException {
+        teamDAO.changeLine(index, player);
     }
 
     /**

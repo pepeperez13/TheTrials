@@ -1,6 +1,7 @@
 package persistance.CSV;
 
 import business.Edition;
+import business.typeTrials.PaperPublication;
 import persistance.EditionDAO;
 
 import java.io.*;
@@ -42,7 +43,14 @@ public class EditionCsvDAO implements EditionDAO {
      */
     @Override
     public boolean create(Edition edition) {
-        return writeFile(edition);
+        try {
+            List<String> list = Files.readAllLines(file.toPath());
+            list.add(editionToCsv(edition));
+            Files.write(file.toPath(), list);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**
@@ -51,7 +59,16 @@ public class EditionCsvDAO implements EditionDAO {
      */
     @Override
     public LinkedList<Edition> readAll() { //Todo el fichero articulos
-        return readFile();
+        try{
+            LinkedList<Edition> editions = new LinkedList<>();
+            List<String> list = Files.readAllLines(file.toPath());
+            for (String line: list) {
+                editions.add(editionFromCsv(line));
+            }
+            return editions;
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -76,121 +93,14 @@ public class EditionCsvDAO implements EditionDAO {
      */
     @Override
     public boolean delete(int index) {
-        return updateLine(index);
-    }
-
-    /**
-     * Método, privado, que se encarga de guardar la edicion en un .CSV
-     * @param edition Edición a guardar
-     * @return boolean Indica si se ha podido o no guardar un elemento
-     */
-    private boolean writeFile (Edition edition) {
-        FileReader fr = null;
-        BufferedReader bf = null;
-        PrintWriter pw = null;
-        FileWriter fw = null;
-        LinkedList<String> lines = new LinkedList<>();
         try {
-            fr = new FileReader(file);
-            bf = new BufferedReader(fr);
-            String linea;
-            while ((linea=bf.readLine())!=null) {
-                lines.add(linea);
-            }
-            fr.close();
-            fw = new FileWriter(file);
-            pw = new PrintWriter(fw);
-            for (String line:lines) {
-                pw.println(line);
-            }
-            pw.println(editionToCsv(edition));
+            List<String> editions = Files.readAllLines(file.toPath());
+            editions.remove(index);
+            Files.write(file.toPath(), editions);
+            return true;
         } catch (IOException e) {
             return false;
         }
-        finally {
-            try{
-                if( null != fr ){
-                    fr.close();
-                }
-                if (null != fw){
-                    fw.close();
-                }
-            }catch (Exception e2){
-                e2.printStackTrace();
-            }
-        }
-        return true;
     }
 
-    /**
-     * Método, privado, que se encarga de .CSV
-     * @return LinkedList<Edition> Lista que contiene todas las ediciones leídas del
-     */
-
-    /**
-     *
-     * @return
-     */
-    private LinkedList<Edition> readFile () {
-        FileReader fr = null;
-        BufferedReader bf = null;
-        LinkedList<Edition> editions = new LinkedList<>();
-        try {
-            List<String> lines = new LinkedList<>();
-            fr = new FileReader(file);
-            bf = new BufferedReader(fr);
-            String linea;
-            while ((linea=bf.readLine())!=null) {
-                lines.add(linea);
-            }
-            for (String line : lines) {
-                editions.add(editionFromCsv(line));
-            }
-        } catch (IOException e) {
-            return editions;
-        }
-        return editions;
-    }
-
-    private boolean updateLine (int index) {
-        // Inicializar
-        FileReader fileReader = null;
-        BufferedReader bufferedReader;
-        PrintWriter printWriter;
-        FileWriter fileWriter = null;
-        LinkedList<String> lines = new LinkedList<>();
-
-        // Leer y actualizar
-        try {
-            fileReader = new FileReader(file);
-            bufferedReader = new BufferedReader(fileReader);
-            String line;
-            // Mientras no se acabe el fichero, leemos
-            while ((line = bufferedReader.readLine()) != null) {
-                lines.add(line);
-            }
-            lines.remove(index);
-            fileReader.close();
-            // Volvemos a escribir toda la info en el fichero
-            fileWriter = new FileWriter(file);
-            printWriter = new PrintWriter(fileWriter);
-            for (String linea : lines) {
-                printWriter.println(linea);
-            }
-        } catch (IOException e) {
-            return false;
-        } finally {
-            try {
-                if (null != fileReader) {
-                    fileReader.close();
-                }
-                if (null != fileReader) {
-                    fileWriter.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-        return true;
-    }
 }
