@@ -1,26 +1,39 @@
 package presentation;
 
 import business.EditionManager;
+import business.ManagersTrials.BudgetManager;
+import business.ManagersTrials.DoctoralManager;
+import business.ManagersTrials.MasterManager;
 import business.ManagersTrials.PaperPublicationManager;
 import business.TeamManager;
 
+import javax.print.Doc;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class CompositorController {
     private PaperPublicationManager publicationManager;
+    private MasterManager masterManager;
     private EditionManager editionManager;
     private ViewController view;
     private TeamManager teamManager;
+    private DoctoralManager doctoralManager;
+    private BudgetManager budgetManager;
 
-    public CompositorController(PaperPublicationManager publicationManager, EditionManager editionManager, ViewController view, TeamManager teamManager) {
+    public CompositorController(PaperPublicationManager publicationManager, EditionManager editionManager, ViewController view,
+                                TeamManager teamManager, MasterManager masterManager, DoctoralManager doctoralManager, BudgetManager budgetManager) {
         this.publicationManager = publicationManager;
         this.editionManager = editionManager;
         this.view = view;
         this.teamManager = teamManager;
+        this.masterManager = masterManager;
+        this.doctoralManager = doctoralManager;
+        this.budgetManager = budgetManager;
     }
 
-    public void run () {
+    public void run () throws IOException {
         int option;
 
         view.showMessage("\nEntering management mode...");
@@ -44,7 +57,7 @@ public class CompositorController {
         } while (option != 3);
     }
 
-    private void manageTrials () {
+    private void manageTrials () throws IOException {
         String option;
         do {
             view.showSubMenuTrials();
@@ -69,41 +82,105 @@ public class CompositorController {
         } while (!option.equals("d"));
     }
 
-    private void addTrial () {
+    private void addTrial () throws IOException {
         view.showTypesTrials();
         int type_trial = view.askForInteger("Enter the trial's type: ");
 
         switch (type_trial) {
             case 1:
-                managePaperPublication();
+                //Añadir trial del tipo paper
+                addPaperPublication();
                 break;
             case 2:
-                manageMasterStudies();
+                addMasterStudies();
                 break;
             case 3:
-                manageDoctoralThesis();
+                addDoctoralThesis();
                 break;
             case 4:
-                manageBudgetRequest();
+                addBudgetRequest();
                 break;
             default:
                 view.showMessage("\nInvalid option");
         }
     }
 
-    private void manageBudgetRequest() {
+    private void addPaperPublication() throws IOException {
+        String trialName = view.askForString("\nEnter the trial's name: ");
+        if (compruebaError (trialName)) {
+            String journalName = view.askForString("Enter the journal's name: ");
+            if (compruebaError(journalName)) {
+                String quartile = view.askForString("Enter the journal's quartile: ");
+                if (compruebaError(quartile)) {
+                    int accepted = view.askForInteger("Enter the acceptance probability: ");
+                    if (compruebaError(String.valueOf(accepted))) {
+                        int revision = view.askForInteger("Enter the revision probability: ");
+                        if (compruebaError(String.valueOf(revision))) {
+                            int rejection = view.askForInteger("Enter the rejection probability: ");
+                            if (compruebaError(String.valueOf(rejection))) {
+                                publicationManager.addTrial(trialName, journalName, quartile, accepted, revision, rejection, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    private void manageDoctoralThesis() {
+    private void addMasterStudies() throws IOException {
+        String trialName = view.askForString("\nEnter the trial's name: ");
+        if (compruebaError(trialName)) {
+            String masterName = view.askForString("\nEnter the master's name: ");
+            if (compruebaError(masterName)) {
+                int ECTS = view.askForInteger("\nEnter the master's ECTS number: ");
+                if (compruebaError(String.valueOf(ECTS))) {
+                    int creditPass = view.askForInteger("\nEnter the credit pass probability: ");
+                    if (compruebaError(String.valueOf(creditPass))){
+                        masterManager.addMasterManager(trialName, masterName, ECTS, creditPass);
+                    }
+                }
+            }
+        }
     }
 
-    private void manageMasterStudies() {
+    private void addDoctoralThesis() throws IOException {
+        String trialName = view.askForString("\nEnter the trial's name: ");
+        if (compruebaError(trialName)) {
+            String thesis = view.askForString("\nEnter the thesis field of study: ");
+            if (compruebaError(thesis)) {
+                int difficulty = view.askForInteger("\nEnter the defense difficulty: ");
+                if (compruebaError(String.valueOf(difficulty))) {
+                    doctoralManager.addDoctoralThesis(trialName, thesis, difficulty);
+                }
+            }
+        }
     }
 
-    private void managePaperPublication() {
+    private void addBudgetRequest() throws IOException {
+        String trialName = view.askForString("\nEnter the trial's name: ");
+        if (compruebaError(trialName)) {
+            String entityName = view.askForString("\nEnter the entity's name: ");
+            if (compruebaError(entityName)) {
+                int budget = view.askForInteger("\nEnter the budget amount: ");
+                if (compruebaError(String.valueOf(budget))) {
+                    budgetManager.addBudget(trialName, entityName, budget);
+                }
+            }
+        }
     }
 
-    private void listTrials() {
+    private boolean compruebaError (String aux) {
+        return true;
+    }
+
+    private void listTrials() throws FileNotFoundException {
+        if (!publicationManager.getTrials().isEmpty() || !masterManager.getMasters().isEmpty() ||
+                !doctoralManager.getDoctoralThesis().isEmpty() || !budgetManager.getBudget().isEmpty()) {
+            int numTrial = view.askForInteger("\nHere are the current trials, do you want to see more details or go back?");
+
+        }else{
+            view.showMessage("\nNo trials can be listed as there are no existing trials.");
+        }
     }
 
     private void deleteTrial() {
