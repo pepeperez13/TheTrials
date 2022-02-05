@@ -1,5 +1,4 @@
 package presentation.managers;
 
-public class PaperManager {
-
+public class MasterController {
 }

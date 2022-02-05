@@ -1,4 +1,4 @@
 package presentation.managers;
 
-public class BudgetManager {
+public class BudgetController {
 }

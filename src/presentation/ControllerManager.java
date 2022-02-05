@@ -15,14 +15,14 @@ public class ControllerManager {
     /*private final CompositorController compositor;
     private final ConductorController conductor;
     private final ViewController view;
-    private EditionManager editionManager;
-    private TeamManager teamManager;
-    private BudgetManager budgetManager;
-    private DoctoralManager doctoralManager;
-    private MasterManager masterManager;
+    private EditionController editionManager;
+    private TeamController teamManager;
+    private BudgetController budgetManager;
+    private DoctoralController doctoralManager;
+    private MasterController masterManager;
     private PaperPublicationManager paperPublicationManager;
 
-    public ControllerManager(CompositorController compositor, ConductorController conductor, ViewController view, PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, BudgetManager budgetManager, DoctoralManager doctoralManager, MasterManager masterManager) {
+    public ControllerManager(CompositorController compositor, ConductorController conductor, ViewController view, PaperPublicationManager paperPublicationManager, EditionController editionManager, TeamController teamManager, BudgetController budgetManager, DoctoralController doctoralManager, MasterController masterManager) {
         this.compositor = compositor;
         this.conductor = conductor;
         this.view = view;

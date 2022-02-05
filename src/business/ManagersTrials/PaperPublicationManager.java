@@ -140,4 +140,8 @@ public class PaperPublicationManager {
                 getTrial(index).getRejectedProbability(), false);
         paperDAO.changeLine(index, article);
     }
+
+    public boolean checkExistence (String name) throws FileNotFoundException {
+        return getTrialsNames().contains(name);
+    }
 }

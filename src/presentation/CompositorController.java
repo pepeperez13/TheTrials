@@ -107,17 +107,17 @@ public class CompositorController {
 
     private void addPaperPublication() throws IOException {
         String trialName = view.askForString("\nEnter the trial's name: ");
-        if (compruebaError (trialName)) {
+        if (checkError (trialName, 1)) {
             String journalName = view.askForString("Enter the journal's name: ");
-            if (compruebaError(journalName)) {
+            if (checkError(journalName, 2)) {
                 String quartile = view.askForString("Enter the journal's quartile: ");
-                if (compruebaError(quartile)) {
+                if (checkError(quartile, 3)) {
                     int accepted = view.askForInteger("Enter the acceptance probability: ");
-                    if (compruebaError(String.valueOf(accepted))) {
+                    if (checkError(String.valueOf(accepted), 4)) {
                         int revision = view.askForInteger("Enter the revision probability: ");
-                        if (compruebaError(String.valueOf(revision))) {
+                        if (checkError(String.valueOf(revision), 5)) {
                             int rejection = view.askForInteger("Enter the rejection probability: ");
-                            if (compruebaError(String.valueOf(rejection))) {
+                            if (checkError(String.valueOf(rejection), 5)) {
                                 publicationManager.addTrial(trialName, journalName, quartile, accepted, revision, rejection, false);
                             }
                         }
@@ -129,13 +129,13 @@ public class CompositorController {
 
     private void addMasterStudies() throws IOException {
         String trialName = view.askForString("\nEnter the trial's name: ");
-        if (compruebaError(trialName)) {
+        if (checkError(trialName, 1)) {
             String masterName = view.askForString("\nEnter the master's name: ");
-            if (compruebaError(masterName)) {
+            if (checkError(masterName, 2)) {
                 int ECTS = view.askForInteger("\nEnter the master's ECTS number: ");
-                if (compruebaError(String.valueOf(ECTS))) {
+                if (checkError(String.valueOf(ECTS), 3)) {
                     int creditPass = view.askForInteger("\nEnter the credit pass probability: ");
-                    if (compruebaError(String.valueOf(creditPass))){
+                    if (checkError(String.valueOf(creditPass), 4)){
                         masterManager.addMasterManager(trialName, masterName, ECTS, creditPass);
                     }
                 }
@@ -145,11 +145,11 @@ public class CompositorController {
 
     private void addDoctoralThesis() throws IOException {
         String trialName = view.askForString("\nEnter the trial's name: ");
-        if (compruebaError(trialName)) {
+        if (checkError(trialName, 1)) {
             String thesis = view.askForString("\nEnter the thesis field of study: ");
-            if (compruebaError(thesis)) {
+            if (checkError(thesis, 2)) {
                 int difficulty = view.askForInteger("\nEnter the defense difficulty: ");
-                if (compruebaError(String.valueOf(difficulty))) {
+                if (checkError(String.valueOf(difficulty), 3)) {
                     doctoralManager.addDoctoralThesis(trialName, thesis, difficulty);
                 }
             }
@@ -158,18 +158,32 @@ public class CompositorController {
 
     private void addBudgetRequest() throws IOException {
         String trialName = view.askForString("\nEnter the trial's name: ");
-        if (compruebaError(trialName)) {
+        if (checkError(trialName, 1)) {
             String entityName = view.askForString("\nEnter the entity's name: ");
-            if (compruebaError(entityName)) {
+            if (checkError(entityName, 2)) {
                 int budget = view.askForInteger("\nEnter the budget amount: ");
-                if (compruebaError(String.valueOf(budget))) {
+                if (checkError(String.valueOf(budget), 3)) {
                     budgetManager.addBudget(trialName, entityName, budget);
                 }
             }
         }
     }
 
-    private boolean compruebaError (String aux) {
+    private boolean checkError (String aux, int mode) throws FileNotFoundException {
+        switch (mode) {
+            case 1: // Comprobamos que el nombre no este vacío y que no exista
+                if (!aux.isEmpty()) {
+                    return !publicationManager.checkExistence(aux);
+                }else{
+                    return false;
+                }
+            case 2: // Comprobamos que el nombre no este vacío
+                return !aux.isEmpty();
+            case 3: // Comprobamos que sea uno de los valores posibles
+                return aux.equals("Q1") || aux.equals("Q2") || aux.equals("Q3") || aux.equals("Q4");
+            case 4, 5, 6: // Comprobamos que este entre 0 y 100
+                return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 100;
+        }
         return true;
     }
 
