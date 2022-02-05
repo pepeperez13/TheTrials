@@ -1,36 +1,13 @@
 package presentation;
 
-import business.EditionManager;
-import business.ManagersTrials.BudgetManager;
-import business.ManagersTrials.DoctoralManager;
-import business.ManagersTrials.MasterManager;
-import business.ManagersTrials.PaperPublicationManager;
-import business.TeamManager;
-
-import javax.print.Doc;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class CompositorController {
-    private PaperPublicationManager publicationManager;
-    private MasterManager masterManager;
-    private EditionManager editionManager;
     private ViewController view;
-    private TeamManager teamManager;
-    private DoctoralManager doctoralManager;
-    private BudgetManager budgetManager;
 
-    public CompositorController(PaperPublicationManager publicationManager, EditionManager editionManager, ViewController view,
-                                TeamManager teamManager, MasterManager masterManager, DoctoralManager doctoralManager, BudgetManager budgetManager) {
-        this.publicationManager = publicationManager;
-        this.editionManager = editionManager;
+    public CompositorController(ViewController view) {
         this.view = view;
-        this.teamManager = teamManager;
-        this.masterManager = masterManager;
-        this.doctoralManager = doctoralManager;
-        this.budgetManager = budgetManager;
     }
 
     public void run () throws IOException {
