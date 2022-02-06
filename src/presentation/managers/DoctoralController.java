@@ -27,8 +27,22 @@ public class DoctoralController {
         }
     }
 
-    private boolean checkError (String name, int num) {
+    private boolean checkError (String aux, int mode) {
+        switch (mode) {
+            case 1: // Comprobamos que el nombre no este vacío y que no exista
+                if (!aux.isEmpty()) {
+                    //return !budgetManager.checkExistence(aux);
+                }else{
+                    return false;
+                }
+            case 2: // Comprobamos que el nombre no este vacío
+                return !aux.isEmpty();
+            case 3: // Comprobamos que sea uno de los valores posibles
+                return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 10;
+            case 4, 5, 6: // Comprobamos que este entre 0 y 100
+                return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 100;
+        }
+        return true;
 
-        return false;
     }
 }

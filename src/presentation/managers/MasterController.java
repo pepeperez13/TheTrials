@@ -42,8 +42,8 @@ public class MasterController {
             case 2: // Comprobamos que el nombre no este vacío
                 return !aux.isEmpty();
             case 3: // Comprobamos que sea uno de los valores posibles
-                return aux.equals("Q1") || aux.equals("Q2") || aux.equals("Q3") || aux.equals("Q4");
-            case 4, 5, 6: // Comprobamos que este entre 0 y 100
+                return Integer.parseInt(aux) >= 60 && Integer.parseInt(aux) <= 120;
+            case 4: // Comprobamos que este entre 0 y 100
                 return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 100;
         }
         return true;

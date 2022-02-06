@@ -1,9 +1,13 @@
 package presentation;
 
+import business.EditionManager;
+import business.TrialManager;
 import presentation.managers.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CompositorController {
     private ViewController view;
@@ -13,8 +17,10 @@ public class CompositorController {
     private MasterController masterController;
     private PaperController paperController;
     private TeamController teamController;
+    private TrialManager trialManager;
+    private EditionManager editionManager;
 
-    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, TeamController teamController) {
+    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, TeamController teamController, TrialManager trialManager, EditionManager editionManager) {
         this.view = view;
         this.budgetController = budgetController;
         this.doctoralController = doctoralController;
@@ -22,6 +28,8 @@ public class CompositorController {
         this.masterController = masterController;
         this.paperController = paperController;
         this.teamController = teamController;
+        this.trialManager =  trialManager;
+        this.editionManager = editionManager;
     }
 
     public void run () throws IOException {
@@ -95,13 +103,17 @@ public class CompositorController {
         }
     }
 
-    private void listTrials() throws FileNotFoundException {
+    /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
+    private void listTrials () throws FileNotFoundException {
+
     }
 
-    private void deleteTrial() {
+    /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
+    private void deleteTrial () throws FileNotFoundException {
+
     }
 
-    private void manageEditions () {
+    private void manageEditions () throws IOException {
 
         String option_edition;
         do {
@@ -129,15 +141,151 @@ public class CompositorController {
         } while (!option_edition.equals("e"));
     }
 
-    private void deleteEdition() {
+    private void addEdition () throws IOException {
+        int year, numPlayers, numTrials;
+        year = view.askForInteger("\nEnter the edition's year: ");
+        do {
+            numPlayers = view.askForInteger("Enter the initial number of players: ");
+            if (numPlayers < 0 || numPlayers > 5) {
+                System.out.println("\nIncorrect option\n");
+            }
+        } while (numPlayers < 0 || numPlayers > 5);
+        do {
+            numTrials = view.askForInteger("Enter the number of trials: ");
+            if (numTrials < 3 || numTrials > 12) {
+                System.out.println("\nIncorrect option");
+            }
+        } while (numTrials < 3 || numTrials > 12);
+        view.showMessage("\n\t--- Trials ---\n");
+        view.showList(trialManager.getTrialsNames());
+
+        // Guardamos los indices de las pruebas que se quieren guardar en la edición
+        ArrayList<Integer> trialsIndexes = new ArrayList<>();
+        view.showMessage("");
+        for (int i = 0; i < numTrials; i++) {
+            trialsIndexes.add(view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ") - 1);
+        }
+
+        // Activamos las pruebas introducidas como en uso
+        trialManager.setInUseByIndexes(trialsIndexes);
+
+        // Obtenemos los nombres de las pruebas con dichos índices
+        String[] names = trialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
+
+        if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
+            view.showMessage("\nThe edition was created succesfully!");
+        }
     }
 
-    private void duplicateEdition() {
+
+    private void deleteEdition () throws IOException {
+        if (!editionManager.getEditions().isEmpty()) {
+            int numEdition = askForInput("\nWhich edition do you want to delete?", 2);
+            if (numEdition > 0 && numEdition <= editionManager.getEditions().size()) {
+                int year;
+                year = view.askForInteger("\nEnter the edition's year for confirmation: ");
+                if (editionManager.getEditionByIndex(numEdition).getYear() == year) {
+                    LinkedList<String> nameTrials = editionManager.getAllTrialsNamesInUse();
+                    if (editionManager.deleteEdition(year)) {
+                        changeStateTrial(nameTrials);
+                        view.showMessage("\nThe edition was successfully deleted.");
+                    } else {
+                        view.showMessage("\nEdition could not be deleted.");
+                    }
+                }else{
+                    view.showMessage("\nThe year introduced does not match");
+                }
+            } else if (numEdition == editionManager.getEditions().size() + 1) {
+                //Back
+            } else {
+                view.showMessage("\nThe introduced edition is not valid");
+            }
+        } else {
+            view.showMessage("\nNo editions can be deleted as there are no existing editions.");
+        }
+
     }
 
-    private void listEditions() {
+    private void duplicateEdition () throws IOException {
+        if (!editionManager.getEditions().isEmpty()) {
+            int numEdition = askForInput("\nWhich edition do you want to clone?", 2);
+            if (numEdition > 0 && numEdition <= editionManager.getEditions().size()) {
+                int year = view.askForInteger("\nEnter the new edition's year: ");
+                int numPlayers;
+                do {
+                    numPlayers = view.askForInteger("Enter the new edition's initial number of players: ");
+                    if (numPlayers < 0 || numPlayers > 5) {
+                        System.out.println("\nIncorrect option");
+                    }
+                } while (numPlayers < 0 || numPlayers > 5);
+                editionManager.duplicateEdition(numEdition, year, numPlayers);
+                view.showMessage("\nThe edition was cloned successfully!");
+
+            } else if (numEdition == editionManager.getEditions().size() + 1) {
+                //Back
+            } else {
+                view.showMessage("\nThe introduced edition is not valid.");
+            }
+        }
+        else {
+            view.showMessage("\nNo editions can be duplicated as there are no existing editions.");
+        }
+
     }
 
-    private void addEdition() {
+    private void listEditions () throws FileNotFoundException {
+        if (!editionManager.getEditions().isEmpty()) {
+            int numEdition = askForInput("\nHere are the current editions, do you want to see more details or go back?", 2);
+
+            if (numEdition > 0 && numEdition <= editionManager.getEditions().size()) {
+                view.showMessage("\nYear: " + editionManager.getEditionByIndex(numEdition).getYear());
+                view.showMessage("Players: " + editionManager.getEditionByIndex(numEdition).getNumPlayers());
+                view.showMessage("Trials: ");
+                view.showListGuion(editionManager.getEditionTrialsNames(numEdition-1));
+            } else if (numEdition == editionManager.getEditions().size() + 1) {
+                //Back
+            } else {
+                view.showMessage("\nThe introduced option is not valid.");
+            }
+        } else {
+            view.showMessage("\nNo editions can be shown as there are no existing editions.");
+        }
+
+    }
+
+
+    private int askForInput (String message, int option) throws FileNotFoundException {
+        int index;
+        view.showMessage(message);
+        System.out.println();
+        if (option == 1) {
+            view.showList(trialManager.getTrialsNames());
+            System.out.println();
+            index = trialManager.getTrialsNames().size() + 1;
+            view.showMessage("\t " + index + ") Back\n");
+        }else if (option == 2){
+            view.showList(editionManager.getEditionsNames());
+            System.out.println();
+            index = editionManager.getEditions().size() + 1;
+            view.showMessage("\t " + index + ") Back\n");
+        }
+        return view.askForInteger("Enter an option: ");
+    }
+
+    private void changeStateTrial (LinkedList<String> nameTrials) throws FileNotFoundException {
+        boolean contained;
+        // Buscamos para cada prueba, si está siendo usada por alguna edición
+        for (String nameTrial : nameTrials) {
+            contained = false;
+            for (int j = 0; j < editionManager.getEditions().size(); j++) {
+                if (editionManager.getEditionTrialsNames(j).contains(nameTrial)) {
+                    contained = true;
+                }
+            }
+            // En caso de no ser usada, se especifica como "no en uso"
+            if (!contained) {
+                trialManager.setInUnusedByIndex(trialManager.getIndexByName(nameTrial));
+            }
+        }
     }
 }

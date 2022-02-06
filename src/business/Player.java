@@ -3,14 +3,16 @@ package business;
 public class Player {
     private final String name;
     private int PI;
+    private PlayerTypeOptions playerType;
 
-    public Player(String name) {
-        this.name = name;
-    }
-
-    public Player(String name, int PI) {
+    public Player (String name, int PI){
         this.name = name;
         this.PI = PI;
+        this.playerType = PlayerTypeOptions.ENGINEER;
+    }
+
+    public void changePlayerType (PlayerTypeOptions playerType) {
+        this.playerType = playerType;
     }
 
     public void incrementPI (int change) {
