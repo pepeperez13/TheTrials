@@ -35,4 +35,8 @@ public class Player {
         return name;
     }
 
+    public PlayerTypeOptions getPlayerType () {
+        return playerType;
+    }
+
 }
