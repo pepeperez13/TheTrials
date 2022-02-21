@@ -34,4 +34,5 @@ public class MasterStudiesGame {
             player.decrementPI(3);
         }
     }
+    //Si lo ves eres maricon
 }
