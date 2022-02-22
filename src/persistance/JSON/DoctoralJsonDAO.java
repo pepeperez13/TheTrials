@@ -5,16 +5,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.DoctoralDAO;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class DoctoralJsonDAO implements DoctoralDAO {
 
-    private static final String filename = "files/team.json";
+    private static final String filename = "files/doctorals.json";
+    private static final File file = new File("files/doctorals.json");
     private final Gson gson;
     private final DoctoralThesis[] doctorals;
 

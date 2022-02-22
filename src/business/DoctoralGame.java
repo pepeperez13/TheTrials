@@ -3,7 +3,7 @@ package business;
 import business.playerTypes.Player;
 import business.typeTrials.DoctoralThesis;
 
-public class DoctoralThesisGame {
+public class DoctoralGame {
 
     public void presentThesis (DoctoralThesis doctoralThesis, Player player) {
 

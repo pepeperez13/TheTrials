@@ -105,7 +105,9 @@ public class CompositorController {
 
     /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
     private void listTrials () throws FileNotFoundException {
-
+        // Como mostramos todos? Que cada manager muestre su tipo de trials?
+        // Otra alternativa es tener un fichero que guarde los nombres
+        // de todos los trials (independientemente del tipo)
     }
 
     /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/

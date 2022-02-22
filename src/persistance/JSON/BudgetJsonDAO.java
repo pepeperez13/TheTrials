@@ -5,16 +5,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.BudgetDAO;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class BudgetJsonDAO implements BudgetDAO {
 
-    private static final String filename = "files/team.json";
+    private static final String filename = "files/budgets.json";
+    private static final File file = new File("files/budgets.json");
     private final Gson gson;
     private final Budget[] budgets;
 

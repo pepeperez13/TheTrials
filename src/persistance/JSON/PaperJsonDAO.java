@@ -5,15 +5,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.PaperDAO;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class PaperJsonDAO implements PaperDAO {
 
+    private static final File file = new File("files/papers.json");
     private static final String filename = "files/papers.json";
     private final Gson gson;
     private final PaperPublication[] articles;

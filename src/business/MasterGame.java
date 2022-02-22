@@ -5,7 +5,7 @@ import business.typeTrials.MasterStudies;
 
 import java.util.Random;
 
-public class MasterStudiesGame {
+public class MasterGame {
     public void passCredits (MasterStudies masterStudies, Player player) {
         Random random = new Random();
         int randomNumber = random.nextInt(101);

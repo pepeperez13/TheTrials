@@ -6,16 +6,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.MasterDAO;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class MasterJsonDAO implements MasterDAO {
 
-    private static final String filename = "files/team.json";
+    private static final File file = new File("files/masters.json");
+    private static final String filename = "files/masters.json";
     private final Gson gson;
     private final MasterStudies[] masters;
 

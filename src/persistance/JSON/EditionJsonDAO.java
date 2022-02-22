@@ -16,6 +16,7 @@ import java.util.LinkedList;
 public class EditionJsonDAO implements EditionDAO {
 
     private static final String filename = "files/editions.json";
+    private static final File file = new File("files/editions.json");
     private final Gson gson;
     private final Edition[] editions;
 
