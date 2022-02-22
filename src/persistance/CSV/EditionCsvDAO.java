@@ -1,7 +1,6 @@
 package persistance.CSV;
 
 import business.Edition;
-import business.typeTrials.PaperPublication;
 import persistance.EditionDAO;
 
 import java.io.*;

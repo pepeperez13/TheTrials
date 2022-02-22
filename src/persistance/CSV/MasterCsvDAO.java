@@ -1,7 +1,6 @@
 package persistance.CSV;
 
 import business.typeTrials.MasterStudies;
-import business.typeTrials.PaperPublication;
 
 import java.io.*;
 import java.nio.file.Files;

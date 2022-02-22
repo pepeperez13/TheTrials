@@ -3,6 +3,7 @@ package business;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
 public class TrialManager {
     private final TrialDAO trialDAO;
 
@@ -159,4 +160,5 @@ public class TrialManager {
     public boolean checkExistence (String name) {
         return getTrialsNames().contains(name);
     }
+    */
 }

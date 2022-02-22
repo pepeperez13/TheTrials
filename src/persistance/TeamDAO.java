@@ -1,6 +1,6 @@
 package persistance;
 
-import business.Player;
+import business.playerTypes.Player;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

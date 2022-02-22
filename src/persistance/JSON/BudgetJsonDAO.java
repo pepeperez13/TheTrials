@@ -1,8 +1,6 @@
 package persistance.JSON;
 
 import business.typeTrials.Budget;
-import business.typeTrials.MasterStudies;
-import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.BudgetDAO;

@@ -1,6 +1,6 @@
 package persistance.JSON;
 
-import business.Player;
+import business.playerTypes.Player;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.TeamDAO;

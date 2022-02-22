@@ -1,14 +1,16 @@
-package business;
+package business.playerTypes;
+
+import business.PlayerTypeOptions;
 
 public class Player {
     private final String name;
     private int PI;
     private PlayerTypeOptions playerType;
 
-    public Player (String name, int PI){
+    public Player (String name, int PI, PlayerTypeOptions playerType){
         this.name = name;
         this.PI = PI;
-        this.playerType = PlayerTypeOptions.ENGINEER;
+        this.playerType = playerType;
     }
 
     public void changePlayerType (PlayerTypeOptions playerType) {
@@ -29,6 +31,10 @@ public class Player {
 
     public int getPI () {
         return PI;
+    }
+
+    public void setPi (int PI) {
+        this.PI = PI;
     }
 
     public String getName () {

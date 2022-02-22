@@ -1,5 +1,6 @@
 package business;
 
+import business.playerTypes.Player;
 import business.typeTrials.PaperPublication;
 import presentation.ViewController;
 
