@@ -28,16 +28,17 @@ public class DoctoralThesisGame {
                 player.changePlayerType(PlayerTypeOptions.DOCTORS);
             }else{
                 player.incrementPI(5);
-                if (player.getPI() >= 10) {
+                player.checkUpdateStatus();
+                /*if (player.getPI() >= 10) {
                     manageStatus(player);
-                }
+                }*/
             }
         }
     }
 
-    private void manageStatus (Player player) {
+    /*private void manageStatus (Player player) {
         if (player.getPlayerType() == PlayerTypeOptions.ENGINEER) {
             player.changePlayerType(PlayerTypeOptions.MASTERS);
         }
-    }
+    }*/
 }

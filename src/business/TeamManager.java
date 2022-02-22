@@ -52,4 +52,12 @@ public class TeamManager {
     public LinkedList<Player> getPlayers () throws FileNotFoundException {
         return teamDAO.readAll();
     }
+
+    public int getPITeam () throws FileNotFoundException {
+        int total = 0;
+        for (int i = 0; i < getPlayers().size(); i++) {
+            total += getPlayers().get(i).getPI();
+        }
+        return total;
+    }
 }
