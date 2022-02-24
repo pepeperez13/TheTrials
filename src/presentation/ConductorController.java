@@ -1,7 +1,7 @@
 package presentation;
 
 import business.*;
-import business.ManagersTrials.AllTrialsNamesManager;
+import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
 import business.playerTypes.Player;
 import business.typeTrials.PaperPublication;
@@ -18,9 +18,9 @@ public class ConductorController {
     private ViewController view;
     private GameLogic gameLogic;
     private ConductorControllerIface iface;
-    private AllTrialsNamesManager namesManager;
+    private GenericTrialManager namesManager;
 
-    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameLogic gameLogic, ConductorControllerIface iface, AllTrialsNamesManager namesManager) {
+    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameLogic gameLogic, ConductorControllerIface iface, GenericTrialManager namesManager) {
         this.paperPublicationManager = paperPublicationManager;
         this.editionManager = editionManager;
         this.teamManager = teamManager;
@@ -75,7 +75,7 @@ public class ConductorController {
 
         for (int j = 0; j < numPlayers; j++) {
             String name = view.askForString("Enter the player's name" + " (" + (j+1) +"/" + numPlayers + "): ");
-            Player newPlayer = new Player(name, 5);
+            Player newPlayer = new Player(name, 5, PlayerTypeOptions.ENGINEER);
             teamManager.addPlayer(newPlayer);
         }
 

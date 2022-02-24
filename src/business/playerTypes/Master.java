@@ -2,7 +2,7 @@ package business.playerTypes;
 
 import business.PlayerTypeOptions;
 
-public class Master extends Player{
+public class Master extends Engineer{
 
     public Master(String name, int PI, PlayerTypeOptions playerType) {
         super(name, PI, playerType);

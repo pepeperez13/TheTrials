@@ -1,31 +1,31 @@
 package persistance.JSON;
 
-import business.typeTrials.GenericTrialInfo;
+import business.typeTrials.GenericTrial;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import persistance.AllTrialsDAO;
+import persistance.GenericTrialDAO;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class AllTrialsJsonDAO implements AllTrialsDAO {
+public class GenericTrialJsonDAO implements GenericTrialDAO {
 
     private static final String filename = "files/budgets.json";
     private static final File file = new File("files/budgets.json");
     private final Gson gson;
-    private final GenericTrialInfo[] genericTrials;
+    private final GenericTrial[] genericTrials;
 
-    public AllTrialsJsonDAO () throws FileNotFoundException {
+    public GenericTrialJsonDAO() throws FileNotFoundException {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        genericTrials = gson.fromJson(gson.newJsonReader(new FileReader(filename)), GenericTrialInfo[].class);
+        genericTrials = gson.fromJson(gson.newJsonReader(new FileReader(filename)), GenericTrial[].class);
     }
 
     @Override
-    public boolean create(GenericTrialInfo name) throws IOException {
+    public boolean create(GenericTrial name) throws IOException {
         FileWriter writer = new FileWriter(filename);
 
-        LinkedList<GenericTrialInfo> namesList = new LinkedList<>();
+        LinkedList<GenericTrial> namesList = new LinkedList<>();
         if (namesList != null) { // Sólo leeremos elementos si el json no está vacío
             namesList = new LinkedList<>(Arrays.asList(genericTrials));
         }
@@ -38,13 +38,13 @@ public class AllTrialsJsonDAO implements AllTrialsDAO {
     }
 
     @Override
-    public LinkedList<GenericTrialInfo> readAll() {
+    public LinkedList<GenericTrial> readAll() {
         // Nunca va estar vacia (comprobamos antes de llamar)
         return new LinkedList<>(Arrays.asList(genericTrials));
     }
 
     @Override
-    public GenericTrialInfo findByIndex(int index) {
+    public GenericTrial findByIndex(int index) {
         return genericTrials[index];
     }
 
@@ -53,7 +53,7 @@ public class AllTrialsJsonDAO implements AllTrialsDAO {
         FileWriter writer = new FileWriter(filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
-        LinkedList<GenericTrialInfo> namesList = new LinkedList<>(Arrays.asList(genericTrials));
+        LinkedList<GenericTrial> namesList = new LinkedList<>(Arrays.asList(genericTrials));
         namesList.remove(index);
 
         gson.toJson(namesList, writer);

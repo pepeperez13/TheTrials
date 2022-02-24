@@ -2,11 +2,11 @@ package business.typeTrials;
 
 import business.PlayerTypeOptions;
 
-public class GenericTrialInfo {
+public class GenericTrial {
     private String name;
     private PlayerTypeOptions type;
 
-    public GenericTrialInfo(String name, PlayerTypeOptions type) {
+    public GenericTrial(String name, PlayerTypeOptions type) {
         this.name = name;
         this.type = type;
     }
