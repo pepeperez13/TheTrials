@@ -1,5 +1,6 @@
 package persistance.CSV;
 
+import business.ManagersTrials.TrialTypeOptions;
 import business.PlayerTypeOptions;
 import business.typeTrials.GenericTrial;
 import business.typeTrials.PaperPublication;
@@ -22,7 +23,7 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
 
     private GenericTrial genericFromCsv (String csv) {
         String[] parts = csv.split(separator);
-        return new GenericTrial(parts[0], PlayerTypeOptions.valueOf(parts[1]));
+        return new GenericTrial(parts[0], TrialTypeOptions.valueOf(parts[1]));
     }
 
     @Override

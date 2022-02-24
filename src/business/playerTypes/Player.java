@@ -7,10 +7,10 @@ public class Player {
     private int PI;
     private PlayerTypeOptions playerType;
 
-    public Player (String name, int PI, PlayerTypeOptions playerType){
+    public Player (String name/*, int PI, PlayerTypeOptions playerType*/){
         this.name = name;
-        this.PI = PI;
-        this.playerType = playerType;
+        this.PI = 5;
+        this.playerType = PlayerTypeOptions.ENGINEER;
     }
 
     public void changePlayerType (PlayerTypeOptions playerType) {

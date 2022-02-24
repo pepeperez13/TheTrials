@@ -1,4 +1,4 @@
-package business;
+package business.trialExecutionLogic;
 
 import business.playerTypes.Player;
 import business.typeTrials.PaperPublication;
@@ -12,10 +12,10 @@ import java.util.Random;
  * @author José Pérez
  */
 
-public class GameLogic {
+public class PaperGame {
     private final ViewController view;
 
-    public GameLogic(ViewController view) {
+    public PaperGame(ViewController view) {
         this.view = view;
     }
 

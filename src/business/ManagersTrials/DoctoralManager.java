@@ -12,6 +12,8 @@ import java.util.LinkedList;
 
 public class DoctoralManager {
     private DoctoralDAO doctoralDAO;
+    private GenericTrialManager genericTrialManager;
+
 
     public DoctoralManager(DataSourceOptions options) throws FileNotFoundException {
         switch (options) {
@@ -22,6 +24,7 @@ public class DoctoralManager {
 
     public boolean addDoctoralThesis (String name, String field, int difficulty) throws IOException {
         DoctoralThesis doctoralThesis = new DoctoralThesis(name, field, difficulty);
+        genericTrialManager.addTrial(name, TrialTypeOptions.DOCTORAL);
         return doctoralDAO.create(doctoralThesis);
     }
 

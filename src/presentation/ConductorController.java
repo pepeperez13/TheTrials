@@ -1,9 +1,13 @@
 package presentation;
 
-import business.*;
+import business.Edition;
+import business.EditionManager;
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
+import business.ManagersTrials.TrialTypeOptions;
+import business.TeamManager;
 import business.playerTypes.Player;
+import business.typeTrials.GenericTrial;
 import business.typeTrials.PaperPublication;
 
 import java.io.IOException;
@@ -16,16 +20,16 @@ public class ConductorController {
     private EditionManager editionManager;
     private TeamManager teamManager;
     private ViewController view;
-    private GameLogic gameLogic;
+    private GameExecutor gameExecutor;
     private ConductorControllerIface iface;
     private GenericTrialManager namesManager;
 
-    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameLogic gameLogic, ConductorControllerIface iface, GenericTrialManager namesManager) {
+    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, ConductorControllerIface iface, GenericTrialManager namesManager) {
         this.paperPublicationManager = paperPublicationManager;
         this.editionManager = editionManager;
         this.teamManager = teamManager;
         this.view = view;
-        this.gameLogic = gameLogic;
+        this.gameExecutor = gameExecutor;
         this.iface = iface;
         this.namesManager = namesManager;
     }
@@ -75,7 +79,7 @@ public class ConductorController {
 
         for (int j = 0; j < numPlayers; j++) {
             String name = view.askForString("Enter the player's name" + " (" + (j+1) +"/" + numPlayers + "): ");
-            Player newPlayer = new Player(name, 5, PlayerTypeOptions.ENGINEER);
+            Player newPlayer = new Player(name);
             teamManager.addPlayer(newPlayer);
         }
 
@@ -89,8 +93,9 @@ public class ConductorController {
         for (i = index; i < numTrials && continueExecution && !teamManager.checkDeadPlayers(); i++) {
             view.showMessage("\nTrial" + " #" + (i + 1) + " - " + editionManager.getEditionCurrentYear().getTrialNameByIndex(i) + "\n"); //Va mostrando los nombres de la prueba de ese año
             //playTrial(paperPublicationManager.getTrialByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i)));
-            Object o = namesManager.getTrialTypeByIndex(i);
-            iface.playTrial(o, teamManager, view, gameLogic);
+            GenericTrial genericTrial = namesManager.getGenericalTrial(i); //Esto me devuelve un tipo GenericalTrial de la prueba correspondiente
+            gameExecutor.play(genericTrial); //Juegan los distintos jugadores
+            //iface.playTrial(genericTrial, teamManager, view, gameExecutor); //Play trial debera aplicarle la logica del juego del trial que toque
             boolean dead = teamManager.checkDeadPlayers();
             if (i != numTrials - 1 && !dead) { // Si no se han ejecutado ya todos los trials, preguntamos si seguir con ejecución o no
                 do {
@@ -112,19 +117,19 @@ public class ConductorController {
         return i;
     }
 
-    private void playTrial (PaperPublication article) throws IOException { //Este método falla
+    /*private void playTrial (PaperPublication article) throws IOException { //Este método falla
         int i = 0;
 
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) {
                 view.showMessageLine(player.getName() + " is submitting... ");
-                player = gameLogic.publishArticle(article, player); // Publicamos articulo
+                player = gameExecutor.publish(article, player); // Publicamos articulo
                 teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
                 view.showMessageLine(" PI count: " + player.getPI() + "\n");
             }
             i++;
         }
-    }
+    }*/
 
     private boolean checkYear (LinkedList<Edition> edition) {
         Calendar calendar = new GregorianCalendar();

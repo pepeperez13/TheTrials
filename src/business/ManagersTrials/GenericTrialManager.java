@@ -22,7 +22,7 @@ public class GenericTrialManager {
         }
     }
 
-    public void addTrial (String name, PlayerTypeOptions type) throws IOException {
+    public void addTrial (String name, TrialTypeOptions type) throws IOException {
         GenericTrial genericTrial = new GenericTrial(name, type);
         trialsDAO.create(genericTrial);
     }
@@ -36,8 +36,12 @@ public class GenericTrialManager {
         return nombres;
     }
 
-    public PlayerTypeOptions getTrialTypeByIndex (int index) {
+    public TrialTypeOptions getTrialTypeByIndex (int index) {
         LinkedList<GenericTrial> trialsNames = trialsDAO.readAll();
         return trialsNames.get(index-1).getType();
+    }
+
+    public GenericTrial getGenericalTrial (int index) {
+        return trialsDAO.findByIndex(index);
     }
 }

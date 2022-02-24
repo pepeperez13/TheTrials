@@ -1,22 +1,20 @@
 package presentation;
 
-import business.GameLogic;
 import business.TeamManager;
 import business.playerTypes.Player;
-import business.typeTrials.Budget;
+import business.trialExecutionLogic.DoctoralGame;
 import business.typeTrials.DoctoralThesis;
 
 import java.io.IOException;
 
-public class DoctoralExecutor implements ConductorControllerIface{
+public class DoctoralExecutor {
 
-    @Override
-    public void playTrial(Object o, TeamManager teamManager, ViewController view, GameLogic gameLogic) throws IOException {
+    public void playTrial(DoctoralThesis doctoralThesis) throws IOException {
+        ViewController view = new ViewController();
+        DoctoralGame doctoralGame = null;
+        TeamManager teamManager = null;
+
         int i = 0;
-
-        DoctoralThesis doctoral = DoctoralThesis.class.cast(o);
-
-
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) {
                 view.showMessageLine(player.getName() + " is submitting... ");
@@ -24,7 +22,8 @@ public class DoctoralExecutor implements ConductorControllerIface{
                 // (uno para doctoral, otro para budget y otro para master. El de paper ya es el de la primera fase)
                 // O creo que ya lo tenemos hecho, solo faltaria conectar la siguiente linea con las clases
                 // correspondientes que hay en la carpeta trialExecutionLogic, que vendrian a ser el gameLogic
-                player = gameLogic.publishArticle(doctoral, player); // Publicamos articulo
+                //player = gameExecutor.publish(doctoral, player); // Publicamos articulo
+                doctoralGame.presentThesis(doctoralThesis, player);
                 teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
                 view.showMessageLine(" PI count: " + player.getPI() + "\n");
             }

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 
 public class MasterManager {
     private MasterDAO masterDAO;
+    private GenericTrialManager genericTrialManager;
 
     public MasterManager(DataSourceOptions options) {
         switch (options) {
@@ -21,6 +22,7 @@ public class MasterManager {
 
     public boolean addMasterManager (String name, String nom, int numberCredits, int probability) throws IOException {
         MasterStudies masterStudies = new MasterStudies(name, nom, numberCredits, probability);
+        genericTrialManager.addTrial(name, TrialTypeOptions.MASTER);
         return masterDAO.create(masterStudies);
     }
 

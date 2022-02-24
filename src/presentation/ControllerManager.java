@@ -12,27 +12,7 @@ import business.TeamManager;
 import java.io.IOException;
 
 public class ControllerManager {
-    /*private final CompositorController compositor;
-    private final ConductorController conductor;
-    private final ViewController view;
-    private EditionController editionManager;
-    private TeamController teamManager;
-    private BudgetController budgetManager;
-    private DoctoralController doctoralManager;
-    private MasterController masterManager;
-    private PaperPublicationManager paperPublicationManager;
 
-    public ControllerManager(CompositorController compositor, ConductorController conductor, ViewController view, PaperPublicationManager paperPublicationManager, EditionController editionManager, TeamController teamManager, BudgetController budgetManager, DoctoralController doctoralManager, MasterController masterManager) {
-        this.compositor = compositor;
-        this.conductor = conductor;
-        this.view = view;
-        this.paperPublicationManager = paperPublicationManager;
-        this.editionManager = editionManager;
-        this.teamManager = teamManager;
-        this.budgetManager = budgetManager;
-        this.doctoralManager = doctoralManager;
-        this.masterManager = masterManager;
-    }*/
     private final ViewController viewController;
     private PaperPublicationManager paperPublicationManager;
     private BudgetManager budgetManager;

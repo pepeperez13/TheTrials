@@ -1,21 +1,19 @@
 package presentation;
 
-import business.GameLogic;
 import business.TeamManager;
-import business.playerTypes.Master;
 import business.playerTypes.Player;
-import business.typeTrials.Budget;
+import business.trialExecutionLogic.MasterGame;
 import business.typeTrials.MasterStudies;
 
 import java.io.IOException;
 
-public class MasterExecutor implements ConductorControllerIface{
+public class MasterExecutor {
 
-    @Override
-    public void playTrial(Object o, TeamManager teamManager, ViewController view, GameLogic gameLogic) throws IOException {
+    public void playTrial(MasterStudies masterStudies) throws IOException {
+        TeamManager teamManager = null;
+        ViewController view = null;
+        MasterGame masterGame = null;
         int i = 0;
-
-        MasterStudies master = MasterStudies.class.cast(o);
 
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) {
@@ -24,7 +22,7 @@ public class MasterExecutor implements ConductorControllerIface{
                 // (uno para doctoral, otro para budget y otro para master. El de paper ya es el de la primera fase)
                 // O creo que ya lo tenemos hecho, solo faltaria conectar la siguiente linea con las clases
                 // correspondientes que hay en la carpeta trialExecutionLogic, que vendrian a ser el gameLogic
-                player = gameLogic.publishArticle(master, player); // Publicamos articulo
+                masterGame.passCredits(masterStudies, player); // Publicamos articulo
                 teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
                 view.showMessageLine(" PI count: " + player.getPI() + "\n");
             }

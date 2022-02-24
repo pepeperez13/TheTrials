@@ -12,6 +12,7 @@ import java.util.LinkedList;
 
 public class BudgetManager {
     private BudgetDAO budgetDAO;
+    private GenericTrialManager genericTrialManager;
 
     public BudgetManager(DataSourceOptions options) throws FileNotFoundException {
         switch (options) {
@@ -22,6 +23,7 @@ public class BudgetManager {
 
     public boolean addBudget (String nameTrial, String nameEntity, int amount) throws IOException {
         Budget budget = new Budget(nameTrial, nameEntity, amount);
+        genericTrialManager.addTrial(nameTrial, TrialTypeOptions.BUDGET);
         return budgetDAO.create(budget);
     }
 

@@ -1,12 +1,13 @@
 package business.typeTrials;
 
+import business.ManagersTrials.TrialTypeOptions;
 import business.PlayerTypeOptions;
 
 public class GenericTrial {
     private String name;
-    private PlayerTypeOptions type;
+    private TrialTypeOptions type;
 
-    public GenericTrial(String name, PlayerTypeOptions type) {
+    public GenericTrial(String name, TrialTypeOptions type) {
         this.name = name;
         this.type = type;
     }
@@ -15,7 +16,7 @@ public class GenericTrial {
         return name;
     }
 
-    public PlayerTypeOptions getType (){
+    public TrialTypeOptions getType (){
         return type;
     }
 }

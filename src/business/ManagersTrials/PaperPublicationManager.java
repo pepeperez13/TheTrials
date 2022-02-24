@@ -13,6 +13,7 @@ import java.util.LinkedList;
 
 public class PaperPublicationManager {
     private PaperDAO paperDAO;
+    private GenericTrialManager genericTrialManager;
 
     public PaperPublicationManager(DataSourceOptions options) throws IOException {
         switch (options) {
@@ -32,6 +33,7 @@ public class PaperPublicationManager {
      */
     public void addTrial (String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean bool) throws IOException {
         PaperPublication article = new PaperPublication(name, magazine, quartile, accepted, revised, rejected,bool);
+        genericTrialManager.addTrial(name, TrialTypeOptions.PAPER);
         paperDAO.create(article);
     }
 
