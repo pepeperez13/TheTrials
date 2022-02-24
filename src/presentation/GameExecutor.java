@@ -16,7 +16,6 @@ import java.io.IOException;
 public class GameExecutor {
 
     public void play (GenericTrial genericTrial) throws IOException {
-        TeamManager teamManager = null;
         PaperPublicationManager paperPublicationManager = null;
         MasterManager masterManager = null;
         DoctoralManager doctoralManager = null;
