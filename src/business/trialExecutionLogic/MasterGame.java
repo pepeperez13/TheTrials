@@ -1,11 +1,13 @@
-package business;
+package business.trialExecutionLogic;
 
+import business.PlayerTypeOptions;
 import business.playerTypes.Player;
 import business.typeTrials.MasterStudies;
 
 import java.util.Random;
 
 public class MasterGame {
+
     public void passCredits (MasterStudies masterStudies, Player player) {
         Random random = new Random();
         int randomNumber = random.nextInt(101);

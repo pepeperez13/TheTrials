@@ -1,5 +1,6 @@
-package business;
+package business.trialExecutionLogic;
 
+import business.PlayerTypeOptions;
 import business.playerTypes.Player;
 import business.typeTrials.DoctoralThesis;
 

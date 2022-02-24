@@ -1,6 +1,7 @@
 package presentation;
 
 import business.*;
+import business.ManagersTrials.AllTrialsNamesManager;
 import business.ManagersTrials.PaperPublicationManager;
 import business.playerTypes.Player;
 import business.typeTrials.PaperPublication;
@@ -16,13 +17,17 @@ public class ConductorController {
     private TeamManager teamManager;
     private ViewController view;
     private GameLogic gameLogic;
+    private ConductorControllerIface iface;
+    private AllTrialsNamesManager namesManager;
 
-    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameLogic gameLogic) {
+    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameLogic gameLogic, ConductorControllerIface iface, AllTrialsNamesManager namesManager) {
         this.paperPublicationManager = paperPublicationManager;
         this.editionManager = editionManager;
         this.teamManager = teamManager;
         this.view = view;
         this.gameLogic = gameLogic;
+        this.iface = iface;
+        this.namesManager = namesManager;
     }
 
     /**
@@ -80,10 +85,12 @@ public class ConductorController {
         boolean continueExecution = true;
         String aux = "";
         int i;
-        // Falta cambiar que se dejen de ejecutar los trials (que se deje de preguntar si continuar o no) en cuanto hayan muerto todos los players
+
         for (i = index; i < numTrials && continueExecution && !teamManager.checkDeadPlayers(); i++) {
             view.showMessage("\nTrial" + " #" + (i + 1) + " - " + editionManager.getEditionCurrentYear().getTrialNameByIndex(i) + "\n"); //Va mostrando los nombres de la prueba de ese año
-            playTrial(paperPublicationManager.getTrialByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i)));
+            //playTrial(paperPublicationManager.getTrialByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i)));
+            Object o = namesManager.getTrialTypeByIndex(i);
+            iface.playTrial(o, teamManager, view, gameLogic);
             boolean dead = teamManager.checkDeadPlayers();
             if (i != numTrials - 1 && !dead) { // Si no se han ejecutado ya todos los trials, preguntamos si seguir con ejecución o no
                 do {
