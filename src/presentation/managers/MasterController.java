@@ -19,13 +19,13 @@ public class MasterController {
     }
 
     public void add() throws IOException {
-        String trialName = viewController.askForString("\nEnter the trial's name: ");
+        String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError(trialName, 1)) {
-            String masterName = viewController.askForString("\nEnter the master's name: ");
+            String masterName = view.askForString("\nEnter the master's name: ");
             if (checkError(masterName, 2)) {
-                int ECTS = viewController.askForInteger("\nEnter the master's ECTS number: ");
+                int ECTS = view.askForInteger("\nEnter the master's ECTS number: ");
                 if (checkError(String.valueOf(ECTS), 3)) {
-                    int creditPass = viewController.askForInteger("\nEnter the credit pass probability: ");
+                    int creditPass = view.askForInteger("\nEnter the credit pass probability: ");
                     if (checkError(String.valueOf(creditPass), 4)){
                         masterManager.addMasterManager(trialName, masterName, ECTS, creditPass);
                     }

@@ -2,6 +2,9 @@ package presentation.managers;
 
 import business.ManagersTrials.DoctoralManager;
 import business.ManagersTrials.GenericTrialManager;
+import business.playerTypes.Doctor;
+import business.typeTrials.Budget;
+import business.typeTrials.DoctoralThesis;
 import presentation.ViewController;
 
 import java.io.FileNotFoundException;
@@ -30,8 +33,12 @@ public class DoctoralController {
         }
     }
 
-    public void showDoctoral() {
-
+    public void showDoctoral (int index) {
+        String name = genericTrialManager.getGenericalTrial(index).getName();
+        DoctoralThesis doctor = doctoralManager.getDoctoralByName(name);
+        view.showMessage("\nTrial: " + doctor.getName() + " (Doctoral thesis defense)");
+        view.showMessage("Field: " + doctor.getFieldOfStudy());
+        view.showMessage("Difficulty: " + doctor.getDifficulty());
     }
 
     private boolean checkError (String aux, int mode) throws FileNotFoundException {

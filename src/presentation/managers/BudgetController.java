@@ -2,6 +2,8 @@ package presentation.managers;
 
 import business.ManagersTrials.BudgetManager;
 import business.ManagersTrials.GenericTrialManager;
+import business.typeTrials.Budget;
+import business.typeTrials.PaperPublication;
 import presentation.ViewController;
 
 import java.io.FileNotFoundException;
@@ -32,7 +34,11 @@ public class BudgetController {
     }
 
     public void showBudget (int index) {
-
+        String name = genericTrialManager.getGenericalTrial(index).getName();
+        Budget budget = budgetManager.getBudgetByNameTrial(name);
+        view.showMessage("\nTrial: " + budget.getNameTrial() + " (Budget request)");
+        view.showMessage("Entity: " + budget.getNameEntity());
+        view.showMessage("Budget: " + budget.getAmount() + " €");
     }
 
     private boolean checkError (String aux, int mode) throws FileNotFoundException {
