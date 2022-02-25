@@ -2,18 +2,19 @@ package presentation.managers;
 
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.MasterManager;
+import business.typeTrials.MasterStudies;
 import presentation.ViewController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MasterController {
-    private ViewController viewController;
+    private ViewController view;
     private MasterManager masterManager;
     private GenericTrialManager genericTrialManager;
 
     public MasterController(ViewController viewController, MasterManager masterManager) {
-        this.viewController = viewController;
+        this.view = viewController;
         this.masterManager = masterManager;
     }
 
@@ -33,8 +34,14 @@ public class MasterController {
         }
     }
 
-    public void showMaster () {
-
+    public void showMaster (int numTrial) {
+        String name = genericTrialManager.getGenericalTrial(numTrial).getName();
+        MasterStudies master = masterManager.getMasterByName(name);
+        view.showMessage("\nTrial: " + master.getName() + " (Master studies)");
+        view.showMessage("Master: " + master.getNom());
+        view.showMessage("ECTS:" + master.getNumberCredits()
+                + ", with a " + master.getProbability()
+                + "% chance to pass each one");
     }
 
     private boolean checkError (String aux, int mode) throws FileNotFoundException {
