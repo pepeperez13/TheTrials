@@ -103,4 +103,8 @@ public class PaperPublication {
     public boolean InUse () {
         return this.inUse;
     }
+
+    public boolean isInUse() {
+        return inUse;
+    }
 }
