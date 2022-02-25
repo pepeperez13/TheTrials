@@ -7,7 +7,7 @@ public class PaperPublication {
     private int acceptedProbability;
     private int revisedProbability;
     private int rejectedProbability;
-    public boolean inUse;
+    private boolean inUse;
 
     /**
      * Método constructor que crea un nuevo artículo, teniendo en cuenta si está en uso

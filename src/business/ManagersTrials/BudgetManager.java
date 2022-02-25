@@ -21,8 +21,8 @@ public class BudgetManager {
         }
     }
 
-    public boolean addBudget (String nameTrial, String nameEntity, int amount) throws IOException {
-        Budget budget = new Budget(nameTrial, nameEntity, amount);
+    public boolean addBudget (String nameTrial, String nameEntity, int amount, boolean inUse) throws IOException {
+        Budget budget = new Budget(nameTrial, nameEntity, amount, inUse);
         genericTrialManager.addTrial(nameTrial, TrialTypeOptions.BUDGET);
         return budgetDAO.create(budget);
     }

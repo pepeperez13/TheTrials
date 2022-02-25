@@ -22,8 +22,8 @@ public class DoctoralManager {
         }
     }
 
-    public boolean addDoctoralThesis (String name, String field, int difficulty) throws IOException {
-        DoctoralThesis doctoralThesis = new DoctoralThesis(name, field, difficulty);
+    public boolean addDoctoralThesis (String name, String field, int difficulty, boolean inUse) throws IOException {
+        DoctoralThesis doctoralThesis = new DoctoralThesis(name, field, difficulty, inUse);
         genericTrialManager.addTrial(name, TrialTypeOptions.DOCTORAL);
         return doctoralDAO.create(doctoralThesis);
     }

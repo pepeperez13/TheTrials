@@ -27,7 +27,7 @@ public class MasterController {
                 if (checkError(String.valueOf(ECTS), 3)) {
                     int creditPass = view.askForInteger("\nEnter the credit pass probability: ");
                     if (checkError(String.valueOf(creditPass), 4)){
-                        masterManager.addMasterManager(trialName, masterName, ECTS, creditPass);
+                        masterManager.addMasterManager(trialName, masterName, ECTS, creditPass, false);
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class DoctoralController {
             if (checkError(thesis, 2)) {
                 int difficulty = view.askForInteger("\nEnter the defense difficulty: ");
                 if (checkError(String.valueOf(difficulty), 3)) {
-                    doctoralManager.addDoctoralThesis(trialName, thesis, difficulty);
+                    doctoralManager.addDoctoralThesis(trialName, thesis, difficulty, false);
                 }
             }
         }

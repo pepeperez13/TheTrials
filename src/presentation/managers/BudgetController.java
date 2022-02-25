@@ -27,7 +27,7 @@ public class BudgetController {
             if (checkError(entityName, 2)) {
                 int budget = view.askForInteger("\nEnter the budget amount: ");
                 if (checkError(String.valueOf(budget), 3)) {
-                    budgetManager.addBudget(trialName, entityName, budget);
+                    budgetManager.addBudget(trialName, entityName, budget, false);
                 }
             }
         }

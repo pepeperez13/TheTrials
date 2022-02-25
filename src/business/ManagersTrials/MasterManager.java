@@ -20,8 +20,8 @@ public class MasterManager {
         }
     }
 
-    public boolean addMasterManager (String name, String nom, int numberCredits, int probability) throws IOException {
-        MasterStudies masterStudies = new MasterStudies(name, nom, numberCredits, probability);
+    public boolean addMasterManager (String name, String nom, int numberCredits, int probability, boolean inUse) throws IOException {
+        MasterStudies masterStudies = new MasterStudies(name, nom, numberCredits, probability, inUse);
         genericTrialManager.addTrial(name, TrialTypeOptions.MASTER);
         return masterDAO.create(masterStudies);
     }

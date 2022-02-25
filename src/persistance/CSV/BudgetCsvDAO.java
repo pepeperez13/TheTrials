@@ -18,7 +18,7 @@ public class BudgetCsvDAO implements persistance.BudgetDAO {
 
     private Budget budgetFromCsv (String csv) {
         String[] parts = csv.split(separator);
-        return new Budget(parts[0], parts[1], Integer.parseInt(parts[2]));
+        return new Budget(parts[0], parts[1], Integer.parseInt(parts[2]), Boolean.valueOf(parts[3]));
     }
 
     @Override

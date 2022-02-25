@@ -15,12 +15,12 @@ public class MasterCsvDAO implements persistance.MasterDAO {
 
     private String masterToCsv(MasterStudies masterStudies) {
         return masterStudies.getName() + separator + masterStudies.getNom() + separator + masterStudies.getNumberCredits() +
-                separator + masterStudies.getProbability();
+                separator + masterStudies.getProbability() + separator + masterStudies.isInUse();
     }
 
     private MasterStudies masterFromCsv (String csv) {
         String[] parts = csv.split(separator);
-        return new MasterStudies(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+        return new MasterStudies(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), Boolean.valueOf(parts[4]));
     }
 
     @Override
