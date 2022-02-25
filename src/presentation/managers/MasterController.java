@@ -34,6 +34,10 @@ public class MasterController {
         }
     }
 
+    public void deleteMaster (String name) {
+
+    }
+
     public void showMaster (int numTrial) {
         String name = genericTrialManager.getGenericalTrial(numTrial).getName();
         MasterStudies master = masterManager.getMasterByName(name);

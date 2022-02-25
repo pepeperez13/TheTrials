@@ -60,4 +60,8 @@ public class BudgetManager {
     public boolean deleteBudget (int index) throws IOException {
         return budgetDAO.delete(index);
     }
+
+    public boolean isInUse (String name) {
+        return getBudgetByNameTrial(name).isInUse();
+    }
 }

@@ -60,5 +60,7 @@ public class MasterManager {
         return masterDAO.delete(index);
     }
 
-
+    public boolean isInUse (String name) {
+        return getMasterByName(name).isInUse();
+    }
 }

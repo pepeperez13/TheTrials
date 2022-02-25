@@ -4,11 +4,6 @@ import business.ManagersTrials.BudgetManager;
 import business.ManagersTrials.DoctoralManager;
 import business.ManagersTrials.MasterManager;
 import business.ManagersTrials.PaperPublicationManager;
-import business.TeamManager;
-import business.trialExecutionLogic.BudgetGame;
-import business.trialExecutionLogic.DoctoralGame;
-import business.trialExecutionLogic.MasterGame;
-import business.trialExecutionLogic.PaperGame;
 import business.typeTrials.GenericTrial;
 
 import java.io.IOException;
@@ -27,7 +22,7 @@ public class GameExecutor {
 
         switch (genericTrial.getType()) {
             case PAPER -> {
-                paperExecutor.playTrial(paperPublicationManager.getTrialByName(genericTrial.getName()));
+                paperExecutor.playTrial(paperPublicationManager.getPaperByName(genericTrial.getName()));
                 //paperExecutor.publishArticle(paperPublicationManager.getTrialByName(genericTrial.getName()), teamManager.getPlayers().get(i));
             }
             case BUDGET -> {

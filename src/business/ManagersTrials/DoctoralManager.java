@@ -60,4 +60,9 @@ public class DoctoralManager {
     public boolean deleteMaster (int index) throws IOException {
         return doctoralDAO.delete(index);
     }
+
+    public boolean isInUse (String name) {
+        return getDoctoralByName(name).isInUse();
+    }
+
 }

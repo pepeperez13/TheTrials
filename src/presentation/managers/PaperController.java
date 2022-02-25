@@ -45,12 +45,16 @@ public class PaperController {
      */
     public void showPaper(int numTrial) throws FileNotFoundException {
         String name = genericTrialManager.getGenericalTrial(numTrial).getName();
-        PaperPublication paper = paperPublicationManager.getTrialByName(name);
+        PaperPublication paper = paperPublicationManager.getPaperByName(name);
         view.showMessage("\nTrial: " + paper.getArticleName() + " (Paper publication)");
         view.showMessage("Journal: " + paper.getMagazineName() + " (" + paper.getQuartile() + ")");
         view.showMessage("Chances: " + paper.getAcceptedProbability() + "% acceptance, " +
                 paper.getRevisedProbability() + "% revision, " +
                 paper.getRejectedProbability() + "% rejection");
+    }
+
+    public void deletePaper (String name) {
+
     }
 
     private boolean checkError (String aux, int mode) throws FileNotFoundException {

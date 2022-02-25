@@ -1,7 +1,7 @@
 package presentation;
 
 import business.EditionManager;
-import business.ManagersTrials.GenericTrialManager;
+import business.ManagersTrials.*;
 import presentation.managers.*;
 
 import java.io.FileNotFoundException;
@@ -16,18 +16,20 @@ public class CompositorController {
     private EditionController editionController;
     private MasterController masterController;
     private PaperController paperController;
-    private TeamController teamController;
     private EditionManager editionManager;
     private GenericTrialManager genericTrialManager;
+    private BudgetManager budgetManager;
+    private DoctoralManager doctoralManager;
+    private MasterManager masterManager;
+    private PaperPublicationManager paperPublicationManager;
 
-    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, TeamController teamController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
+    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.budgetController = budgetController;
         this.doctoralController = doctoralController;
         this.editionController = editionController;
         this.masterController = masterController;
         this.paperController = paperController;
-        this.teamController = teamController;
         this.editionManager = editionManager;
         this.genericTrialManager = genericTrialManager;
     }
@@ -131,7 +133,49 @@ public class CompositorController {
 
     /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
     private void deleteTrial () throws FileNotFoundException {
+        if (!genericTrialManager.getTrials().isEmpty()) {
+            int numTrial = askForInput("\nWich trial do you want to delete?", 1);
+            if(numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
+                String confirmationName = view.askForString("\nEnter the trial's name for confirmation: ");
 
+                if (genericTrialManager.checkExistance(confirmationName)) {
+                    switch (genericTrialManager.getGenericalTrial(numTrial).getType()) {
+                        case MASTER -> {
+                            if (!masterManager.isInUse(confirmationName)) {
+                                //delete
+                                masterController.deleteMaster(confirmationName);
+                            } else {
+                                view.showMessage("No se puede eliminar");
+                            }
+                        }
+                        case PAPER -> {
+                            if (!paperPublicationManager.isInUse(confirmationName)) {
+                                //delete
+                                paperController.deletePaper(confirmationName);
+                            } else {
+                                view.showMessage("No se puede eliminar");
+                            }
+                        }
+                        case BUDGET -> {
+                            if (!budgetManager.isInUse(confirmationName)) {
+                                //delete
+                                budgetController.deleteBudget(confirmationName);
+                            } else {
+                                view.showMessage("");
+                            }
+                        }
+                        case DOCTORAL -> {
+                            if (doctoralManager.isInUse(confirmationName)) {
+                                //delete
+                                doctoralController.deleteDoctor(confirmationName);
+                            } else {
+                                view.showMessage("");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void manageEditions () throws IOException {

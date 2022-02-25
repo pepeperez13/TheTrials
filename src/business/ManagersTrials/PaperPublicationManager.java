@@ -50,7 +50,7 @@ public class PaperPublicationManager {
      * @param name Nombre del artículo solicitado
      * @return Información del artículo solicitado
      */
-    public PaperPublication getTrialByName (String name) throws FileNotFoundException {
+    public PaperPublication getPaperByName(String name) throws FileNotFoundException {
         int i;
         boolean found = false;
         LinkedList<PaperPublication> articles = paperDAO.readAll();
@@ -145,5 +145,9 @@ public class PaperPublicationManager {
 
     public boolean checkExistence (String name) throws FileNotFoundException {
         return getTrialsNames().contains(name);
+    }
+
+    public boolean isInUse (String name) throws FileNotFoundException {
+        return getPaperByName(name).isInUse();
     }
 }
