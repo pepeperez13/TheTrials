@@ -1,7 +1,7 @@
 package presentation;
 
 import business.EditionManager;
-import business.TrialManager;
+import business.ManagersTrials.GenericTrialManager;
 import presentation.managers.*;
 
 import java.io.FileNotFoundException;
@@ -17,10 +17,10 @@ public class CompositorController {
     private MasterController masterController;
     private PaperController paperController;
     private TeamController teamController;
-    private TrialManager trialManager;
     private EditionManager editionManager;
+    private GenericTrialManager genericTrialManager;
 
-    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, TeamController teamController, TrialManager trialManager, EditionManager editionManager) {
+    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, TeamController teamController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.budgetController = budgetController;
         this.doctoralController = doctoralController;
@@ -28,8 +28,8 @@ public class CompositorController {
         this.masterController = masterController;
         this.paperController = paperController;
         this.teamController = teamController;
-        this.trialManager =  trialManager;
         this.editionManager = editionManager;
+        this.genericTrialManager = genericTrialManager;
     }
 
     public void run () throws IOException {
@@ -108,6 +108,25 @@ public class CompositorController {
         // Como mostramos todos? Que cada manager muestre su tipo de trials?
         // Otra alternativa es tener un fichero que guarde los nombres
         // de todos los trials (independientemente del tipo)
+        if (!genericTrialManager.getTrials().isEmpty()) {
+            int numTrial = askForInput("\nHere are the current trials, do you want to see more details or go back?", 1);
+            if (numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
+                switch (genericTrialManager.getTrialTypeByIndex(numTrial)) {
+                    case DOCTORAL -> {
+                        doctoralController.showDoctoral(numTrial);
+                    }
+                    case BUDGET -> {
+                        budgetController.showBudget(numTrial);
+                    }
+                    case PAPER -> {
+                        paperController.showPaper(numTrial);
+                    }
+                    case MASTER -> {
+                        masterController.showMaster(numTrial);
+                    }
+                }
+            }
+        }
     }
 
     /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
@@ -261,9 +280,9 @@ public class CompositorController {
         view.showMessage(message);
         System.out.println();
         if (option == 1) {
-            view.showList(trialManager.getTrialsNames());
+            view.showList(genericTrialManager.getTrialsNames());
             System.out.println();
-            index = trialManager.getTrialsNames().size() + 1;
+            index = genericTrialManager.getTrialsNames().size() + 1;
             view.showMessage("\t " + index + ") Back\n");
         }else if (option == 2){
             view.showList(editionManager.getEditionsNames());

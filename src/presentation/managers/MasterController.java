@@ -1,5 +1,6 @@
 package presentation.managers;
 
+import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.MasterManager;
 import presentation.ViewController;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 public class MasterController {
     private ViewController viewController;
     private MasterManager masterManager;
+    private GenericTrialManager genericTrialManager;
 
     public MasterController(ViewController viewController, MasterManager masterManager) {
         this.viewController = viewController;
@@ -31,14 +33,18 @@ public class MasterController {
         }
     }
 
+    public void showMaster () {
+
+    }
+
     private boolean checkError (String aux, int mode) throws FileNotFoundException {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista
-                /*if (!aux.isEmpty()) {
-                    return !masterManager.checkExistence(aux);
+                if (!aux.isEmpty()) {
+                    return !genericTrialManager.checkExistance(aux);
                 }else{
                     return false;
-                }*/
+                }
             case 2: // Comprobamos que el nombre no este vacío
                 return !aux.isEmpty();
             case 3: // Comprobamos que sea uno de los valores posibles

@@ -1,13 +1,16 @@
 package presentation.managers;
 
 import business.ManagersTrials.DoctoralManager;
+import business.ManagersTrials.GenericTrialManager;
 import presentation.ViewController;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class DoctoralController {
     private ViewController view;
     private DoctoralManager doctoralManager;
+    private GenericTrialManager genericTrialManager;
 
     public DoctoralController(ViewController view, DoctoralManager doctoralManager) {
         this.view = view;
@@ -27,11 +30,15 @@ public class DoctoralController {
         }
     }
 
-    private boolean checkError (String aux, int mode) {
+    public void showDoctoral() {
+
+    }
+
+    private boolean checkError (String aux, int mode) throws FileNotFoundException {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista
                 if (!aux.isEmpty()) {
-                    //return !budgetManager.checkExistence(aux);
+                    return !genericTrialManager.checkExistance(aux);
                 }else{
                     return false;
                 }

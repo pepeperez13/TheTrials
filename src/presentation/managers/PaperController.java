@@ -1,6 +1,8 @@
 package presentation.managers;
 
+import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
+import business.typeTrials.PaperPublication;
 import presentation.ViewController;
 
 import java.io.FileNotFoundException;
@@ -9,6 +11,7 @@ import java.io.IOException;
 public class PaperController {
     private ViewController view;
     private PaperPublicationManager paperPublicationManager;
+    private GenericTrialManager genericTrialManager;
     public PaperController(ViewController view, PaperPublicationManager paperPublicationManager) {
         this.view = view;
         this.paperPublicationManager = paperPublicationManager;
@@ -34,6 +37,20 @@ public class PaperController {
                 }
             }
         }
+    }
+
+    /**
+     * Muestra la información detallada de una prueba en concreto
+     * @param numTrial Indice de la prueba concreta sobre la que se quiera obtener información
+     */
+    public void showPaper(int numTrial) throws FileNotFoundException {
+        String name = genericTrialManager.getGenericalTrial(numTrial).getName();
+        PaperPublication paper = paperPublicationManager.getTrialByName(name);
+        view.showMessage("\nTrial: " + paper.getArticleName() + " (Paper publication)");
+        view.showMessage("Journal: " + paper.getMagazineName() + " (" + paper.getQuartile() + ")");
+        view.showMessage("Chances: " + paper.getAcceptedProbability() + "% acceptance, " +
+                paper.getRevisedProbability() + "% revision, " +
+                paper.getRejectedProbability() + "% rejection");
     }
 
     private boolean checkError (String aux, int mode) throws FileNotFoundException {

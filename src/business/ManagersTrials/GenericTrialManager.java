@@ -44,4 +44,12 @@ public class GenericTrialManager {
     public GenericTrial getGenericalTrial (int index) {
         return trialsDAO.findByIndex(index);
     }
+
+    public LinkedList<GenericTrial> getTrials () {
+        return trialsDAO.readAll();
+    }
+
+    public boolean checkExistance (String name) throws FileNotFoundException {
+        return getTrialsNames().contains(name);
+    }
 }

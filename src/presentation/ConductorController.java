@@ -4,11 +4,9 @@ import business.Edition;
 import business.EditionManager;
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
-import business.ManagersTrials.TrialTypeOptions;
 import business.TeamManager;
 import business.playerTypes.Player;
 import business.typeTrials.GenericTrial;
-import business.typeTrials.PaperPublication;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -21,16 +19,16 @@ public class ConductorController {
     private TeamManager teamManager;
     private ViewController view;
     private GameExecutor gameExecutor;
-    private ConductorControllerIface iface;
+    private GenericTrialManager genericTrialManager;
     private GenericTrialManager namesManager;
 
-    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, ConductorControllerIface iface, GenericTrialManager namesManager) {
+    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, GenericTrialManager genericTrialManager, GenericTrialManager namesManager) {
         this.paperPublicationManager = paperPublicationManager;
         this.editionManager = editionManager;
         this.teamManager = teamManager;
         this.view = view;
         this.gameExecutor = gameExecutor;
-        this.iface = iface;
+        this.genericTrialManager = genericTrialManager;
         this.namesManager = namesManager;
     }
 
@@ -93,7 +91,7 @@ public class ConductorController {
         for (i = index; i < numTrials && continueExecution && !teamManager.checkDeadPlayers(); i++) {
             view.showMessage("\nTrial" + " #" + (i + 1) + " - " + editionManager.getEditionCurrentYear().getTrialNameByIndex(i) + "\n"); //Va mostrando los nombres de la prueba de ese año
             //playTrial(paperPublicationManager.getTrialByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i)));
-            GenericTrial genericTrial = namesManager.getGenericalTrial(i); //Esto me devuelve un tipo GenericalTrial de la prueba correspondiente
+            GenericTrial genericTrial = genericTrialManager.getGenericalTrial(i); //Esto me devuelve un tipo GenericalTrial de la prueba correspondiente
             gameExecutor.play(genericTrial); //Juegan los distintos jugadores
             //iface.playTrial(genericTrial, teamManager, view, gameExecutor); //Play trial debera aplicarle la logica del juego del trial que toque
             boolean dead = teamManager.checkDeadPlayers();
