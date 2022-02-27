@@ -53,10 +53,6 @@ public class PaperController {
                 paper.getRejectedProbability() + "% rejection");
     }
 
-    public void deletePaper (String name) {
-
-    }
-
     private boolean checkError (String aux, int mode) throws FileNotFoundException {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista

@@ -13,7 +13,6 @@ public class CompositorController {
     private ViewController view;
     private BudgetController budgetController;
     private DoctoralController doctoralController;
-    private EditionController editionController;
     private MasterController masterController;
     private PaperController paperController;
     private EditionManager editionManager;
@@ -23,11 +22,10 @@ public class CompositorController {
     private MasterManager masterManager;
     private PaperPublicationManager paperManager;
 
-    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
+    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.budgetController = budgetController;
         this.doctoralController = doctoralController;
-        this.editionController = editionController;
         this.masterController = masterController;
         this.paperController = paperController;
         this.editionManager = editionManager;

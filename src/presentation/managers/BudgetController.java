@@ -33,10 +33,6 @@ public class BudgetController {
         }
     }
 
-    public void deleteBudget(String name) {
-
-    }
-
     public void showBudget (int index) {
         String name = genericTrialManager.getGenericalTrial(index).getName();
         Budget budget = budgetManager.getBudgetByNameTrial(name);
