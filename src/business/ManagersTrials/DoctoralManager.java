@@ -2,6 +2,7 @@ package business.ManagersTrials;
 
 import business.DataSourceOptions;
 import business.typeTrials.DoctoralThesis;
+import business.typeTrials.PaperPublication;
 import persistance.CSV.DoctoralCsvDAO;
 import persistance.DoctoralDAO;
 import persistance.JSON.DoctoralJsonDAO;
@@ -65,4 +66,23 @@ public class DoctoralManager {
         return getDoctoralByName(name).isInUse();
     }
 
+    public int getIndexByName (String name) throws FileNotFoundException {
+        int i;
+        boolean found = false;
+        LinkedList<DoctoralThesis> doctorals = doctoralDAO.readAll();
+        for (i = 0; i < doctorals.size() && !found; i++) {
+            if (doctorals.get(i).getName().equals(name)) {
+                found = true;
+            }
+        }
+        return i - 1;
+    }
+
+    public void setInUseByName(String name) throws IOException {
+        int index = getIndexByName(name);
+        DoctoralThesis auxDoctoral = getDoctoralByName(name);
+        DoctoralThesis doctoralThesis = new DoctoralThesis(auxDoctoral.getName(), auxDoctoral.getFieldOfStudy(),
+                auxDoctoral.getDifficulty(), true);
+        doctoralDAO.changeLine(index, doctoralThesis);
+    }
 }

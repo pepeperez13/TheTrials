@@ -1,6 +1,7 @@
 package persistance.CSV;
 
 import business.typeTrials.MasterStudies;
+import business.typeTrials.PaperPublication;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -70,5 +71,19 @@ public class MasterCsvDAO implements persistance.MasterDAO {
             return false;
         }
     }
+
+    @Override
+    public boolean changeLine (int index, MasterStudies masterStudies) {
+        try {
+            List<String> masters = Files.readAllLines(file.toPath());
+            masters.remove(index);
+            masters.add(index, masterToCsv(masterStudies));
+            Files.write(file.toPath(), masters);
+            return true;
+        }catch (IOException e) {
+            return false;
+        }
+    }
+
 
 }

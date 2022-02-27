@@ -13,4 +13,6 @@ public interface DoctoralDAO {
     DoctoralThesis findByIndex(int index);
 
     boolean delete(int index) throws IOException;
+
+    boolean changeLine (int index, DoctoralThesis doctoralThesis) throws IOException;
 }

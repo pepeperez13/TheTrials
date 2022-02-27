@@ -2,6 +2,8 @@ package business.ManagersTrials;
 
 import business.DataSourceOptions;
 import business.typeTrials.Budget;
+import business.typeTrials.MasterStudies;
+import business.typeTrials.PaperPublication;
 import persistance.BudgetDAO;
 import persistance.CSV.BudgetCsvDAO;
 import persistance.JSON.BudgetJsonDAO;
@@ -61,7 +63,28 @@ public class BudgetManager {
         return budgetDAO.delete(index);
     }
 
+    public int getIndexByName (String name) throws FileNotFoundException {
+        int i;
+        boolean found = false;
+        LinkedList<Budget> budgets = budgetDAO.readAll();
+        for (i = 0; i < budgets.size() && !found; i++) {
+            if (budgets.get(i).getNameTrial().equals(name)) {
+                found = true;
+            }
+        }
+        return i - 1;
+    }
+
     public boolean isInUse (String name) {
         return getBudgetByNameTrial(name).isInUse();
+    }
+
+    public void setInUseByName(String name) throws IOException {
+        int index = getIndexByName(name);
+        Budget auxBudget = getBudgetByNameTrial(name);
+        Budget budget = new Budget(auxBudget.getNameTrial(),
+                auxBudget.getNameEntity(),
+                auxBudget.getAmount(), true);
+        budgetDAO.changeLine(index, budget);
     }
 }

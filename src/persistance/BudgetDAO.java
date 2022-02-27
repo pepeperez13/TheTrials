@@ -13,4 +13,6 @@ public interface BudgetDAO {
     Budget findByIndex(int index);
 
     boolean delete(int index) throws IOException;
+
+    boolean changeLine(int index, Budget budget) throws IOException;
 }

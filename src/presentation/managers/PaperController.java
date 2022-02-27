@@ -30,7 +30,7 @@ public class PaperController {
                         if (checkError(String.valueOf(revision), 5)) {
                             int rejection = view.askForInteger("Enter the rejection probability: ");
                             if (checkError(String.valueOf(rejection), 5)) {
-                                paperPublicationManager.addTrial(trialName, journalName, quartile, accepted, revision, rejection, false);
+                                paperPublicationManager.addPaper(trialName, journalName, quartile, accepted, revision, rejection, false);
                             }
                         }
                     }

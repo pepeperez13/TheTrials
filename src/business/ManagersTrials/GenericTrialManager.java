@@ -10,6 +10,7 @@ import persistance.JSON.GenericTrialJsonDAO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GenericTrialManager {
@@ -36,9 +37,34 @@ public class GenericTrialManager {
         return nombres;
     }
 
+    public String[] getTrialsNamesByIndexes (ArrayList<Integer> indexes) throws FileNotFoundException {
+        LinkedList<String> allNames = getTrialsNames(); // Obtenemos los nombres de todas las pruebas disponibles
+        LinkedList<String> names = new LinkedList<>();  // Array de strings donde se guardaran los nombres que necesitemos
+
+        for (int i = 0; i < indexes.size(); i++) {
+            names.add(allNames.get(indexes.get(i))) ;
+        }
+        String[] stringNames = new String[names.size()];
+        for (int i = 0; i < names.size(); i++) {
+            stringNames[i] = names.get(i);
+        }
+        return stringNames;
+    }
+
     public TrialTypeOptions getTrialTypeByIndex (int index) {
         LinkedList<GenericTrial> trialsNames = trialsDAO.readAll();
         return trialsNames.get(index-1).getType();
+    }
+
+    public TrialTypeOptions getTrialTypeByName (String name) {
+        boolean found = false;
+        int i;
+        for (i = 0; i < getTrials().size() && !found; i++) {
+            if (getTrials().get(i).getName().equals(name)) {
+                found = true;
+            }
+        }
+        return getTrials().get(i-1).getType();
     }
 
     public GenericTrial getGenericalTrial (int index) {

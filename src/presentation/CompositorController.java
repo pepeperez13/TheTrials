@@ -21,7 +21,7 @@ public class CompositorController {
     private BudgetManager budgetManager;
     private DoctoralManager doctoralManager;
     private MasterManager masterManager;
-    private PaperPublicationManager paperPublicationManager;
+    private PaperPublicationManager paperManager;
 
     public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, EditionController editionController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
         this.view = view;
@@ -88,20 +88,11 @@ public class CompositorController {
         int type_trial = view.askForInteger("Enter the trial's type: ");
 
         switch (type_trial) {
-            case 1:
-                paperController.add();
-                break;
-            case 2:
-                masterController.add();
-                break;
-            case 3:
-                doctoralController.add();
-                break;
-            case 4:
-                budgetController.add();
-                break;
-            default:
-                view.showMessage("\nInvalid option");
+            case 1 -> paperController.add();
+            case 2 -> masterController.add();
+            case 3 -> doctoralController.add();
+            case 4 -> budgetController.add();
+            default -> view.showMessage("\nInvalid option");
         }
     }
 
@@ -114,67 +105,61 @@ public class CompositorController {
             int numTrial = askForInput("\nHere are the current trials, do you want to see more details or go back?", 1);
             if (numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
                 switch (genericTrialManager.getTrialTypeByIndex(numTrial)) {
-                    case DOCTORAL -> {
-                        doctoralController.showDoctoral(numTrial);
-                    }
-                    case BUDGET -> {
-                        budgetController.showBudget(numTrial);
-                    }
-                    case PAPER -> {
-                        paperController.showPaper(numTrial);
-                    }
-                    case MASTER -> {
-                        masterController.showMaster(numTrial);
-                    }
+                    case DOCTORAL -> doctoralController.showDoctoral(numTrial);
+                    case BUDGET -> budgetController.showBudget(numTrial);
+                    case PAPER -> paperController.showPaper(numTrial);
+                    case MASTER -> masterController.showMaster(numTrial);
                 }
             }
         }
     }
 
     /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
-    private void deleteTrial () throws FileNotFoundException {
+    private void deleteTrial () throws IOException {
         if (!genericTrialManager.getTrials().isEmpty()) {
             int numTrial = askForInput("\nWich trial do you want to delete?", 1);
-            if(numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
+            if (numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
                 String confirmationName = view.askForString("\nEnter the trial's name for confirmation: ");
 
-                if (genericTrialManager.checkExistance(confirmationName)) {
+                if (genericTrialManager.getGenericalTrial(numTrial-1).getName().equals(confirmationName)) {
                     switch (genericTrialManager.getGenericalTrial(numTrial).getType()) {
                         case MASTER -> {
                             if (!masterManager.isInUse(confirmationName)) {
-                                //delete
-                                masterController.deleteMaster(confirmationName);
+                                masterManager.deleteMaster(masterManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("No se puede eliminar");
+                                view.showMessage("\nThe trial is in use and cannot be deleted.");
                             }
                         }
                         case PAPER -> {
-                            if (!paperPublicationManager.isInUse(confirmationName)) {
-                                //delete
-                                paperController.deletePaper(confirmationName);
+                            if (!paperManager.isInUse(confirmationName)) {
+                                paperManager.deletePaper(paperManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("No se puede eliminar");
+                                view.showMessage("\nThe trial is in use and cannot be deleted.");
                             }
                         }
                         case BUDGET -> {
                             if (!budgetManager.isInUse(confirmationName)) {
-                                //delete
-                                budgetController.deleteBudget(confirmationName);
+                                budgetManager.deleteBudget(budgetManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("");
+                                view.showMessage("\nThe trial is in use and cannot be deleted.");
                             }
                         }
                         case DOCTORAL -> {
                             if (doctoralManager.isInUse(confirmationName)) {
-                                //delete
-                                doctoralController.deleteDoctor(confirmationName);
+                                doctoralManager.deleteMaster(doctoralManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("");
+                                view.showMessage("\nThe trial is in use and cannot be deleted.");
                             }
                         }
                     }
+                } else {
+                    view.showMessage("\nThe name of the introduced trial does not match the previously indicated trial.");
                 }
+            } else {
+                view.showMessage("\nInvalid option.");
             }
+        } else {
+            view.showMessage("\nNo trials can be deleted as there are no existing trials.");
         }
     }
 
@@ -222,7 +207,7 @@ public class CompositorController {
             }
         } while (numTrials < 3 || numTrials > 12);
         view.showMessage("\n\t--- Trials ---\n");
-        view.showList(trialManager.getTrialsNames());
+        view.showList(genericTrialManager.getTrialsNames());
 
         // Guardamos los indices de las pruebas que se quieren guardar en la edición
         ArrayList<Integer> trialsIndexes = new ArrayList<>();
@@ -232,14 +217,28 @@ public class CompositorController {
         }
 
         // Activamos las pruebas introducidas como en uso
-        trialManager.setInUseByIndexes(trialsIndexes);
+        setTrialsInUse(trialsIndexes);
 
         // Obtenemos los nombres de las pruebas con dichos índices
-        String[] names = trialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
+        String[] names = genericTrialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
 
         if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
             view.showMessage("\nThe edition was created succesfully!");
         }
+    }
+
+    private void setTrialsInUse (ArrayList<Integer> trialsIndexes) throws IOException {
+
+        for (Integer trialsIndex : trialsIndexes) {
+            // Según el tipo de prueba que se haya utilizado
+            switch (genericTrialManager.getTrialTypeByIndex(trialsIndex)) {
+                case MASTER -> masterManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
+                case PAPER -> paperManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
+                case BUDGET -> budgetManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
+                case DOCTORAL -> doctoralManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
+            }
+        }
+
     }
 
 
@@ -337,7 +336,7 @@ public class CompositorController {
         return view.askForInteger("Enter an option: ");
     }
 
-    private void changeStateTrial (LinkedList<String> nameTrials) throws FileNotFoundException {
+    private void changeStateTrial (LinkedList<String> nameTrials) throws IOException {
         boolean contained;
         // Buscamos para cada prueba, si está siendo usada por alguna edición
         for (String nameTrial : nameTrials) {
@@ -349,7 +348,12 @@ public class CompositorController {
             }
             // En caso de no ser usada, se especifica como "no en uso"
             if (!contained) {
-                trialManager.setInUnusedByIndex(trialManager.getIndexByName(nameTrial));
+                switch (genericTrialManager.getTrialTypeByName(nameTrial)) {
+                    case MASTER -> masterManager.setInUseByName(nameTrial);
+                    case PAPER -> paperManager.setInUseByName(nameTrial);
+                    case BUDGET -> budgetManager.setInUseByName(nameTrial);
+                    case DOCTORAL -> doctoralManager.setInUseByName(nameTrial);
+                }
             }
         }
     }

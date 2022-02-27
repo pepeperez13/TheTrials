@@ -1,6 +1,7 @@
 package persistance.CSV;
 
 import business.typeTrials.DoctoralThesis;
+import business.typeTrials.PaperPublication;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -67,6 +68,19 @@ public class DoctoralCsvDAO implements persistance.DoctoralDAO {
             Files.write(file.toPath(), doctorals);
             return true;
         } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean changeLine (int index, DoctoralThesis doctoral) {
+        try {
+            List<String> doctorals = Files.readAllLines(file.toPath());
+            doctorals.remove(index);
+            doctorals.add(index, doctoralToCsv(doctoral));
+            Files.write(file.toPath(), doctorals);
+            return true;
+        }catch (IOException e) {
             return false;
         }
     }

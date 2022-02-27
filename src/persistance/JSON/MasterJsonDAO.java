@@ -2,6 +2,7 @@ package persistance.JSON;
 
 
 import business.typeTrials.MasterStudies;
+import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.MasterDAO;
@@ -55,6 +56,21 @@ public class MasterJsonDAO implements MasterDAO {
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<MasterStudies> mastersList = new LinkedList<>(Arrays.asList(masters));
         mastersList.remove(index);
+
+        gson.toJson(mastersList, writer);
+        writer.close();
+        return false;
+    }
+
+    @Override
+    public boolean changeLine(int index, MasterStudies master) throws IOException {
+        FileWriter writer = new FileWriter(filename);
+
+        // Nunca va estar vacia (comprobamos antes de llamar)
+        LinkedList<MasterStudies> mastersList = new LinkedList<>(Arrays.asList(masters));
+
+        mastersList.remove(index);
+        mastersList.add(index, master);
 
         gson.toJson(mastersList, writer);
         writer.close();

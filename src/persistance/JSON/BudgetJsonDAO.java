@@ -1,6 +1,7 @@
 package persistance.JSON;
 
 import business.typeTrials.Budget;
+import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.BudgetDAO;
@@ -61,4 +62,19 @@ public class BudgetJsonDAO implements BudgetDAO {
 
         return false;
     }
+    @Override
+    public boolean changeLine(int index, Budget budget) throws IOException {
+        FileWriter writer = new FileWriter(filename);
+
+        // Nunca va estar vacia (comprobamos antes de llamar)
+        LinkedList<Budget> budgetsList = new LinkedList<>(Arrays.asList(budgets));
+
+        budgetsList.remove(index);
+        budgetsList.add(index, budget);
+
+        gson.toJson(budgetsList, writer);
+        writer.close();
+        return false;
+    }
+
 }

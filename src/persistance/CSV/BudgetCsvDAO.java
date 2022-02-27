@@ -1,6 +1,7 @@
 package persistance.CSV;
 
 import business.typeTrials.Budget;
+import business.typeTrials.PaperPublication;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -65,6 +66,19 @@ public class BudgetCsvDAO implements persistance.BudgetDAO {
             Files.write(file.toPath(), budgets);
             return true;
         } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean changeLine (int index, Budget budget) {
+        try {
+            List<String> budgets = Files.readAllLines(file.toPath());
+            budgets.remove(index);
+            budgets.add(index, budgetToCsv(budget));
+            Files.write(file.toPath(), budgets);
+            return true;
+        }catch (IOException e) {
             return false;
         }
     }

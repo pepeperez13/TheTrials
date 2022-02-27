@@ -1,6 +1,7 @@
 package persistance.JSON;
 
 import business.typeTrials.DoctoralThesis;
+import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.DoctoralDAO;
@@ -60,4 +61,19 @@ public class DoctoralJsonDAO implements DoctoralDAO {
 
         return false;
     }
+    @Override
+    public boolean changeLine(int index, DoctoralThesis doctoral) throws IOException {
+        FileWriter writer = new FileWriter(filename);
+
+        // Nunca va estar vacia (comprobamos antes de llamar)
+        LinkedList<DoctoralThesis> doctoralsList = new LinkedList<>(Arrays.asList(doctorals));
+
+        doctoralsList.remove(index);
+        doctoralsList.add(index, doctoral);
+
+        gson.toJson(doctoralsList, writer);
+        writer.close();
+        return false;
+    }
+
 }
