@@ -4,6 +4,7 @@ import business.Edition;
 import business.EditionManager;
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
+import business.PlayerTypeOptions;
 import business.TeamManager;
 import business.playerTypes.Player;
 import business.typeTrials.GenericTrial;
@@ -77,7 +78,7 @@ public class ConductorController {
 
         for (int j = 0; j < numPlayers; j++) {
             String name = view.askForString("Enter the player's name" + " (" + (j+1) +"/" + numPlayers + "): ");
-            Player newPlayer = new Player(name);
+            Player newPlayer = new Player(name, 5, PlayerTypeOptions.ENGINEER);
             teamManager.addPlayer(newPlayer);
         }
 

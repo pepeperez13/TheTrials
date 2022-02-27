@@ -1,5 +1,6 @@
 package persistance.CSV;
 
+import business.PlayerTypeOptions;
 import business.playerTypes.Player;
 import persistance.TeamDAO;
 
@@ -28,9 +29,9 @@ public class TeamCsvDAO implements TeamDAO {
     }
 
 
-    private Player playerFromCsv(String csv) { //Una linea del archivo Aritulos
+    private Player playerFromCsv(String csv) {
         String[] parts = csv.split(separator);
-        return new Player(parts[0], Integer.parseInt(parts[1]));
+        return new Player(parts[0], Integer.parseInt(parts[1]), PlayerTypeOptions.valueOf(parts[2]));
     }
 
     /**
