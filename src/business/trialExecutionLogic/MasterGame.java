@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class MasterGame {
 
-    public int checkAndUpdatePI(MasterStudies masterStudies, Player player) {
+    public int checkPassed (MasterStudies masterStudies, Player player) {
         Random random = new Random();
         int randomNumber = random.nextInt(101);
         int pass = 0, deny = 0;
@@ -22,20 +22,28 @@ public class MasterGame {
                 deny++;
             }
         }
+
         return pass;
     }
 
-
-    public void checkPass (int pass, int deny, Player player) {
-        if (pass > deny) {
-            if (player.getPlayerType() == PlayerTypeOptions.ENGINEER) {
-                player.changePlayerType(PlayerTypeOptions.MASTERS);
-            } else {
-                player.incrementPI(3);
-                player.checkUpdateStatus();
-            }
+    // Necesitamos que este sea un metodo separado del primero, ya que ambos necesitan retornar cosas diferentes
+    public Player updatePI (int pass, Player player, MasterStudies master){
+        if (pass > master.getNumberCredits()/2) {
+            player.incrementPI(3);
         } else {
             player.decrementPI(3);
         }
+        return player;
     }
+
+
+    public Player checkUpdateStatus (int pass, Player player, MasterStudies master) {
+        if (pass > master.getNumberCredits() / 2) {
+            if (player.getPlayerType() == PlayerTypeOptions.ENGINEER) {
+                player.changePlayerType(PlayerTypeOptions.MASTERS);
+            }
+        }
+        return player;
+    }
+
 }
