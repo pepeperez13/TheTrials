@@ -13,16 +13,19 @@ public class MasterExecutor {
         TeamManager teamManager = null;
         ViewController view = null;
         MasterGame masterGame = null;
+        int passed;
         int i = 0;
 
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) {
-                view.showMessageLine(player.getName() + " is submitting... ");
-                // Falta configurar una especie de gameLogic para cada tipo de prueba
-                // (uno para doctoral, otro para budget y otro para master. El de paper ya es el de la primera fase)
-                // O creo que ya lo tenemos hecho, solo faltaria conectar la siguiente linea con las clases
-                // correspondientes que hay en la carpeta trialExecutionLogic, que vendrian a ser el gameLogic
-                masterGame.passCredits(masterStudies, player); // Publicamos articulo
+                passed = masterGame.checkAndUpdatePI(masterStudies, player); // Publicamos articulo
+                view.showMessageLine(player.getName() + " passed " + passed + "/" + masterStudies.getNumberCredits() + " ECTS");
+                if (passed > masterStudies.getNumberCredits()) {
+                    view.showMessageLine("Congrats! PI count: " + player.getPI() + "\n");
+                }else{
+                    view.showMessageLine("Sorry... PI count: " + player.getPI() + "\n");
+                }
+                // Estas dos lineas faltan cambiarlas
                 teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
                 view.showMessageLine(" PI count: " + player.getPI() + "\n");
             }

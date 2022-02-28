@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 
 public class BudgetGame {
 
-    public boolean checkIfBudgetAccepted (Budget budget) throws FileNotFoundException {
+    public boolean checkAndUpdatePI(Budget budget) throws FileNotFoundException {
         TeamManager teamManager = null;
         if (teamManager.getPITeam() > (int) Math.pow(2, budget.getAmount())) {
             updatePITeam(teamManager);

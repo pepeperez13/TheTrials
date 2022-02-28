@@ -1,6 +1,5 @@
 package presentation;
 
-import business.PlayerTypeOptions;
 import business.TeamManager;
 import business.playerTypes.Player;
 import business.trialExecutionLogic.BudgetGame;
@@ -16,7 +15,7 @@ public class BudgetExecutor {
         BudgetGame budgetGame = null;
         int i = 0;
 
-        boolean accepted = budgetGame.checkIfBudgetAccepted(budget);
+        boolean accepted = budgetGame.checkAndUpdatePI(budget);
         if (accepted){
             view.showMessage("The research group got the budget!");
         }else{
