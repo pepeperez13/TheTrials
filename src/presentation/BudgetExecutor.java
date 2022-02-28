@@ -1,5 +1,6 @@
 package presentation;
 
+import business.PlayerTypeOptions;
 import business.TeamManager;
 import business.playerTypes.Player;
 import business.trialExecutionLogic.BudgetGame;
@@ -15,19 +16,19 @@ public class BudgetExecutor {
         BudgetGame budgetGame = null;
         int i = 0;
 
-        budgetGame.checkTeam(budget);
-        /*for (Player player: teamManager.getPlayers()) {
-            if (player.getPI() != 0) {
-                view.showMessageLine(player.getName() + " is submitting... ");
-                // Falta configurar una especie de gameLogic para cada tipo de prueba
-                // (uno para doctoral, otro para budget y otro para master. El de paper ya es el de la primera fase)
-                // O creo que ya lo tenemos hecho, solo faltaria conectar la siguiente linea con las clases
-                // correspondientes que hay en la carpeta trialExecutionLogic, que vendrian a ser el gameLogic
-                player = budgetGame.checkTeam(budget);// Publicamos articulo
-                teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
-                view.showMessageLine(" PI count: " + player.getPI() + "\n");
+        boolean accepted = budgetGame.checkIfBudgetAccepted(budget);
+        if (accepted){
+            view.showMessage("The research group got the budget!");
+        }else{
+            view.showMessage("Research group did not get the budget! Sorry!");
+        }
+        for (Player player: teamManager.getPlayers()) {
+            switch (player.getPlayerType()) {
+                case ENGINEER -> view.showMessage(player.getName() + ". PI count: " + player.getPI());
+                case MASTERS -> view.showMessage("Master " + player.getName() + ". PI count: " + player.getPI());
+                case DOCTORS -> view.showMessage(player.getName() + ",PhD. PI count: " + player.getPI());
             }
-            i++;
-        }*/
+        }
+        budgetGame.changePlayersStatus(teamManager);
     }
 }
