@@ -13,9 +13,10 @@ public class MasterController {
     private MasterManager masterManager;
     private GenericTrialManager genericTrialManager;
 
-    public MasterController(ViewController viewController, MasterManager masterManager) {
+    public MasterController(ViewController viewController, MasterManager masterManager, GenericTrialManager genericTrialManager) {
         this.view = viewController;
         this.masterManager = masterManager;
+        this.genericTrialManager = genericTrialManager;
     }
 
     public void add() throws IOException {

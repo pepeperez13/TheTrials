@@ -10,8 +10,18 @@ import java.util.List;
 
 public class EditionCsvDAO implements EditionDAO {
     private static String separator = ",";
-    private static File file = new File("files/editions.csv");
+    //private static File file = new File("files/editions.csv");
+    private String fileName = "editions.csv";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private File file = new File(filePath, fileName);
 
+    public EditionCsvDAO () throws IOException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Este método transforma un elemento de la clase Edition
      * para darle el formato requerido

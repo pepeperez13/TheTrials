@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class GenericTrialManager {
     private GenericTrialDAO trialsDAO;
 
-    public GenericTrialManager(DataSourceOptions options) throws FileNotFoundException {
+    public GenericTrialManager(DataSourceOptions options) throws IOException {
         switch (options) {
             case JSON -> trialsDAO = new GenericTrialJsonDAO();
             case CSV -> trialsDAO= new GenericTrialCsvDAO();

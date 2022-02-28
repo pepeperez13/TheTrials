@@ -14,10 +14,14 @@ public class DoctoralJsonDAO implements DoctoralDAO {
 
     private static final String filename = "files/doctorals.json";
     private static final File file = new File("files/doctorals.json");
+    //private String filename = "doctorals.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private final File file = new File(filePath, filename);
     private final Gson gson;
     private final DoctoralThesis[] doctorals;
 
     public DoctoralJsonDAO () throws FileNotFoundException {
+
         gson = new GsonBuilder().setPrettyPrinting().create();
         doctorals = gson.fromJson(gson.newJsonReader(new FileReader(filename)), DoctoralThesis[].class);
     }

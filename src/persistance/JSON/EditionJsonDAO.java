@@ -17,6 +17,9 @@ public class EditionJsonDAO implements EditionDAO {
 
     private static final String filename = "files/editions.json";
     private static final File file = new File("files/editions.json");
+    //private String filename = "editions.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private final File file = new File(filePath, filename);
     private final Gson gson;
     private final Edition[] editions;
 

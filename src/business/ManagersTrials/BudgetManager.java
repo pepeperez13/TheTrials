@@ -16,7 +16,7 @@ public class BudgetManager {
     private BudgetDAO budgetDAO;
     private GenericTrialManager genericTrialManager;
 
-    public BudgetManager(DataSourceOptions options) throws FileNotFoundException {
+    public BudgetManager(DataSourceOptions options) throws IOException {
         switch (options) {
             case JSON -> budgetDAO = new BudgetJsonDAO();
             case CSV -> budgetDAO = new BudgetCsvDAO();

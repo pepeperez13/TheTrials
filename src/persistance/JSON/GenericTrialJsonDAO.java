@@ -13,6 +13,9 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
 
     private static final String filename = "files/budgets.json";
     private static final File file = new File("files/budgets.json");
+    //private String filename = "generics.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private final File file = new File(filePath, filename);
     private final Gson gson;
     private final GenericTrial[] genericTrials;
 

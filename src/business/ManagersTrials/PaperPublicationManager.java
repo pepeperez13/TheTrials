@@ -62,7 +62,7 @@ public class PaperPublicationManager {
         return articles.get(i - 1);
     }
 
-    public int getIndexByName (String name) throws FileNotFoundException {
+    public int getIndexByName (String name) throws IOException {
         int i;
         boolean found = false;
         LinkedList<PaperPublication> articles = paperDAO.readAll();

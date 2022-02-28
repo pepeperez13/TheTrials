@@ -21,16 +21,14 @@ public class ConductorController {
     private ViewController view;
     private GameExecutor gameExecutor;
     private GenericTrialManager genericTrialManager;
-    private GenericTrialManager namesManager;
 
-    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, GenericTrialManager genericTrialManager, GenericTrialManager namesManager) {
+    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, GenericTrialManager genericTrialManager) {
         this.paperPublicationManager = paperPublicationManager;
         this.editionManager = editionManager;
         this.teamManager = teamManager;
         this.view = view;
         this.gameExecutor = gameExecutor;
         this.genericTrialManager = genericTrialManager;
-        this.namesManager = namesManager;
     }
 
     /**

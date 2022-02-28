@@ -4,6 +4,7 @@ import business.typeTrials.Budget;
 import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import persistance.BudgetDAO;
 
 import java.io.*;
@@ -14,6 +15,9 @@ public class BudgetJsonDAO implements BudgetDAO {
 
     private static final String filename = "files/budgets.json";
     private static final File file = new File("files/budgets.json");
+    //private String filename = "budgets.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private static JsonObject jsonObject = new JsonObject();
     private final Gson gson;
     private final Budget[] budgets;
 

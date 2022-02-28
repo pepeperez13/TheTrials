@@ -22,7 +22,7 @@ public class CompositorController {
     private MasterManager masterManager;
     private PaperPublicationManager paperManager;
 
-    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager) {
+    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager, BudgetManager budgetManager, DoctoralManager doctoralManager, MasterManager masterManager, PaperPublicationManager paperManager) {
         this.view = view;
         this.budgetController = budgetController;
         this.doctoralController = doctoralController;
@@ -30,6 +30,10 @@ public class CompositorController {
         this.paperController = paperController;
         this.editionManager = editionManager;
         this.genericTrialManager = genericTrialManager;
+        this.budgetManager = budgetManager;
+        this.doctoralManager = doctoralManager;
+        this.masterManager = masterManager;
+        this.paperManager = paperManager;
     }
 
     public void run () throws IOException {
@@ -238,7 +242,6 @@ public class CompositorController {
         }
 
     }
-
 
     private void deleteEdition () throws IOException {
         if (!editionManager.getEditions().isEmpty()) {

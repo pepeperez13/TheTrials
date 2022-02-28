@@ -10,9 +10,18 @@ import java.util.List;
 
 public class DoctoralCsvDAO implements persistance.DoctoralDAO {
     private static String separator = ",";
-    private static File file = new File ("files/doctoral.csv");
+    //private static File file = new File ("files/doctoral.csv");
+    private String fileName = "doctoral.csv";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private File file = new File(filePath, fileName);
 
-
+    public DoctoralCsvDAO () throws IOException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String doctoralToCsv(DoctoralThesis doctoralThesis) {
         return doctoralThesis.getName() + separator + doctoralThesis.getFieldOfStudy() + separator + doctoralThesis.getDifficulty();

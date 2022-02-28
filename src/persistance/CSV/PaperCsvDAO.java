@@ -9,8 +9,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PaperCsvDAO implements PaperDAO {
-    private static final File file = new File("files/trials.csv");
+    //private static final File file = new File("files/trials.csv");
     private static final String separator = ",";
+    private String fileName = "paper.csv";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private File file = new File(filePath, fileName);
+
+    public PaperCsvDAO () throws IOException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String trialToCsv (PaperPublication article) {
         return article.getArticleName() + separator + article.getMagazineName() + separator + article.getQuartile() +

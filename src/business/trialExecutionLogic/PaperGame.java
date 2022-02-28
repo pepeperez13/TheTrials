@@ -13,12 +13,6 @@ import java.util.Random;
  */
 
 public class PaperGame {
-    private final ViewController view;
-
-    public PaperGame(ViewController view) {
-        this.view = view;
-    }
-
     /**
      * Método que llama a los métodos que obtienen qué se hace con el artículo enviado y que calcula la puntuación
      * final del jugador
@@ -45,6 +39,7 @@ public class PaperGame {
      * @return Entero que puede valer: 1 (si se acepta el artículo), 2 (si se revisa el artículo), 3 (si se rechaza el artículo)
      */
     private int calculateResponse (PaperPublication article) {
+        ViewController view = null;
         // Generamos un número aleatorio que estará entre 0 y 100
         Random rand = new Random();
         int response = 0;

@@ -15,6 +15,9 @@ public class MasterJsonDAO implements MasterDAO {
 
     private static final File file = new File("files/masters.json");
     private static final String filename = "files/masters.json";
+    //private String filename = "masters.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private final File file = new File(filePath, filename);
     private final Gson gson;
     private final MasterStudies[] masters;
 

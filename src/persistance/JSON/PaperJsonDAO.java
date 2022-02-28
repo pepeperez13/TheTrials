@@ -13,6 +13,9 @@ public class PaperJsonDAO implements PaperDAO {
 
     private static final File file = new File("files/papers.json");
     private static final String filename = "files/papers.json";
+    //private String filename = "papers.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private final File file = new File(filePath, filename);
     private final Gson gson;
     private final PaperPublication[] articles;
 

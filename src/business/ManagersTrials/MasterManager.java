@@ -4,6 +4,7 @@ import business.DataSourceOptions;
 import business.typeTrials.MasterStudies;
 import business.typeTrials.PaperPublication;
 import persistance.CSV.MasterCsvDAO;
+import persistance.JSON.MasterJsonDAO;
 import persistance.MasterDAO;
 
 import java.io.FileNotFoundException;
@@ -15,9 +16,9 @@ public class MasterManager {
     private MasterDAO masterDAO;
     private GenericTrialManager genericTrialManager;
 
-    public MasterManager(DataSourceOptions options) {
+    public MasterManager(DataSourceOptions options) throws IOException {
         switch (options) {
-            //case JSON -> masterDAO = new MasterJsonDAO();
+            case JSON -> masterDAO = new MasterJsonDAO();
             case CSV -> masterDAO = new MasterCsvDAO();
         }
     }

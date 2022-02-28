@@ -15,7 +15,18 @@ import java.util.List;
 public class GenericTrialCsvDAO implements GenericTrialDAO {
 
     private static String separator = ",";
-    private static File file = new File ("files/doctoral.csv");
+    //private static File file = new File ("files/generic.csv");
+    private String fileName = "generic.csv";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private File file = new File(filePath, fileName);
+
+    public GenericTrialCsvDAO () throws IOException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String genericTrialToCsv (GenericTrial name) {
         return name.getName() + separator + name.getType();

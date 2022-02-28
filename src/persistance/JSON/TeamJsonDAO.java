@@ -13,10 +13,14 @@ public class TeamJsonDAO implements TeamDAO {
 
     private static final File file = new File("files/team.json");
     private static final String filename = "files/team.json";
+    //private String filename = "team.json";
+    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    //private final File file = new File(filePath, filename);
     private final Gson gson;
     private final Player[] team;
 
     public TeamJsonDAO () throws FileNotFoundException {
+
         gson = new GsonBuilder().setPrettyPrinting().create();
         team = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Player[].class);
     }

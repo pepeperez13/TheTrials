@@ -16,7 +16,7 @@ public class DoctoralManager {
     private GenericTrialManager genericTrialManager;
 
 
-    public DoctoralManager(DataSourceOptions options) throws FileNotFoundException {
+    public DoctoralManager(DataSourceOptions options) throws IOException {
         switch (options) {
             case JSON -> doctoralDAO = new DoctoralJsonDAO();
             case CSV -> doctoralDAO = new DoctoralCsvDAO();

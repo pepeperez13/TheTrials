@@ -14,39 +14,42 @@ import java.io.IOException;
 public class ControllerManager {
 
     private final ViewController viewController;
+    /*
     private PaperPublicationManager paperPublicationManager;
     private BudgetManager budgetManager;
     private DoctoralManager doctoralManager;
     private MasterManager masterManager;
     private EditionManager editionManager;
-    private TeamManager teamManager;
+    private TeamManager teamManager;*/
     private CompositorController compositorController;
     private ConductorController conductorController;
 
-    public ControllerManager (ViewController viewController) {
+    public ControllerManager (ViewController viewController, CompositorController compositorController, ConductorController conductorController) {
         this.viewController = viewController;
+        this.compositorController = compositorController;
+        this.conductorController = conductorController;
     }
 
     public void run (String option) throws IOException {
         do {
             switch (option) {
                 case "I" -> {
-                    paperPublicationManager = new PaperPublicationManager(DataSourceOptions.CSV);
-                    budgetManager = new BudgetManager(DataSourceOptions.CSV);
-                    doctoralManager = new DoctoralManager(DataSourceOptions.CSV);
-                    masterManager = new MasterManager(DataSourceOptions.CSV);
-                    editionManager = new EditionManager(DataSourceOptions.CSV);
-                    teamManager = new TeamManager(DataSourceOptions.CSV);
+                    new PaperPublicationManager(DataSourceOptions.CSV);
+                    new BudgetManager(DataSourceOptions.CSV);
+                    new DoctoralManager(DataSourceOptions.CSV);
+                    new MasterManager(DataSourceOptions.CSV);
+                    new EditionManager(DataSourceOptions.CSV);
+                    new TeamManager(DataSourceOptions.CSV);
                     viewController.showMessage("\nLoading data from CSV files...\n");
                     mainLoop();
                 }
                 case "II" -> {
-                    paperPublicationManager = new PaperPublicationManager(DataSourceOptions.JSON);
-                    budgetManager = new BudgetManager(DataSourceOptions.JSON);
-                    doctoralManager = new DoctoralManager(DataSourceOptions.JSON);
-                    masterManager = new MasterManager(DataSourceOptions.JSON);
-                    editionManager = new EditionManager(DataSourceOptions.JSON);
-                    teamManager = new TeamManager(DataSourceOptions.JSON);
+                    new PaperPublicationManager(DataSourceOptions.JSON);
+                    new BudgetManager(DataSourceOptions.JSON);
+                    new DoctoralManager(DataSourceOptions.JSON);
+                    new MasterManager(DataSourceOptions.JSON);
+                    new EditionManager(DataSourceOptions.JSON);
+                    new TeamManager(DataSourceOptions.JSON);
                     viewController.showMessage("\nLoading data from JSON files...\n");
                     mainLoop();
                 }
