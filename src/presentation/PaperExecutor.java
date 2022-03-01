@@ -8,6 +8,10 @@ import business.typeTrials.PaperPublication;
 import java.io.IOException;
 
 public class PaperExecutor {
+    /**
+     *
+     * Falta arreglar cosas (no mostramos al final los jugadores que han evolucionado de tipo
+     */
 
     public void playTrial (PaperPublication paperPublication) throws IOException { //Este método falla
         TeamManager teamManager = null;

@@ -6,28 +6,45 @@ import business.trialExecutionLogic.DoctoralGame;
 import business.typeTrials.DoctoralThesis;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class DoctoralExecutor {
-
-    public void playTrial(DoctoralThesis doctoralThesis) throws IOException {
+    /**
+     * En las clases executor, hace falta ir llamando individualmente a pequeños metodos
+     * publicos de las clases game. No podemos actualizar toda la info del jugador a la vez
+     * ya que como se deben in mostrando cosas (y el Game no debería), es necesario ir
+     * actualizando los datos poco a poco para poder ir mostrando desde el executor
+     */
+    public void playTrial (DoctoralThesis doctoralThesis) throws IOException {
         ViewController view = new ViewController();
         DoctoralGame doctoralGame = null;
         TeamManager teamManager = null;
-
+        boolean passed;
         int i = 0;
+        LinkedList<String> namesUpdatedType = new LinkedList<>();
+
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) {
-                view.showMessageLine(player.getName() + " is submitting... ");
-                // Falta configurar una especie de gameLogic para cada tipo de prueba
-                // (uno para doctoral, otro para budget y otro para master. El de paper ya es el de la primera fase)
-                // O creo que ya lo tenemos hecho, solo faltaria conectar la siguiente linea con las clases
-                // correspondientes que hay en la carpeta trialExecutionLogic, que vendrian a ser el gameLogic
-                //player = gameExecutor.publish(doctoral, player); // Publicamos articulo
-                doctoralGame.presentThesis(doctoralThesis, player);
-                teamManager.updatePlayer(i, player); // Actualizamos la info del jugador
-                view.showMessageLine(" PI count: " + player.getPI() + "\n");
+                passed = doctoralGame.checkPassed(doctoralThesis, player);
+                player = doctoralGame.updatePI(player, passed);
+                if (passed) {
+                    view.showMessageLine(player.getPlayerType() + " " + player.getName() + "was successful. Congrats! PI count: " + player.getPI());
+                } else {
+                    view.showMessageLine(player.getPlayerType() + " " + player.getName() + "was not successful. Sorry... PI count: " + player.getPI());
+                }
+                player = doctoralGame.checkUpdateStatus(player, passed);
+                teamManager.updatePlayer(i, player);
+                if (passed) {
+                    namesUpdatedType.add(player.getName() + " " + player.getPlayerType());
+                }
             }
             i++;
         }
+
+        for (String name : namesUpdatedType){
+            String[] parts = name.split(" ");
+            view.showMessage(parts[0] + " is now a " + parts[1] + "(with 5 PI)");
+        }
+
     }
 }

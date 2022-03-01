@@ -10,8 +10,13 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class MasterExecutor {
-
-    public void playTrial(MasterStudies masterStudies) throws IOException {
+    /**
+     * En las clases executor, hace falta ir llamando individualmente a pequeños metodos
+     * publicos de las clases game. No podemos actualizar toda la info del jugador a la vez
+     * ya que como se deben in mostrando cosas (y el Game no debería), es necesario ir
+     * actualizando los datos poco a poco para poder ir mostrando desde el executor
+     */
+    public void playTrial (MasterStudies masterStudies) throws IOException {
         TeamManager teamManager = null;
         ViewController view = null;
         MasterGame masterGame = null;

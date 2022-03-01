@@ -29,7 +29,11 @@ public class MasterGame {
     // Necesitamos que este sea un metodo separado del primero, ya que ambos necesitan retornar cosas diferentes
     public Player updatePI (int pass, Player player, MasterStudies master){
         if (pass > master.getNumberCredits()/2) {
-            player.incrementPI(3);
+            if (player.getPlayerType() == PlayerTypeOptions.ENGINEER) {
+                player.setPi(10);
+            }else {
+                player.incrementPI(3);
+            }
         } else {
             player.decrementPI(3);
         }
