@@ -12,18 +12,20 @@ import java.util.LinkedList;
 
 public class DoctoralJsonDAO implements DoctoralDAO {
 
-    private static final String filename = "files/doctorals.json";
-    private static final File file = new File("files/doctorals.json");
-    //private String filename = "doctorals.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private final File file = new File(filePath, filename);
+    private String filename = "doctorals.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private final File test = new File(filePath, filename);
     private final Gson gson;
     private final DoctoralThesis[] doctorals;
 
     public DoctoralJsonDAO () throws FileNotFoundException {
-
+        try {
+            test.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        doctorals = gson.fromJson(gson.newJsonReader(new FileReader(filename)), DoctoralThesis[].class);
+        doctorals = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), DoctoralThesis[].class);
     }
 
     @Override
@@ -44,7 +46,11 @@ public class DoctoralJsonDAO implements DoctoralDAO {
     @Override
     public LinkedList<DoctoralThesis> readAll() {
         // Nunca va estar vacia (comprobamos antes de llamar)
-        return new LinkedList<>(Arrays.asList(doctorals));
+        try {
+            return new LinkedList<>(Arrays.asList(doctorals));
+        } catch (NullPointerException e) {
+            return new LinkedList<>();
+        }
     }
 
     @Override

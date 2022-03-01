@@ -15,17 +15,20 @@ import java.util.LinkedList;
 
 public class EditionJsonDAO implements EditionDAO {
 
-    private static final String filename = "files/editions.json";
-    private static final File file = new File("files/editions.json");
-    //private String filename = "editions.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private final File file = new File(filePath, filename);
+    private String filename = "editions.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private File test = new File(filePath, filename);
     private final Gson gson;
     private final Edition[] editions;
 
     public EditionJsonDAO () throws FileNotFoundException {
+        try {
+            test.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        editions = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Edition[].class);
+        editions = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Edition[].class);
     }
 
     @Override
@@ -46,7 +49,11 @@ public class EditionJsonDAO implements EditionDAO {
     @Override
     public LinkedList<Edition> readAll() throws FileNotFoundException {
         // Nunca va estar vacia (comprobamos antes de llamar)
-         return new LinkedList<>(Arrays.asList(editions));
+        try {
+            return new LinkedList<>(Arrays.asList(editions));
+        } catch (NullPointerException e) {
+            return new LinkedList<>();
+        }
     }
 
 

@@ -11,18 +11,20 @@ import java.util.LinkedList;
 
 public class TeamJsonDAO implements TeamDAO {
 
-    private static final File file = new File("files/team.json");
-    private static final String filename = "files/team.json";
-    //private String filename = "team.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private final File file = new File(filePath, filename);
+    private String filename = "team.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private final File file = new File(filePath, filename);
     private final Gson gson;
     private final Player[] team;
 
     public TeamJsonDAO () throws FileNotFoundException {
-
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        team = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Player[].class);
+        team = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Player[].class);
     }
 
     @Override
@@ -44,7 +46,11 @@ public class TeamJsonDAO implements TeamDAO {
     @Override
     public LinkedList<Player> readAll () throws FileNotFoundException {
         // Nunca va estar vacia (comprobamos antes de llamar)
-        return new LinkedList<>(Arrays.asList(team));
+        try {
+            return new LinkedList<>(Arrays.asList(team));
+        } catch (NullPointerException e) {
+            return new LinkedList<>();
+        }
     }
 
     @Override
