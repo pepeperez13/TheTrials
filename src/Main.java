@@ -44,11 +44,12 @@ public class Main {
         /**
          * Constructores
          */
+        BudgetManager budgetManager = new BudgetManager(dataSourceOptions);
         EditionManager editionManager = new EditionManager(dataSourceOptions);
         PaperPublicationManager paperPublicationManager = new PaperPublicationManager(dataSourceOptions);
         MasterManager masterManager = new MasterManager(dataSourceOptions);
         DoctoralManager doctoralManager = new DoctoralManager(dataSourceOptions);
-        BudgetManager budgetManager = new BudgetManager(dataSourceOptions);
+
         GenericTrialManager genericTrialManager = new GenericTrialManager(dataSourceOptions);
         TeamManager teamManager = new TeamManager(dataSourceOptions);
 

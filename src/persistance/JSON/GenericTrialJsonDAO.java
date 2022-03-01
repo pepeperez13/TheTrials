@@ -11,17 +11,20 @@ import java.util.LinkedList;
 
 public class GenericTrialJsonDAO implements GenericTrialDAO {
 
-    private static final String filename = "files/budgets.json";
-    private static final File file = new File("files/budgets.json");
-    //private String filename = "generics.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private final File file = new File(filePath, filename);
+    private String filename = "generics.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private final File file = new File(filePath, filename);
     private final Gson gson;
     private final GenericTrial[] genericTrials;
 
     public GenericTrialJsonDAO() throws FileNotFoundException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        genericTrials = gson.fromJson(gson.newJsonReader(new FileReader(filename)), GenericTrial[].class);
+        genericTrials = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), GenericTrial[].class);
     }
 
     @Override
@@ -43,7 +46,11 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
     @Override
     public LinkedList<GenericTrial> readAll() {
         // Nunca va estar vacia (comprobamos antes de llamar)
-        return new LinkedList<>(Arrays.asList(genericTrials));
+        try {
+            return new LinkedList<>(Arrays.asList(genericTrials));
+        } catch (NullPointerException e) {
+            return new LinkedList<>();
+        }
     }
 
     @Override

@@ -11,17 +11,20 @@ import java.util.LinkedList;
 
 public class PaperJsonDAO implements PaperDAO {
 
-    private static final File file = new File("files/papers.json");
-    private static final String filename = "files/papers.json";
-    //private String filename = "papers.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private final File file = new File(filePath, filename);
+    private String filename = "papers.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private final File file = new File(filePath, filename);
     private final Gson gson;
     private final PaperPublication[] articles;
 
     public PaperJsonDAO() throws FileNotFoundException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        articles = gson.fromJson(gson.newJsonReader(new FileReader(filename)), PaperPublication[].class);
+        articles = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), PaperPublication[].class);
     }
 
     @Override
@@ -42,7 +45,12 @@ public class PaperJsonDAO implements PaperDAO {
     @Override
     public LinkedList<PaperPublication> readAll () throws FileNotFoundException {
         // Nunca va estar vacia (comprobamos antes de llamar)
-        return new LinkedList<>(Arrays.asList(articles));
+        try {
+            return new LinkedList<>(Arrays.asList(articles));
+        } catch (NullPointerException e) {
+            //No hay nada que leer
+            return new LinkedList<>();
+        }
     }
 
     @Override

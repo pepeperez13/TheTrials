@@ -13,17 +13,20 @@ import java.util.LinkedList;
 
 public class BudgetJsonDAO implements BudgetDAO {
 
-    private static final String filename = "files/budgets.json";
-    private static final File file = new File("files/budgets.json");
-    //private String filename = "budgets.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private static JsonObject jsonObject = new JsonObject();
+    private String filename = "budgets.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private File test = new File(filePath, filename);
     private final Gson gson;
     private final Budget[] budgets;
 
     public BudgetJsonDAO () throws FileNotFoundException {
+        try {
+            test.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        budgets = gson.fromJson(gson.newJsonReader(new FileReader(filename)), Budget[].class);
+        budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
     }
 
     @Override
@@ -45,7 +48,11 @@ public class BudgetJsonDAO implements BudgetDAO {
     @Override
     public LinkedList<Budget> readAll() {
         // Nunca va estar vacia (comprobamos antes de llamar)
-        return new LinkedList<>(Arrays.asList(budgets));
+        try {
+            return new LinkedList<>(Arrays.asList(budgets));
+        } catch (NullPointerException e) {
+            return new LinkedList<>();
+        }
     }
 
     @Override

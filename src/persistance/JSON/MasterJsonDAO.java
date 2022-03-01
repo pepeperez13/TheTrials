@@ -13,17 +13,20 @@ import java.util.LinkedList;
 
 public class MasterJsonDAO implements MasterDAO {
 
-    private static final File file = new File("files/masters.json");
-    private static final String filename = "files/masters.json";
-    //private String filename = "masters.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
-    //private final File file = new File(filePath, filename);
+    private String filename = "masters.json";
+    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private final File file = new File(filePath, filename);
     private final Gson gson;
     private final MasterStudies[] masters;
 
     public MasterJsonDAO () throws FileNotFoundException {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson = new GsonBuilder().setPrettyPrinting().create();
-        masters = gson.fromJson(gson.newJsonReader(new FileReader(filename)), MasterStudies[].class);
+        masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
     }
 
     @Override
@@ -44,7 +47,11 @@ public class MasterJsonDAO implements MasterDAO {
 
     @Override
     public LinkedList<MasterStudies> readAll() {
-        return new LinkedList<>(Arrays.asList(masters));
+        try {
+            return new LinkedList<>(Arrays.asList(masters));
+        } catch (NullPointerException e) {
+            return new LinkedList<>();
+        }
     }
 
     @Override
