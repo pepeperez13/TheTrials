@@ -45,13 +45,16 @@ public class Player {
         return playerType;
     }
 
-    public void checkUpdateStatus () {
+    public boolean checkUpdateStatus () {
         if (playerType == PlayerTypeOptions.ENGINEER && PI >= 10) {
             playerType = PlayerTypeOptions.MASTERS;
+            return true;
         }
         if (playerType == PlayerTypeOptions.MASTERS && PI >= 10) {
             playerType = PlayerTypeOptions.DOCTORS;
+            return true;
         }
+        return false;
     }
 
 }

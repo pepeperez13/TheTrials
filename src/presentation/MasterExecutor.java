@@ -43,6 +43,7 @@ public class MasterExecutor {
             i++;
         }
 
+        // Mostramos los jugadores que hayan cambiado su status
         for (String name : namesUpdatedType){
             String[] parts = name.split(" ");
             view.showMessage(parts[0] + " is now a " + parts[1] + "(with 5 PI)");

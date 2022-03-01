@@ -6,6 +6,7 @@ import business.trialExecutionLogic.BudgetGame;
 import business.typeTrials.Budget;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class BudgetExecutor {
     /**
@@ -18,6 +19,8 @@ public class BudgetExecutor {
         TeamManager teamManager = null;
         ViewController view = null;
         BudgetGame budgetGame = null;
+        LinkedList<String> namesUpdatedType = new LinkedList<>();
+
         int i = 0;
 
         boolean accepted = budgetGame.checkAndUpdatePI(budget);
@@ -33,7 +36,12 @@ public class BudgetExecutor {
                 case DOCTORS -> view.showMessage(player.getName() + ",PhD. PI count: " + player.getPI());
             }
         }
-        budgetGame.changePlayersStatus(teamManager);
-        // Falta que se muestren los jugadores que han evolucionado de tipo
+        namesUpdatedType = budgetGame.changePlayersStatus(teamManager);
+
+        // Mostramos todos los jugadores que hayan cambiado de tipo
+        for (String name : namesUpdatedType){
+            String[] parts = name.split(" ");
+            view.showMessage(parts[0] + " is now a " + parts[1] + "(with 5 PI)");
+        }
     }
 }

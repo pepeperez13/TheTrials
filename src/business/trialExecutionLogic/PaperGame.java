@@ -91,5 +91,9 @@ public class PaperGame {
         }
     }
 
+    public boolean checkUpdateStatus (Player player) {
+        return player.checkUpdateStatus();
+    }
+
 
 }
