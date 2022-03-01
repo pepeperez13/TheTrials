@@ -12,7 +12,7 @@ public class PaperCsvDAO implements PaperDAO {
     //private static final File file = new File("files/trials.csv");
     private static final String separator = ",";
     private String fileName = "paper.csv";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public PaperCsvDAO () throws IOException {

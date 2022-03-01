@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class EditionJsonDAO implements EditionDAO {
 
     private String filename = "editions.json";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private File test = new File(filePath, filename);
     private final Gson gson;
     private final Edition[] editions;

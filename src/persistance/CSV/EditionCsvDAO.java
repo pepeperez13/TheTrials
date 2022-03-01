@@ -12,7 +12,7 @@ public class EditionCsvDAO implements EditionDAO {
     private static String separator = ",";
     //private static File file = new File("files/editions.csv");
     private String fileName = "editions.csv";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public EditionCsvDAO () throws IOException {

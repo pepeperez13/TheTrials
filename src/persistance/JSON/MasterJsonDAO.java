@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public class MasterJsonDAO implements MasterDAO {
 
     private String filename = "masters.json";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
     private final MasterStudies[] masters;

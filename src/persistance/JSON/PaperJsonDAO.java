@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class PaperJsonDAO implements PaperDAO {
 
     private String filename = "papers.json";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
     private final PaperPublication[] articles;

@@ -12,7 +12,7 @@ public class DoctoralCsvDAO implements persistance.DoctoralDAO {
     private static String separator = ",";
     //private static File file = new File ("files/doctoral.csv");
     private String fileName = "doctoral.csv";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public DoctoralCsvDAO () throws IOException {

@@ -18,7 +18,7 @@ public class TeamCsvDAO implements TeamDAO {
     //private static final File file = new File("files/team.csv");
     private static final String separator = ",";
     private String fileName = "team.csv";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public TeamCsvDAO () throws IOException {

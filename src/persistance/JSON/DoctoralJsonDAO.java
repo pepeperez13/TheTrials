@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class DoctoralJsonDAO implements DoctoralDAO {
 
     private String filename = "doctorals.json";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private final File test = new File(filePath, filename);
     private final Gson gson;
     private final DoctoralThesis[] doctorals;

@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class TeamJsonDAO implements TeamDAO {
 
     private String filename = "team.json";
-    private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
     private final Player[] team;
