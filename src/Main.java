@@ -45,7 +45,7 @@ public class Main {
          * Constructores
          */
         GenericTrialManager genericTrialManager = new GenericTrialManager(dataSourceOptions);
-        BudgetManager budgetManager = new BudgetManager(dataSourceOptions);
+        BudgetManager budgetManager = new BudgetManager(dataSourceOptions, genericTrialManager);
         EditionManager editionManager = new EditionManager(dataSourceOptions);
         PaperPublicationManager paperPublicationManager = new PaperPublicationManager(dataSourceOptions, genericTrialManager);
         MasterManager masterManager = new MasterManager(dataSourceOptions, genericTrialManager);

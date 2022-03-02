@@ -2,8 +2,6 @@ package business.ManagersTrials;
 
 import business.DataSourceOptions;
 import business.typeTrials.Budget;
-import business.typeTrials.MasterStudies;
-import business.typeTrials.PaperPublication;
 import persistance.BudgetDAO;
 import persistance.CSV.BudgetCsvDAO;
 import persistance.JSON.BudgetJsonDAO;
@@ -16,7 +14,8 @@ public class BudgetManager {
     private BudgetDAO budgetDAO;
     private GenericTrialManager genericTrialManager;
 
-    public BudgetManager(DataSourceOptions options) throws IOException {
+    public BudgetManager(DataSourceOptions options, GenericTrialManager genericTrialManager) throws IOException {
+        this.genericTrialManager = genericTrialManager;
         switch (options) {
             case JSON -> budgetDAO = new BudgetJsonDAO();
             case CSV -> budgetDAO = new BudgetCsvDAO();
@@ -33,7 +32,7 @@ public class BudgetManager {
         return budgetDAO.readAll();
     }
 
-    public Budget geBudgetByIndex (int index) {
+    public Budget getBudgetByIndex(int index) {
         Budget budget = budgetDAO.findByIndex(index);
         return budget;
     }
@@ -60,6 +59,7 @@ public class BudgetManager {
     }
 
     public boolean deleteBudget (int index) throws IOException {
+        genericTrialManager.deleteByname(getBudgetByIndex(index).getNameTrial());
         return budgetDAO.delete(index);
     }
 

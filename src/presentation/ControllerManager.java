@@ -34,7 +34,7 @@ public class ControllerManager {
             switch (option) {
                 case "I" -> {
                     new PaperPublicationManager(DataSourceOptions.CSV, genericTrialManager);
-                    new BudgetManager(DataSourceOptions.CSV);
+                    new BudgetManager(DataSourceOptions.CSV, genericTrialManager);
                     new DoctoralManager(DataSourceOptions.CSV, genericTrialManager);
                     new MasterManager(DataSourceOptions.CSV, genericTrialManager);
                     new EditionManager(DataSourceOptions.CSV);
@@ -44,7 +44,7 @@ public class ControllerManager {
                 }
                 case "II" -> {
                     new PaperPublicationManager(DataSourceOptions.JSON, genericTrialManager);
-                    new BudgetManager(DataSourceOptions.JSON);
+                    new BudgetManager(DataSourceOptions.JSON, genericTrialManager);
                     new DoctoralManager(DataSourceOptions.JSON, genericTrialManager);
                     new MasterManager(DataSourceOptions.JSON, genericTrialManager);
                     new EditionManager(DataSourceOptions.JSON);
