@@ -44,13 +44,14 @@ public class Main {
         /**
          * Constructores
          */
+        GenericTrialManager genericTrialManager = new GenericTrialManager(dataSourceOptions);
         BudgetManager budgetManager = new BudgetManager(dataSourceOptions);
         EditionManager editionManager = new EditionManager(dataSourceOptions);
-        PaperPublicationManager paperPublicationManager = new PaperPublicationManager(dataSourceOptions);
+        PaperPublicationManager paperPublicationManager = new PaperPublicationManager(dataSourceOptions, genericTrialManager);
         MasterManager masterManager = new MasterManager(dataSourceOptions);
         DoctoralManager doctoralManager = new DoctoralManager(dataSourceOptions);
 
-        GenericTrialManager genericTrialManager = new GenericTrialManager(dataSourceOptions);
+
         TeamManager teamManager = new TeamManager(dataSourceOptions);
 
         GameExecutor gameExecutor = new GameExecutor();
@@ -58,14 +59,14 @@ public class Main {
         BudgetController budgetController = new BudgetController(budgetManager, viewController);
         DoctoralController doctoralController = new DoctoralController(viewController, doctoralManager);
         MasterController masterController = new MasterController(viewController, masterManager, genericTrialManager);
-        PaperController paperController = new PaperController(viewController, paperPublicationManager);
+        PaperController paperController = new PaperController(viewController, paperPublicationManager, genericTrialManager);
 
         CompositorController compositorController = new CompositorController(viewController, budgetController, doctoralController, masterController, paperController, editionManager, genericTrialManager, budgetManager, doctoralManager, masterManager, paperPublicationManager);
         ConductorController conductorController = new ConductorController(paperPublicationManager, editionManager, teamManager, viewController, gameExecutor, genericTrialManager);
         /**
          * Le pasamos el tipo al Controller manager
          */
-        ControllerManager controllerManager = new ControllerManager(viewController, compositorController, conductorController);
+        ControllerManager controllerManager = new ControllerManager(viewController, compositorController, conductorController, genericTrialManager);
         controllerManager.run(option);
     }
 }

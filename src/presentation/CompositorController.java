@@ -123,7 +123,7 @@ public class CompositorController {
             if (numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
                 String confirmationName = view.askForString("\nEnter the trial's name for confirmation: ");
 
-                if (genericTrialManager.getGenericalTrial(numTrial-1).getName().equals(confirmationName)) {
+                if (genericTrialManager.getGenericalTrial(numTrial).getName().equals(confirmationName)) {
                     switch (genericTrialManager.getGenericalTrial(numTrial).getType()) {
                         case MASTER -> {
                             if (!masterManager.isInUse(confirmationName)) {

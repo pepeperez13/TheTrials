@@ -67,7 +67,7 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
     public GenericTrial findByIndex(int index) {
         try {
             List<String> list = Files.readAllLines(file.toPath());
-            return genericFromCsv(list.get(index-1));
+            return genericFromCsv(list.get(index - 1));
         } catch (IOException e) {
             return null;
         }

@@ -12,9 +12,10 @@ public class PaperController {
     private ViewController view;
     private PaperPublicationManager paperPublicationManager;
     private GenericTrialManager genericTrialManager;
-    public PaperController(ViewController view, PaperPublicationManager paperPublicationManager) {
+    public PaperController(ViewController view, PaperPublicationManager paperPublicationManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.paperPublicationManager = paperPublicationManager;
+        this.genericTrialManager = genericTrialManager;
     }
 
     public void add() throws IOException {

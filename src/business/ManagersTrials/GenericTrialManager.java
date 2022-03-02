@@ -2,6 +2,7 @@ package business.ManagersTrials;
 
 import business.DataSourceOptions;
 import business.PlayerTypeOptions;
+import business.typeTrials.Budget;
 import business.typeTrials.GenericTrial;
 import business.typeTrials.PaperPublication;
 import persistance.GenericTrialDAO;
@@ -77,5 +78,21 @@ public class GenericTrialManager {
 
     public boolean checkExistance (String name) throws FileNotFoundException {
         return getTrialsNames().contains(name);
+    }
+
+    private int getIndexByName (String name) {
+        int i;
+        boolean found = false;
+        LinkedList<GenericTrial> genericTrials = trialsDAO.readAll();
+        for (i = 0; i < genericTrials.size() && !found; i++) {
+            if (genericTrials.get(i).getName().equals(name)) {
+                found = true;
+            }
+        }
+        return i - 1;
+    }
+
+    public void deleteByname (String name) throws IOException {
+        trialsDAO.delete(getIndexByName(name));
     }
 }

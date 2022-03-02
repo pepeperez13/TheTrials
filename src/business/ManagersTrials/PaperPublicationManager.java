@@ -15,11 +15,12 @@ public class PaperPublicationManager {
     private PaperDAO paperDAO;
     private GenericTrialManager genericTrialManager;
 
-    public PaperPublicationManager(DataSourceOptions options) throws IOException {
+    public PaperPublicationManager(DataSourceOptions options, GenericTrialManager genericTrialManager) throws IOException {
         switch (options) {
             case JSON -> paperDAO = new PaperJsonDAO();
             case CSV -> paperDAO = new PaperCsvDAO();
         }
+        this.genericTrialManager = genericTrialManager;
     }
 
     /**
@@ -112,6 +113,7 @@ public class PaperPublicationManager {
      * @return Booleano que permite saber si el artículo se ha eliminado correctamente
      */
     public boolean deletePaper (int index) throws IOException {
+        genericTrialManager.deleteByname(getPaper(index).getArticleName());
         return paperDAO.delete(index);
     }
 

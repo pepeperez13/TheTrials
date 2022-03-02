@@ -3,10 +3,7 @@ package presentation;
 
 import business.DataSourceOptions;
 import business.EditionManager;
-import business.ManagersTrials.BudgetManager;
-import business.ManagersTrials.DoctoralManager;
-import business.ManagersTrials.MasterManager;
-import business.ManagersTrials.PaperPublicationManager;
+import business.ManagersTrials.*;
 import business.TeamManager;
 
 import java.io.IOException;
@@ -23,18 +20,20 @@ public class ControllerManager {
     private TeamManager teamManager;*/
     private CompositorController compositorController;
     private ConductorController conductorController;
+    private GenericTrialManager genericTrialManager;
 
-    public ControllerManager (ViewController viewController, CompositorController compositorController, ConductorController conductorController) {
+    public ControllerManager(ViewController viewController, CompositorController compositorController, ConductorController conductorController, GenericTrialManager genericTrialManager) {
         this.viewController = viewController;
         this.compositorController = compositorController;
         this.conductorController = conductorController;
+        this.genericTrialManager = genericTrialManager;
     }
 
     public void run (String option) throws IOException {
         do {
             switch (option) {
                 case "I" -> {
-                    new PaperPublicationManager(DataSourceOptions.CSV);
+                    new PaperPublicationManager(DataSourceOptions.CSV, genericTrialManager);
                     new BudgetManager(DataSourceOptions.CSV);
                     new DoctoralManager(DataSourceOptions.CSV);
                     new MasterManager(DataSourceOptions.CSV);
@@ -44,7 +43,7 @@ public class ControllerManager {
                     mainLoop();
                 }
                 case "II" -> {
-                    new PaperPublicationManager(DataSourceOptions.JSON);
+                    new PaperPublicationManager(DataSourceOptions.JSON, genericTrialManager);
                     new BudgetManager(DataSourceOptions.JSON);
                     new DoctoralManager(DataSourceOptions.JSON);
                     new MasterManager(DataSourceOptions.JSON);
