@@ -31,14 +31,26 @@ public class PaperController {
                         int revision = view.askForInteger("Enter the revision probability: ");
                         if (checkError(String.valueOf(revision), 5)) {
                             int rejection = view.askForInteger("Enter the rejection probability: ");
-                            if (checkError(String.valueOf(rejection), 6)) {
+                            if ((accepted + revision + rejection) == 100 && checkError(String.valueOf(rejection), 6)) {
                                 paperPublicationManager.addPaper(trialName, journalName, quartile, accepted, revision, rejection, false);
                                 genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("PAPER"));
+                            }else{
+                                view.showMessage("Value must be between 0 and 100 and the sum of all percenatges can't be over 100.");
                             }
+                        }else{
+                            view.showMessage("Value must be between 0 and 100 and the sum of all percenatges can't be over 100.");
                         }
+                    }else{
+                        view.showMessage("Value must be between 0 and 100 and the sum of all percenatges can't be over 100.");
                     }
+                }else{
+                    view.showMessage("\nQuartile must be one of the following values [Q1, Q2, Q3, Q4].");
                 }
+            }else{
+                view.showMessage("\nMagazine name must not empty.");
             }
+        }else{
+            view.showMessage("\nTrial name must be unique and not empty.");
         }
     }
 
@@ -71,6 +83,7 @@ public class PaperController {
             case 4, 5, 6: // Comprobamos que este entre 0 y 100
                 return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 100;
         }
+        // Nunca se dará un caso diferente a los del switch
         return true;
     }
 }

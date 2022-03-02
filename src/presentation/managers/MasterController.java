@@ -31,9 +31,17 @@ public class MasterController {
                     if (checkError(String.valueOf(creditPass), 4)){
                         masterManager.addMaster(trialName, masterName, ECTS, creditPass, false);
                         genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("MASTER"));
+                    }else{
+                        view.showMessage("Probability must be in the [0, 100] range.");
                     }
+                }else{
+                    view.showMessage("Credits number must be in the [60, 120] range.");
                 }
+            }else{
+                view.showMessage("Nom of the master can't be empty");
             }
+        }else{
+            view.showMessage("Trial name must be unique and not empty.");
         }
     }
 
@@ -62,6 +70,7 @@ public class MasterController {
             case 4: // Comprobamos que este entre 0 y 100
                 return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 100;
         }
+        // Nunca se dará un caso diferente a los del switch
         return true;
     }
 }

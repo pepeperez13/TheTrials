@@ -85,4 +85,13 @@ public class BudgetManager {
                 auxBudget.getAmount(), true);
         budgetDAO.changeLine(index, budget);
     }
+
+    public void setInNotUseByName(String name) throws IOException {
+        int index = getIndexByName(name);
+        Budget auxBudget = getBudgetByNameTrial(name);
+        Budget budget = new Budget(auxBudget.getNameTrial(),
+                auxBudget.getNameEntity(),
+                auxBudget.getAmount(), false);
+        budgetDAO.changeLine(index, budget);
+    }
 }

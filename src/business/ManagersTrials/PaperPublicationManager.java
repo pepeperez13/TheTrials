@@ -1,6 +1,7 @@
 package business.ManagersTrials;
 
 import business.DataSourceOptions;
+import business.typeTrials.MasterStudies;
 import business.typeTrials.PaperPublication;
 import persistance.CSV.PaperCsvDAO;
 import persistance.JSON.PaperJsonDAO;
@@ -32,8 +33,8 @@ public class PaperPublicationManager {
      * @param revised Probabilidad de que el artículo sea revisado
      * @param rejected Probabilidad de que el artículo sea rechazado
      */
-    public void addPaper (String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean bool) throws IOException {
-        PaperPublication article = new PaperPublication(name, magazine, quartile, accepted, revised, rejected,bool);
+    public void addPaper (String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean inUse) throws IOException {
+        PaperPublication article = new PaperPublication(name, magazine, quartile, accepted, revised, rejected, inUse);
         paperDAO.create(article);
     }
 
@@ -135,13 +136,8 @@ public class PaperPublicationManager {
         }
     }
 
-    public void setInUnusedByIndex (int index) throws IOException {
-        PaperPublication article = new PaperPublication(getPaper(index).getArticleName(),
-                getPaper(index).getMagazineName(), getPaper(index).getQuartile(),
-                getPaper(index).getAcceptedProbability(), getPaper(index).getRevisedProbability(),
-                getPaper(index).getRejectedProbability(), false);
-        paperDAO.changeLine(index, article);
-    }
+
+
 
     public boolean checkExistence (String name) throws FileNotFoundException {
         return getPapersNames().contains(name);
@@ -156,7 +152,16 @@ public class PaperPublicationManager {
         PaperPublication auxPaper = getPaperByName(name);
         PaperPublication paperPublication = new PaperPublication(auxPaper.getArticleName(), auxPaper.getMagazineName(),
                 auxPaper.getQuartile(), auxPaper.getAcceptedProbability(),
-                auxPaper.getRevisedProbability(), auxPaper.getRejectedProbability());
+                auxPaper.getRevisedProbability(), auxPaper.getRejectedProbability(), true);
+        paperDAO.changeLine(index, paperPublication);
+    }
+
+    public void setInNotUseByName(String name) throws IOException {
+        int index = getIndexByName(name);
+        PaperPublication auxPaper = getPaperByName(name);
+        PaperPublication paperPublication = new PaperPublication(auxPaper.getArticleName(), auxPaper.getMagazineName(),
+                auxPaper.getQuartile(), auxPaper.getAcceptedProbability(),
+                auxPaper.getRevisedProbability(), auxPaper.getRejectedProbability(), false);
         paperDAO.changeLine(index, paperPublication);
     }
 }

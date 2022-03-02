@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 public class MasterJsonDAO implements MasterDAO {
 
-    private String filename = "masters.json";
+    private String filename = "master.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;

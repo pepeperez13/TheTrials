@@ -84,4 +84,11 @@ public class MasterManager {
         MasterStudies masterStudies = new MasterStudies(auxMaster.getName(), auxMaster.getNom(), auxMaster.getNumberCredits(), auxMaster.getProbability(), true);
         masterDAO.changeLine(index, masterStudies);
     }
+
+    public void setInNotUseByName (String name) throws IOException {
+        int index = getIndexByName(name);
+        MasterStudies auxMaster = getMasterByName(name);
+        MasterStudies masterStudies = new MasterStudies(auxMaster.getName(), auxMaster.getNom(), auxMaster.getNumberCredits(), auxMaster.getProbability(), false);
+        masterDAO.changeLine(index, masterStudies);
+    }
 }

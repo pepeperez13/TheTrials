@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class GenericTrialJsonDAO implements GenericTrialDAO {
 
-    private String filename = "generics.json";
+    private String filename = "generic.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;

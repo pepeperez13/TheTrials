@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 public class BudgetJsonDAO implements BudgetDAO {
 
-    private String filename = "budgets.json";
+    private String filename = "budget.json";
     //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
     private String filePath = "files";
     private File test = new File(filePath, filename);

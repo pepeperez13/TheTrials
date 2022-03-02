@@ -23,14 +23,20 @@ public class DoctoralController {
     public void add() throws IOException {
         String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError(trialName, 1)) {
-            String thesis = view.askForString("\nEnter the thesis field of study: ");
+            String thesis = view.askForString("Enter the thesis field of study: ");
             if (checkError(thesis, 2)) {
-                int difficulty = view.askForInteger("\nEnter the defense difficulty: ");
+                int difficulty = view.askForInteger("Enter the defense difficulty: ");
                 if (checkError(String.valueOf(difficulty), 3)) {
                     doctoralManager.addDoctoralThesis(trialName, thesis, difficulty, false);
                     genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("DOCTORAL"));
+                }else{
+                    view.showMessage("Difficulty must be an integer in the [1, 10] range.");
                 }
+            }else{
+                view.showMessage("Thesis field can not be empty.");
             }
+        }else{
+            view.showMessage("Trial name must be unique and not empty.");
         }
     }
 
@@ -54,10 +60,8 @@ public class DoctoralController {
                 return !aux.isEmpty();
             case 3: // Comprobamos que sea uno de los valores posibles
                 return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 10;
-            case 4, 5, 6: // Comprobamos que este entre 0 y 100
-                return Integer.parseInt(aux) >= 0 && Integer.parseInt(aux) <= 100;
         }
+        // Nunca se dará un caso diferente a los del switch
         return true;
-
     }
 }

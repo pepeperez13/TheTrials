@@ -131,7 +131,7 @@ public class CompositorController {
                                 masterManager.deleteMaster(masterManager.getIndexByName(confirmationName));
 
                             } else {
-                                view.showMessage("\nThe trial is in use and cannot be deleted.");
+                                view.showMessage("\nThe trial is in use and can not be deleted.");
                             }
                         }
                         case PAPER -> {
@@ -139,7 +139,7 @@ public class CompositorController {
                                 genericTrialManager.deleteByname(confirmationName);
                                 paperManager.deletePaper(paperManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("\nThe trial is in use and cannot be deleted.");
+                                view.showMessage("\nThe trial is in use and can not be deleted.");
                             }
                         }
                         case BUDGET -> {
@@ -147,7 +147,7 @@ public class CompositorController {
                                 genericTrialManager.deleteByname(confirmationName);
                                 budgetManager.deleteBudget(budgetManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("\nThe trial is in use and cannot be deleted.");
+                                view.showMessage("\nThe trial is in use and can not be deleted.");
                             }
                         }
                         case DOCTORAL -> {
@@ -155,7 +155,7 @@ public class CompositorController {
                                 genericTrialManager.deleteByname(confirmationName);
                                 doctoralManager.deleteMaster(doctoralManager.getIndexByName(confirmationName));
                             } else {
-                                view.showMessage("\nThe trial is in use and cannot be deleted.");
+                                view.showMessage("\nThe trial is in use and can not be deleted.");
                             }
                         }
                     }
@@ -230,7 +230,7 @@ public class CompositorController {
         String[] names = genericTrialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
 
         if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
-            view.showMessage("\nThe edition was created succesfully!");
+            view.showMessage("\nThe edition was created successfully!");
         }
     }
 
@@ -355,10 +355,10 @@ public class CompositorController {
             // En caso de no ser usada, se especifica como "no en uso"
             if (!contained) {
                 switch (genericTrialManager.getTrialTypeByName(nameTrial)) {
-                    case MASTER -> masterManager.setInUseByName(nameTrial);
-                    case PAPER -> paperManager.setInUseByName(nameTrial);
-                    case BUDGET -> budgetManager.setInUseByName(nameTrial);
-                    case DOCTORAL -> doctoralManager.setInUseByName(nameTrial);
+                    case MASTER -> masterManager.setInNotUseByName(nameTrial);
+                    case PAPER -> paperManager.setInNotUseByName(nameTrial);
+                    case BUDGET -> budgetManager.setInNotUseByName(nameTrial);
+                    case DOCTORAL -> doctoralManager.setInNotUseByName(nameTrial);
                 }
             }
         }

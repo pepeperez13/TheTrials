@@ -84,4 +84,12 @@ public class DoctoralManager {
                 auxDoctoral.getDifficulty(), true);
         doctoralDAO.changeLine(index, doctoralThesis);
     }
+
+    public void setInNotUseByName(String name) throws IOException {
+        int index = getIndexByName(name);
+        DoctoralThesis auxDoctoral = getDoctoralByName(name);
+        DoctoralThesis doctoralThesis = new DoctoralThesis(auxDoctoral.getName(), auxDoctoral.getFieldOfStudy(),
+                auxDoctoral.getDifficulty(), false);
+        doctoralDAO.changeLine(index, doctoralThesis);
+    }
 }
