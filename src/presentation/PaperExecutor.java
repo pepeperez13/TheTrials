@@ -1,7 +1,6 @@
 package presentation;
 
 import business.TeamManager;
-import business.playerTypes.Player;
 import business.trialExecutionLogic.PaperGame;
 import business.typeTrials.PaperPublication;
 

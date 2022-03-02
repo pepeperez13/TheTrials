@@ -1,6 +1,5 @@
 package business.trialExecutionLogic;
 
-import business.playerTypes.Player;
 import business.typeTrials.PaperPublication;
 import presentation.ViewController;
 

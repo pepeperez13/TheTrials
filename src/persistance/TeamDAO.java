@@ -1,7 +1,5 @@
 package persistance;
 
-import business.playerTypes.Player;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
