@@ -6,7 +6,6 @@ import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
 import business.PlayerTypeOptions;
 import business.TeamManager;
-import business.playerTypes.Player;
 import business.typeTrials.GenericTrial;
 
 import java.io.IOException;

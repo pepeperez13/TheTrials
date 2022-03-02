@@ -1,7 +1,6 @@
 package business.trialExecutionLogic;
 
 import business.PlayerTypeOptions;
-import business.playerTypes.Player;
 import business.typeTrials.MasterStudies;
 
 import java.util.Random;

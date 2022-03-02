@@ -1,7 +1,6 @@
 package business.trialExecutionLogic;
 
 import business.TeamManager;
-import business.playerTypes.Player;
 import business.typeTrials.Budget;
 
 import java.io.FileNotFoundException;

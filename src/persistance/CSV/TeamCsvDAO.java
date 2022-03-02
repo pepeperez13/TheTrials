@@ -1,7 +1,6 @@
 package persistance.CSV;
 
 import business.PlayerTypeOptions;
-import business.playerTypes.Player;
 import persistance.TeamDAO;
 
 import java.io.*;
