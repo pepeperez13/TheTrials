@@ -127,6 +127,7 @@ public class CompositorController {
                     switch (genericTrialManager.getGenericalTrial(numTrial).getType()) {
                         case MASTER -> {
                             if (!masterManager.isInUse(confirmationName)) {
+                                genericTrialManager.deleteByname(confirmationName);
                                 masterManager.deleteMaster(masterManager.getIndexByName(confirmationName));
                             } else {
                                 view.showMessage("\nThe trial is in use and cannot be deleted.");
@@ -134,6 +135,7 @@ public class CompositorController {
                         }
                         case PAPER -> {
                             if (!paperManager.isInUse(confirmationName)) {
+                                genericTrialManager.deleteByname(confirmationName);
                                 paperManager.deletePaper(paperManager.getIndexByName(confirmationName));
                             } else {
                                 view.showMessage("\nThe trial is in use and cannot be deleted.");
@@ -141,6 +143,7 @@ public class CompositorController {
                         }
                         case BUDGET -> {
                             if (!budgetManager.isInUse(confirmationName)) {
+                                genericTrialManager.deleteByname(confirmationName);
                                 budgetManager.deleteBudget(budgetManager.getIndexByName(confirmationName));
                             } else {
                                 view.showMessage("\nThe trial is in use and cannot be deleted.");
@@ -148,6 +151,7 @@ public class CompositorController {
                         }
                         case DOCTORAL -> {
                             if (doctoralManager.isInUse(confirmationName)) {
+                                genericTrialManager.deleteByname(confirmationName);
                                 doctoralManager.deleteMaster(doctoralManager.getIndexByName(confirmationName));
                             } else {
                                 view.showMessage("\nThe trial is in use and cannot be deleted.");
