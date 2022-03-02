@@ -24,7 +24,7 @@ public class DoctoralCsvDAO implements persistance.DoctoralDAO {
     }
 
     private String doctoralToCsv(DoctoralThesis doctoralThesis) {
-        return doctoralThesis.getName() + separator + doctoralThesis.getFieldOfStudy() + separator + doctoralThesis.getDifficulty();
+        return doctoralThesis.getName() + separator + doctoralThesis.getFieldOfStudy() + separator + doctoralThesis.getDifficulty() + separator + doctoralThesis.isInUse();
     }
 
     private DoctoralThesis doctoralFromCsv (String csv) {

@@ -56,8 +56,8 @@ public class Main {
 
         GameExecutor gameExecutor = new GameExecutor();
 
-        BudgetController budgetController = new BudgetController(budgetManager, viewController);
-        DoctoralController doctoralController = new DoctoralController(viewController, doctoralManager);
+        BudgetController budgetController = new BudgetController(budgetManager, viewController, genericTrialManager);
+        DoctoralController doctoralController = new DoctoralController(viewController, doctoralManager, genericTrialManager);
         MasterController masterController = new MasterController(viewController, masterManager, genericTrialManager);
         PaperController paperController = new PaperController(viewController, paperPublicationManager, genericTrialManager);
 

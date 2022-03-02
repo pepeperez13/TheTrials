@@ -25,7 +25,7 @@ public class BudgetCsvDAO implements persistance.BudgetDAO {
 
 
     private String budgetToCsv(Budget budget) {
-        return budget.getNameEntity() + separator + budget.getNameTrial() + separator + budget.getAmount();
+        return budget.getNameEntity() + separator + budget.getNameTrial() + separator + budget.getAmount() + separator + budget.isInUse();
     }
 
     private Budget budgetFromCsv (String csv) {

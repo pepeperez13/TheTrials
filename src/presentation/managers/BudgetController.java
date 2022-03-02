@@ -4,7 +4,6 @@ import business.ManagersTrials.BudgetManager;
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.Budget;
-import business.typeTrials.PaperPublication;
 import presentation.ViewController;
 
 import java.io.FileNotFoundException;
@@ -16,9 +15,10 @@ public class BudgetController {
     private ViewController view;
     private GenericTrialManager genericTrialManager;
 
-    public BudgetController (BudgetManager budgetManager, ViewController view) {
+    public BudgetController(BudgetManager budgetManager, ViewController view, GenericTrialManager genericTrialManager) {
         this.budgetManager = budgetManager;
         this.view = view;
+        this.genericTrialManager = genericTrialManager;
     }
 
     public void add() throws IOException {

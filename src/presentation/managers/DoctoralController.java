@@ -3,8 +3,6 @@ package presentation.managers;
 import business.ManagersTrials.DoctoralManager;
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.TrialTypeOptions;
-import business.playerTypes.Doctor;
-import business.typeTrials.Budget;
 import business.typeTrials.DoctoralThesis;
 import presentation.ViewController;
 
@@ -16,9 +14,10 @@ public class DoctoralController {
     private DoctoralManager doctoralManager;
     private GenericTrialManager genericTrialManager;
 
-    public DoctoralController(ViewController view, DoctoralManager doctoralManager) {
+    public DoctoralController(ViewController view, DoctoralManager doctoralManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.doctoralManager = doctoralManager;
+        this.genericTrialManager = genericTrialManager;
     }
 
     public void add() throws IOException {

@@ -151,7 +151,7 @@ public class CompositorController {
                             }
                         }
                         case DOCTORAL -> {
-                            if (doctoralManager.isInUse(confirmationName)) {
+                            if (!doctoralManager.isInUse(confirmationName)) {
                                 genericTrialManager.deleteByname(confirmationName);
                                 doctoralManager.deleteMaster(doctoralManager.getIndexByName(confirmationName));
                             } else {
@@ -238,11 +238,11 @@ public class CompositorController {
 
         for (Integer trialsIndex : trialsIndexes) {
             // Según el tipo de prueba que se haya utilizado
-            switch (genericTrialManager.getTrialTypeByIndex(trialsIndex)) {
-                case MASTER -> masterManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
-                case PAPER -> paperManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
-                case BUDGET -> budgetManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
-                case DOCTORAL -> doctoralManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex).getName());
+            switch (genericTrialManager.getTrialTypeByIndex(trialsIndex + 1)) {
+                case MASTER -> masterManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex + 1).getName());
+                case PAPER -> paperManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex + 1).getName());
+                case BUDGET -> budgetManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex + 1).getName());
+                case DOCTORAL -> doctoralManager.setInUseByName(genericTrialManager.getGenericalTrial(trialsIndex + 1).getName());
             }
         }
 
