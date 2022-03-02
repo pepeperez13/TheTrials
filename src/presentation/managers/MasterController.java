@@ -2,6 +2,7 @@ package presentation.managers;
 
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.MasterManager;
+import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.MasterStudies;
 import presentation.ViewController;
 
@@ -28,7 +29,8 @@ public class MasterController {
                 if (checkError(String.valueOf(ECTS), 3)) {
                     int creditPass = view.askForInteger("\nEnter the credit pass probability: ");
                     if (checkError(String.valueOf(creditPass), 4)){
-                        masterManager.addMasterManager(trialName, masterName, ECTS, creditPass, false);
+                        masterManager.addMaster(trialName, masterName, ECTS, creditPass, false);
+                        genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("MASTER"));
                     }
                 }
             }

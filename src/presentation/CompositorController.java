@@ -129,6 +129,7 @@ public class CompositorController {
                             if (!masterManager.isInUse(confirmationName)) {
                                 genericTrialManager.deleteByname(confirmationName);
                                 masterManager.deleteMaster(masterManager.getIndexByName(confirmationName));
+
                             } else {
                                 view.showMessage("\nThe trial is in use and cannot be deleted.");
                             }

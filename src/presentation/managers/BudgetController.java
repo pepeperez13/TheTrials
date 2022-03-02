@@ -2,6 +2,7 @@ package presentation.managers;
 
 import business.ManagersTrials.BudgetManager;
 import business.ManagersTrials.GenericTrialManager;
+import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.Budget;
 import business.typeTrials.PaperPublication;
 import presentation.ViewController;
@@ -28,6 +29,7 @@ public class BudgetController {
                 int budget = view.askForInteger("\nEnter the budget amount: ");
                 if (checkError(String.valueOf(budget), 3)) {
                     budgetManager.addBudget(trialName, entityName, budget, false);
+                    genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("BUDGET"));
                 }
             }
         }

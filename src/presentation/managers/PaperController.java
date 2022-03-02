@@ -2,6 +2,7 @@ package presentation.managers;
 
 import business.ManagersTrials.GenericTrialManager;
 import business.ManagersTrials.PaperPublicationManager;
+import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.PaperPublication;
 import presentation.ViewController;
 
@@ -30,8 +31,9 @@ public class PaperController {
                         int revision = view.askForInteger("Enter the revision probability: ");
                         if (checkError(String.valueOf(revision), 5)) {
                             int rejection = view.askForInteger("Enter the rejection probability: ");
-                            if (checkError(String.valueOf(rejection), 5)) {
+                            if (checkError(String.valueOf(rejection), 6)) {
                                 paperPublicationManager.addPaper(trialName, journalName, quartile, accepted, revision, rejection, false);
+                                genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("PAPER"));
                             }
                         }
                     }

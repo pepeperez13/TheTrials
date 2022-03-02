@@ -2,6 +2,7 @@ package presentation.managers;
 
 import business.ManagersTrials.DoctoralManager;
 import business.ManagersTrials.GenericTrialManager;
+import business.ManagersTrials.TrialTypeOptions;
 import business.playerTypes.Doctor;
 import business.typeTrials.Budget;
 import business.typeTrials.DoctoralThesis;
@@ -28,6 +29,7 @@ public class DoctoralController {
                 int difficulty = view.askForInteger("\nEnter the defense difficulty: ");
                 if (checkError(String.valueOf(difficulty), 3)) {
                     doctoralManager.addDoctoralThesis(trialName, thesis, difficulty, false);
+                    genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("DOCTORAL"));
                 }
             }
         }
