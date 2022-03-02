@@ -25,7 +25,6 @@ public class DoctoralManager {
 
     public boolean addDoctoralThesis (String name, String field, int difficulty, boolean inUse) throws IOException {
         DoctoralThesis doctoralThesis = new DoctoralThesis(name, field, difficulty, inUse);
-        genericTrialManager.addTrial(name, TrialTypeOptions.DOCTORAL);
         return doctoralDAO.create(doctoralThesis);
     }
 
@@ -59,7 +58,6 @@ public class DoctoralManager {
     }
 
     public boolean deleteMaster (int index) throws IOException {
-        genericTrialManager.deleteByname(geDoctoralByIndex(index).getName());
         return doctoralDAO.delete(index);
     }
 

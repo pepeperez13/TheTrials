@@ -25,7 +25,6 @@ public class MasterManager {
 
     public boolean addMasterManager (String name, String nom, int numberCredits, int probability, boolean inUse) throws IOException {
         MasterStudies masterStudies = new MasterStudies(name, nom, numberCredits, probability, inUse);
-        genericTrialManager.addTrial(name, TrialTypeOptions.MASTER);
         return masterDAO.create(masterStudies);
     }
 
@@ -72,7 +71,6 @@ public class MasterManager {
     }
 
     public boolean deleteMaster (int index) throws IOException {
-        genericTrialManager.deleteByname(getMasterByIndex(index).getName());
         return masterDAO.delete(index);
     }
 

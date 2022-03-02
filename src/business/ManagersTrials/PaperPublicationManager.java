@@ -34,7 +34,6 @@ public class PaperPublicationManager {
      */
     public void addPaper (String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean bool) throws IOException {
         PaperPublication article = new PaperPublication(name, magazine, quartile, accepted, revised, rejected,bool);
-        genericTrialManager.addTrial(name, TrialTypeOptions.PAPER);
         paperDAO.create(article);
     }
 
@@ -113,7 +112,6 @@ public class PaperPublicationManager {
      * @return Booleano que permite saber si el artículo se ha eliminado correctamente
      */
     public boolean deletePaper (int index) throws IOException {
-        genericTrialManager.deleteByname(getPaper(index).getArticleName());
         return paperDAO.delete(index);
     }
 

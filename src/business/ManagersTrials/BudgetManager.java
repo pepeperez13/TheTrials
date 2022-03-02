@@ -24,7 +24,6 @@ public class BudgetManager {
 
     public boolean addBudget (String nameTrial, String nameEntity, int amount, boolean inUse) throws IOException {
         Budget budget = new Budget(nameTrial, nameEntity, amount, inUse);
-        genericTrialManager.addTrial(nameTrial, TrialTypeOptions.BUDGET);
         return budgetDAO.create(budget);
     }
 
@@ -59,7 +58,6 @@ public class BudgetManager {
     }
 
     public boolean deleteBudget (int index) throws IOException {
-        genericTrialManager.deleteByname(getBudgetByIndex(index).getNameTrial());
         return budgetDAO.delete(index);
     }
 
