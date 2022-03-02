@@ -2,7 +2,6 @@ package business.ManagersTrials;
 
 import business.DataSourceOptions;
 import business.typeTrials.DoctoralThesis;
-import business.typeTrials.PaperPublication;
 import persistance.CSV.DoctoralCsvDAO;
 import persistance.DoctoralDAO;
 import persistance.JSON.DoctoralJsonDAO;
@@ -16,7 +15,8 @@ public class DoctoralManager {
     private GenericTrialManager genericTrialManager;
 
 
-    public DoctoralManager(DataSourceOptions options) throws IOException {
+    public DoctoralManager(DataSourceOptions options, GenericTrialManager genericTrialManager) throws IOException {
+        this.genericTrialManager = genericTrialManager;
         switch (options) {
             case JSON -> doctoralDAO = new DoctoralJsonDAO();
             case CSV -> doctoralDAO = new DoctoralCsvDAO();
@@ -59,6 +59,7 @@ public class DoctoralManager {
     }
 
     public boolean deleteMaster (int index) throws IOException {
+        genericTrialManager.deleteByname(geDoctoralByIndex(index).getName());
         return doctoralDAO.delete(index);
     }
 

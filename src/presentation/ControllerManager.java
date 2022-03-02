@@ -35,8 +35,8 @@ public class ControllerManager {
                 case "I" -> {
                     new PaperPublicationManager(DataSourceOptions.CSV, genericTrialManager);
                     new BudgetManager(DataSourceOptions.CSV);
-                    new DoctoralManager(DataSourceOptions.CSV);
-                    new MasterManager(DataSourceOptions.CSV);
+                    new DoctoralManager(DataSourceOptions.CSV, genericTrialManager);
+                    new MasterManager(DataSourceOptions.CSV, genericTrialManager);
                     new EditionManager(DataSourceOptions.CSV);
                     new TeamManager(DataSourceOptions.CSV);
                     viewController.showMessage("\nLoading data from CSV files...\n");
@@ -45,8 +45,8 @@ public class ControllerManager {
                 case "II" -> {
                     new PaperPublicationManager(DataSourceOptions.JSON, genericTrialManager);
                     new BudgetManager(DataSourceOptions.JSON);
-                    new DoctoralManager(DataSourceOptions.JSON);
-                    new MasterManager(DataSourceOptions.JSON);
+                    new DoctoralManager(DataSourceOptions.JSON, genericTrialManager);
+                    new MasterManager(DataSourceOptions.JSON, genericTrialManager);
                     new EditionManager(DataSourceOptions.JSON);
                     new TeamManager(DataSourceOptions.JSON);
                     viewController.showMessage("\nLoading data from JSON files...\n");

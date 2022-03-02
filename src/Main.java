@@ -48,8 +48,8 @@ public class Main {
         BudgetManager budgetManager = new BudgetManager(dataSourceOptions);
         EditionManager editionManager = new EditionManager(dataSourceOptions);
         PaperPublicationManager paperPublicationManager = new PaperPublicationManager(dataSourceOptions, genericTrialManager);
-        MasterManager masterManager = new MasterManager(dataSourceOptions);
-        DoctoralManager doctoralManager = new DoctoralManager(dataSourceOptions);
+        MasterManager masterManager = new MasterManager(dataSourceOptions, genericTrialManager);
+        DoctoralManager doctoralManager = new DoctoralManager(dataSourceOptions, genericTrialManager);
 
 
         TeamManager teamManager = new TeamManager(dataSourceOptions);

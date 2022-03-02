@@ -2,7 +2,6 @@ package business.ManagersTrials;
 
 import business.DataSourceOptions;
 import business.typeTrials.MasterStudies;
-import business.typeTrials.PaperPublication;
 import persistance.CSV.MasterCsvDAO;
 import persistance.JSON.MasterJsonDAO;
 import persistance.MasterDAO;
@@ -16,7 +15,8 @@ public class MasterManager {
     private MasterDAO masterDAO;
     private GenericTrialManager genericTrialManager;
 
-    public MasterManager(DataSourceOptions options) throws IOException {
+    public MasterManager(DataSourceOptions options, GenericTrialManager genericTrialManager) throws IOException {
+        this.genericTrialManager = genericTrialManager;
         switch (options) {
             case JSON -> masterDAO = new MasterJsonDAO();
             case CSV -> masterDAO = new MasterCsvDAO();
@@ -72,6 +72,7 @@ public class MasterManager {
     }
 
     public boolean deleteMaster (int index) throws IOException {
+        genericTrialManager.deleteByname(getMasterByIndex(index).getName());
         return masterDAO.delete(index);
     }
 
