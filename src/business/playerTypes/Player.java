@@ -2,12 +2,12 @@ package business.playerTypes;
 
 import business.PlayerTypeOptions;
 
-public class Engineer {
+public class Player {
     private final String name;
     private int PI;
     private PlayerTypeOptions playerType;
 
-    public Engineer (String name, int PI, PlayerTypeOptions playerType){
+    public Player (String name, int PI, PlayerTypeOptions playerType){
         this.name = name;
         this.PI = PI;
         this.playerType = playerType;
@@ -45,12 +45,16 @@ public class Engineer {
         return playerType;
     }
 
-    public void checkUpdateStatus () {
+    public boolean checkUpdateStatus () {
         if (playerType == PlayerTypeOptions.ENGINEER && PI >= 10) {
             playerType = PlayerTypeOptions.MASTERS;
+            return true;
         }
         if (playerType == PlayerTypeOptions.MASTERS && PI >= 10) {
             playerType = PlayerTypeOptions.DOCTORS;
+            return true;
         }
+        return false;
     }
+
 }

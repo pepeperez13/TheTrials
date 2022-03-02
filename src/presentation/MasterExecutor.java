@@ -2,6 +2,7 @@ package presentation;
 
 import business.PlayerTypeOptions;
 import business.TeamManager;
+import business.playerTypes.Player;
 import business.trialExecutionLogic.MasterGame;
 import business.typeTrials.MasterStudies;
 

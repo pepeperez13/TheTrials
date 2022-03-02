@@ -1,6 +1,7 @@
 package presentation;
 
 import business.TeamManager;
+import business.playerTypes.Player;
 import business.trialExecutionLogic.BudgetGame;
 import business.typeTrials.Budget;
 

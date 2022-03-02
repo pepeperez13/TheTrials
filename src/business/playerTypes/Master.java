@@ -11,7 +11,7 @@ public class Master extends Engineer{
     @Override
     public void decrementPI (int change) {
         if (super.getPI() - change >= 0) {
-            super.setPi(super.getPI() - change/2);
+            super.setPi(super.getPI() - change);
         }else{
             super.setPi(0);
         }

@@ -1,6 +1,7 @@
 package business.trialExecutionLogic;
 
 import business.PlayerTypeOptions;
+import business.playerTypes.Player;
 import business.typeTrials.DoctoralThesis;
 
 public class DoctoralGame {
