@@ -65,7 +65,7 @@ public class DoctoralManager {
         return getDoctoralByName(name).isInUse();
     }
 
-    public int getIndexByName (String name) throws FileNotFoundException {
+    public int getIndexByName (String name) {
         int i;
         boolean found = false;
         LinkedList<DoctoralThesis> doctorals = doctoralDAO.readAll();

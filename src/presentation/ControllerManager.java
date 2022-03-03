@@ -55,20 +55,22 @@ public class ControllerManager {
                 default -> viewController.showMessage("\nInvalid option");
             }
         } while (!option.equals("I") && !option.equals("II"));
-        viewController.showLogo();
     }
 
     private void mainLoop() throws IOException {
+        viewController.showLogo();
+        int finalIndex = 0;
         do {
             viewController.showMainMenu();
             String mode = viewController.askForString("\nEnter a role: ");
-            int finalIndex = 0;
+
             switch (mode) {
                 case "A" -> executeCompositor();
                 case "B" -> finalIndex = executeConductor(finalIndex);
                 default -> viewController.showMessage("\nIncorrect option. Option must be one of the above [A, B]");
             }
-        } while (true);
+            // EL programa sólo acabará cuando se hayan ejecutado todas las pruebas de la edición actual
+        } while (finalIndex < conductorController.getNumberOfTrials());
     }
 
     private void executeCompositor () throws IOException {

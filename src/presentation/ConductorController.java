@@ -9,6 +9,7 @@ import business.TeamManager;
 import business.playerTypes.Player;
 import business.typeTrials.GenericTrial;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -62,13 +63,17 @@ public class ConductorController {
                 if (dead) {
                     view.showMessage("\nExecution ended... Players lost!");
                     teamManager.removeAllPlayers();
-                    finalIndex = 0; // SI han muerto todos los jugadores, la proxima edicion se tendrá que empezar de nuevo
+                    finalIndex = editionManager.getEditionCurrentYear().getNumTrials(); // SI han muerto todos los jugadores, la proxima edicion se tendrá que empezar de nuevo
                 } else {
                     view.showMessage("\nSaving & shutting down...");
                 }
             }
         }
         return finalIndex;
+    }
+
+    public int getNumberOfTrials () throws FileNotFoundException {
+        return editionManager.getEditionCurrentYear().getNumTrials();
     }
 
     private void savePlayers () throws IOException {

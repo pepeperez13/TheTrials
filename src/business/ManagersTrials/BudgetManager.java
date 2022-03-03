@@ -61,7 +61,7 @@ public class BudgetManager {
         return budgetDAO.delete(index);
     }
 
-    public int getIndexByName (String name) throws FileNotFoundException {
+    public int getIndexByName (String name) {
         int i;
         boolean found = false;
         LinkedList<Budget> budgets = budgetDAO.readAll();

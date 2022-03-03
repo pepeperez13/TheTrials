@@ -219,8 +219,12 @@ public class CompositorController {
         // Guardamos los indices de las pruebas que se quieren guardar en la edición
         ArrayList<Integer> trialsIndexes = new ArrayList<>();
         view.showMessage("");
+        int index;
         for (int i = 0; i < numTrials; i++) {
-            trialsIndexes.add(view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ") - 1);
+            do {
+                index = view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ");
+            }while (index > genericTrialManager.getTrials().size());
+            trialsIndexes.add(index - 1);
         }
 
         // Activamos las pruebas introducidas como en uso
@@ -312,6 +316,10 @@ public class CompositorController {
                 view.showMessage("Players: " + editionManager.getEditionByIndex(numEdition).getNumPlayers());
                 view.showMessage("Trials: ");
                 view.showListGuion(editionManager.getEditionTrialsNames(numEdition-1));
+                /**
+                 * La parte de mostrar las pruebas que pertenecen a  una edición está mal, porque se muestra que siempre es un (paper publication).
+                 * Hay que ver como gestionamos eso, para que muestre correctamente que tipo de prueba es cada una
+                 */
             } else if (numEdition == editionManager.getEditions().size() + 1) {
                 //Back
             } else {

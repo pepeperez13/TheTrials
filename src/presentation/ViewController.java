@@ -52,10 +52,10 @@ public class ViewController {
 
     public void showTypesTrials () {
         System.out.println("\n\t--- Trial types ---\n");
-        System.out.println("\t1) Paper publication");
-        System.out.println("\t2) Master studies");
-        System.out.println("\t3) Doctoral thesis defense");
-        System.out.println("\t4) Budget request\n");
+        System.out.println("\t1) Paper Publication");
+        System.out.println("\t2) Master Studies");
+        System.out.println("\t3) Doctoral Thesis Defense");
+        System.out.println("\t4) Budget Request\n");
 
     }
 
