@@ -1,11 +1,11 @@
 package business.playerTypes;
 
-import business.PlayerTypeOptions;
+public class Master extends Player {
+    private String name;
+    private int PI;
 
-public class Master extends Engineer{
-
-    public Master(String name, int PI, PlayerTypeOptions playerType) {
-        super(name, PI, playerType);
+    public Master(String name, int PI, String name1, int pi) {this.name = name1;
+        this.PI = pi;
     }
 
     @Override

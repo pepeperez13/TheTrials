@@ -2,20 +2,13 @@ package business.playerTypes;
 
 import business.PlayerTypeOptions;
 
-public class Player {
-    private final String name;
+public abstract class Player {
+    private String name;
     private int PI;
-    private PlayerTypeOptions playerType;
 
-    public Player (String name, int PI, PlayerTypeOptions playerType){
-        this.name = name;
-        this.PI = PI;
+    /*public void changePlayerType (PlayerTypeOptions playerType) {
         this.playerType = playerType;
-    }
-
-    public void changePlayerType (PlayerTypeOptions playerType) {
-        this.playerType = playerType;
-    }
+    }*/
 
     public void incrementPI (int change) {
         this.PI = this.PI + change;
@@ -41,11 +34,11 @@ public class Player {
         return name;
     }
 
-    public PlayerTypeOptions getPlayerType () {
+    /*public PlayerTypeOptions getPlayerType () {
         return playerType;
-    }
+    }*/
 
-    public boolean checkUpdateStatus () {
+    /*public boolean checkUpdateStatus () {
         if (playerType == PlayerTypeOptions.ENGINEER && PI >= 10) {
             playerType = PlayerTypeOptions.MASTERS;
             return true;
@@ -55,6 +48,6 @@ public class Player {
             return true;
         }
         return false;
-    }
+    }*/
 
 }

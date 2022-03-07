@@ -1,11 +1,12 @@
 package business.playerTypes;
 
-import business.PlayerTypeOptions;
+public class Doctor extends Player{
+    private String name;
+    private int PI;
 
-public class Doctor extends Master{
-
-    public Doctor(String name, int PI, PlayerTypeOptions playerType) {
-        super(name, PI, playerType);
+    public Doctor(String name, int pi) {
+        this.name = name;
+        this.PI = pi;
     }
 
     @Override

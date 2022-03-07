@@ -2,25 +2,20 @@ package business.playerTypes;
 
 import business.PlayerTypeOptions;
 
-public class Engineer {
+public class Engineer extends Player{
     private final String name;
     private int PI;
-    private PlayerTypeOptions playerType;
 
-    public Engineer (String name, int PI, PlayerTypeOptions playerType){
+    public Engineer (String name, int PI){
         this.name = name;
         this.PI = PI;
-        this.playerType = playerType;
     }
-
-    public void changePlayerType (PlayerTypeOptions playerType) {
-        this.playerType = playerType;
-    }
-
+    /*
     public void incrementPI (int change) {
         this.PI = this.PI + change;
-    }
+    }*/
 
+    @Override
     public void decrementPI (int change) {
         if (this.PI - change >= 0) {
             this.PI = this.PI - change;
@@ -29,19 +24,22 @@ public class Engineer {
         }
     }
 
+    @Override
     public int getPI () {
         return PI;
     }
 
+    @Override
     public void setPi (int PI) {
         this.PI = PI;
     }
 
+    @Override
     public String getName () {
         return name;
     }
 
-    public PlayerTypeOptions getPlayerType () {
+    /*public PlayerTypeOptions getPlayerType () {
         return playerType;
     }
 
@@ -52,5 +50,5 @@ public class Engineer {
         if (playerType == PlayerTypeOptions.MASTERS && PI >= 10) {
             playerType = PlayerTypeOptions.DOCTORS;
         }
-    }
+    }*/
 }
