@@ -23,10 +23,6 @@ public class GameExecutor {
         MasterManager masterManager = null;
         DoctoralManager doctoralManager = null;
         BudgetManager budgetManager = null;
-        PaperExecutor paperExecutor = null;
-        BudgetExecutor budgetExecutor = null;
-        MasterExecutor masterExecutor = null;
-        DoctoralExecutor doctoralExecutor = null
 
         switch (genericTrial.getType()) {
             case PAPER -> {

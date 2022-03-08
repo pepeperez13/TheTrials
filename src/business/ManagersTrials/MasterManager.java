@@ -11,33 +11,36 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 
-public class MasterManager {
+public class MasterManager extends GenericTrialManager{
     private MasterDAO masterDAO;
-    private GenericTrialManager genericTrialManager;
 
-    public MasterManager(DataSourceOptions options, GenericTrialManager genericTrialManager) throws IOException {
-        this.genericTrialManager = genericTrialManager;
+    @Override
+    public void runClass (DataSourceOptions options) throws IOException {
         switch (options) {
             case JSON -> masterDAO = new MasterJsonDAO();
             case CSV -> masterDAO = new MasterCsvDAO();
         }
     }
 
-    public boolean addMaster (String name, String nom, int numberCredits, int probability, boolean inUse) throws IOException {
+    @Override
+    public boolean addTrial (String name, String nom, int numberCredits, int probability, boolean inUse) throws IOException {
         MasterStudies masterStudies = new MasterStudies(name, nom, numberCredits, probability, inUse);
         return masterDAO.create(masterStudies);
     }
 
-    public LinkedList<MasterStudies> getMasters () {
+    @Override
+    public LinkedList<MasterStudies> getTrials () {
         return masterDAO.readAll();
     }
 
-    public MasterStudies getMasterByIndex (int index) {
+    @Override
+    public MasterStudies getTrialByIndex (int index) {
         MasterStudies masterStudies = masterDAO.findByIndex(index);
         return masterStudies;
     }
 
-    public MasterStudies getMasterByName (String name) {
+    @Override
+    public MasterStudies getTrialsByName (String name) {
         int i;
         boolean found = false;
         LinkedList<MasterStudies> masterStudies = masterDAO.readAll();
@@ -49,7 +52,8 @@ public class MasterManager {
         return masterStudies.get(i - 1);
     }
 
-    public int getIndexByName (String name) throws FileNotFoundException {
+    @Override
+    public int getTrialIndexByName (String name) throws FileNotFoundException {
         int i;
         boolean found = false;
         LinkedList<MasterStudies> masters = masterDAO.readAll();
@@ -61,6 +65,7 @@ public class MasterManager {
         return i - 1;
     }
 
+    @Override
     public LinkedList<String> getMasterNames() {
         LinkedList<MasterStudies> masterStudies =  masterDAO.readAll();
         LinkedList<String> nombres = new LinkedList<>();
@@ -70,24 +75,27 @@ public class MasterManager {
         return nombres;
     }
 
-    public boolean deleteMaster (int index) throws IOException {
+    @Override
+    public boolean deleteTrial (int index) throws IOException {
         return masterDAO.delete(index);
     }
 
+    @Override
     public boolean isInUse (String name) {
-        return getMasterByName(name).isInUse();
+        return getTrialsByName(name).isInUse();
     }
 
     public void setInUseByName(String name) throws IOException {
-        int index = getIndexByName(name);
-        MasterStudies auxMaster = getMasterByName(name);
+        int index = getTrialIndexByName(name);
+        MasterStudies auxMaster = getTrialsByName(name);
         MasterStudies masterStudies = new MasterStudies(auxMaster.getName(), auxMaster.getNom(), auxMaster.getNumberCredits(), auxMaster.getProbability(), true);
         masterDAO.changeLine(index, masterStudies);
     }
 
+    @Override
     public void setInNotUseByName (String name) throws IOException {
-        int index = getIndexByName(name);
-        MasterStudies auxMaster = getMasterByName(name);
+        int index = getTrialIndexByName(name);
+        MasterStudies auxMaster = getTrialsByName(name);
         MasterStudies masterStudies = new MasterStudies(auxMaster.getName(), auxMaster.getNom(), auxMaster.getNumberCredits(), auxMaster.getProbability(), false);
         masterDAO.changeLine(index, masterStudies);
     }

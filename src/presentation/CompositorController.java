@@ -2,7 +2,6 @@ package presentation;
 
 import business.EditionManager;
 import business.ManagersTrials.*;
-import presentation.managers.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,18 +10,11 @@ import java.util.LinkedList;
 
 public class CompositorController {
     private ViewController view;
-    private BudgetController budgetController;
-    private DoctoralController doctoralController;
-    private MasterController masterController;
-    private PaperController paperController;
     private EditionManager editionManager;
     private GenericTrialManager genericTrialManager;
-    private BudgetManager budgetManager;
-    private DoctoralManager doctoralManager;
-    private MasterManager masterManager;
-    private PaperPublicationManager paperManager;
+    private TypeTrials trials;
 
-    public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager, BudgetManager budgetManager, DoctoralManager doctoralManager, MasterManager masterManager, PaperPublicationManager paperManager) {
+    /*public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager, BudgetManager budgetManager, DoctoralManager doctoralManager, MasterManager masterManager, PaperPublicationManager paperManager) {
         this.view = view;
         this.budgetController = budgetController;
         this.doctoralController = doctoralController;
@@ -34,6 +26,12 @@ public class CompositorController {
         this.doctoralManager = doctoralManager;
         this.masterManager = masterManager;
         this.paperManager = paperManager;
+    }*/
+    public CompositorController(ViewController view, GenericTrialManager genericTrialManager, EditionManager editionManager, TypeTrials trials) {
+        this.view = view;
+        this.genericTrialManager = genericTrialManager;
+        this.editionManager = editionManager;
+        this.trials = trials;
     }
 
     public void run () throws IOException {
@@ -68,7 +66,7 @@ public class CompositorController {
             switch (option) {
                 case "a":
                     addTrial();
-                    view.showMessage("\nThe trial was created successfully!");
+                    //view.showMessage("\nThe trial was created successfully!");
                     break;
                 case "b":
                     listTrials();
@@ -90,10 +88,14 @@ public class CompositorController {
         int type_trial = view.askForInteger("Enter the trial's type: ");
 
         switch (type_trial) {
-            case 1 -> paperController.add();
+            /*case 1 -> paperController.add();
             case 2 -> masterController.add();
             case 3 -> doctoralController.add();
-            case 4 -> budgetController.add();
+            case 4 -> budgetController.add();*/
+            case 1 -> genericTrialManager.addTrial(trials.PAPER);
+            case 2 -> genericTrialManager.addTrial(trials.MASTER);
+            case 3 -> genericTrialManager.addTrial(trials.DOCTORAL);
+            case 4 -> genericTrialManager.addTrial(trials.BUDGET);
             default -> view.showMessage("\nInvalid option");
         }
     }

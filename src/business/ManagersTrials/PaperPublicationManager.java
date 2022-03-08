@@ -1,7 +1,6 @@
 package business.ManagersTrials;
 
 import business.DataSourceOptions;
-import business.typeTrials.MasterStudies;
 import business.typeTrials.PaperPublication;
 import persistance.CSV.PaperCsvDAO;
 import persistance.JSON.PaperJsonDAO;
@@ -12,16 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class PaperPublicationManager {
+public class PaperPublicationManager extends GenericTrialManager{
     private PaperDAO paperDAO;
-    private GenericTrialManager genericTrialManager;
 
-    public PaperPublicationManager(DataSourceOptions options, GenericTrialManager genericTrialManager) throws IOException {
+    public PaperPublicationManager(DataSourceOptions options) throws IOException {
         switch (options) {
             case JSON -> paperDAO = new PaperJsonDAO();
             case CSV -> paperDAO = new PaperCsvDAO();
         }
-        this.genericTrialManager = genericTrialManager;
     }
 
     /**
@@ -33,7 +30,8 @@ public class PaperPublicationManager {
      * @param revised Probabilidad de que el artículo sea revisado
      * @param rejected Probabilidad de que el artículo sea rechazado
      */
-    public void addPaper (String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean inUse) throws IOException {
+    @Override
+    public void addTrial (String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean inUse) throws IOException {
         PaperPublication article = new PaperPublication(name, magazine, quartile, accepted, revised, rejected, inUse);
         paperDAO.create(article);
     }
@@ -42,7 +40,8 @@ public class PaperPublicationManager {
      * Método que retorna en forma de lista toda la información completa de cada prueba (artículo)
      * @return Lista con todos los artículos (pruebas)
      */
-    public LinkedList<PaperPublication> getPapers () throws FileNotFoundException {
+    @Override
+    public LinkedList<PaperPublication> getTrials () throws FileNotFoundException {
         return paperDAO.readAll();
     }
 
@@ -51,7 +50,8 @@ public class PaperPublicationManager {
      * @param name Nombre del artículo solicitado
      * @return Información del artículo solicitado
      */
-    public PaperPublication getPaperByName (String name) throws FileNotFoundException {
+    @Override
+    public PaperPublication getTrialsByName (String name) throws FileNotFoundException {
         int i;
         boolean found = false;
         LinkedList<PaperPublication> articles = paperDAO.readAll();

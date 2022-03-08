@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class BudgetManager {
+public class BudgetManager extends GenericTrialManager{
     private BudgetDAO budgetDAO;
     private GenericTrialManager genericTrialManager;
 

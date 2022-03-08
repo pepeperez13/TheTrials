@@ -1,98 +1,41 @@
 package business.ManagersTrials;
 
 import business.DataSourceOptions;
-import business.PlayerTypeOptions;
-import business.typeTrials.Budget;
 import business.typeTrials.GenericTrial;
+import business.typeTrials.MasterStudies;
 import business.typeTrials.PaperPublication;
 import persistance.GenericTrialDAO;
-import persistance.CSV.GenericTrialCsvDAO;
-import persistance.JSON.GenericTrialJsonDAO;
+import presentation.TypeTrials;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class GenericTrialManager {
+public abstract class GenericTrialManager {
     private GenericTrialDAO trialsDAO;
 
-    public GenericTrialManager(DataSourceOptions options) throws IOException {
-        switch (options) {
-            case JSON -> trialsDAO = new GenericTrialJsonDAO();
-            case CSV -> trialsDAO= new GenericTrialCsvDAO();
-        }
+    public void runClass (DataSourceOptions options) throws IOException {
     }
+    public abstract boolean addTrial(String name, String nom, int numberCredits, int probability, boolean inUse) throws IOException;
 
-    public void addTrial (String name, TrialTypeOptions type) throws IOException {
-        GenericTrial genericTrial = new GenericTrial(name, type);
-        trialsDAO.create(genericTrial);
-    }
+    public abstract LinkedList<MasterStudies> getTrials();
 
-    public LinkedList<String> getTrialsNames() throws FileNotFoundException {
-        LinkedList<GenericTrial> trials =  trialsDAO.readAll();
-        LinkedList<String> nombres = new LinkedList<>();
-        for (int i = 0; i < trials.size(); i++) {
-            nombres.add(trials.get(i).getName());
-        }
-        return nombres;
-    }
+    public abstract MasterStudies getTrialByIndex(int index);
 
-    public String[] getTrialsNamesByIndexes (ArrayList<Integer> indexes) throws FileNotFoundException {
-        LinkedList<String> allNames = getTrialsNames(); // Obtenemos los nombres de todas las pruebas disponibles
-        LinkedList<String> names = new LinkedList<>();  // Array de strings donde se guardaran los nombres que necesitemos
+    public abstract MasterStudies getTrialsByName(String name);
 
-        for (int i = 0; i < indexes.size(); i++) {
-            names.add(allNames.get(indexes.get(i))) ;
-        }
-        String[] stringNames = new String[names.size()];
-        for (int i = 0; i < names.size(); i++) {
-            stringNames[i] = names.get(i);
-        }
-        return stringNames;
-    }
+    public abstract void addTrial(String name, String magazine, String quartile, int accepted, int revised, int rejected, boolean inUse) throws IOException;
 
-    public TrialTypeOptions getTrialTypeByIndex (int index) {
-        LinkedList<GenericTrial> trialsNames = trialsDAO.readAll();
-        return trialsNames.get(index-1).getType();
-    }
+    public abstract int getTrialIndexByName(String name) throws FileNotFoundException;
 
-    public TrialTypeOptions getTrialTypeByName (String name) {
-        boolean found = false;
-        int i;
-        for (i = 0; i < getTrials().size() && !found; i++) {
-            if (getTrials().get(i).getName().equals(name)) {
-                found = true;
-            }
-        }
-        return getTrials().get(i-1).getType();
-    }
+    public abstract LinkedList<String> getMasterNames();
 
-    public GenericTrial getGenericalTrial (int index) {
-        return trialsDAO.findByIndex(index);
-    }
+    public abstract boolean deleteTrial(int index) throws IOException;
 
-    public LinkedList<GenericTrial> getTrials () {
-        return trialsDAO.readAll();
-    }
+    public abstract PaperPublication getTrialByName(String name) throws FileNotFoundException;
 
-    public boolean checkExistance (String name) throws FileNotFoundException {
-        return getTrialsNames().contains(name);
-    }
+    public abstract boolean isInUse(String name);
 
-    private int getIndexByName (String name) {
-        int i;
-        boolean found = false;
-        LinkedList<GenericTrial> genericTrials = trialsDAO.readAll();
-        for (i = 0; i < genericTrials.size() && !found; i++) {
-            if (genericTrials.get(i).getName().equals(name)) {
-                found = true;
-            }
-        }
-        return i - 1;
-    }
-
-    public void deleteByname (String name) throws IOException {
-        trialsDAO.delete(getIndexByName(name));
-    }
+    public abstract void setInNotUseByName(String name) throws IOException;
 }

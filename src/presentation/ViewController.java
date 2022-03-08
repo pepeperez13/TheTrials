@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ViewController {
-    PRIVATE FINAL STATIC STRING MESSAGE = "";
+    //PRIVATE FINAL STATIC STRING MESSAGE = "";
 
     private final Scanner scanner;
 

@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class DoctoralManager {
+public class DoctoralManager extends GenericTrialManager{
     private DoctoralDAO doctoralDAO;
     private GenericTrialManager genericTrialManager;
 
