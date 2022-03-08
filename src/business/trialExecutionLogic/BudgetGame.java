@@ -9,23 +9,33 @@ import java.util.LinkedList;
 
 public class BudgetGame {
 
-    public boolean checkAndUpdatePI(Budget budget) throws FileNotFoundException {
+    public boolean checkPassed (Budget budget) throws FileNotFoundException {
         TeamManager teamManager = null;
         if (teamManager.getPITeam() > (int) Math.pow(2, budget.getAmount())) {
-            increasePITeam(teamManager);
+            //increasePITeam(teamManager);
             return true;
         } else {
-            decreasePITeam(teamManager);
+            //decreasePITeam(teamManager);
             return false;
         }
     }
 
-    private void increasePITeam(TeamManager teamManager) throws FileNotFoundException {
+
+    /*private void increasePITeam(TeamManager teamManager) throws FileNotFoundException {
         int extraScore = 0;
         for (int i = 0; i < teamManager.getPlayers().size(); i++) {
             extraScore = teamManager.getPlayers().get(i).getPI()/2;
             teamManager.getPlayers().get(i).incrementPI(extraScore);
         }
+    }*/
+
+    public Player updatePI (boolean accepted, Player player) {
+        if (accepted) {
+            player.incrementPI(player.getPI()/2);
+        }else{
+            player.decrementPI(2);
+        }
+        return player;
     }
 
     private void decreasePITeam (TeamManager teamManager) throws FileNotFoundException {
@@ -44,4 +54,6 @@ public class BudgetGame {
         }
         return namesUpdatedType;
     }
+
+
 }

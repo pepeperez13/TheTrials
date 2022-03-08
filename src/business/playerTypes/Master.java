@@ -4,8 +4,9 @@ public class Master extends Player {
     private String name;
     private int PI;
 
-    public Master(String name, int PI, String name1, int pi) {this.name = name1;
-        this.PI = pi;
+    public Master (String name, int PI) {
+        this.name = name;
+        this.PI = PI;
     }
 
     @Override
@@ -17,4 +18,12 @@ public class Master extends Player {
         }
     }
 
+    @Override
+    public boolean checkUpdateStatus() {
+        if ( PI >= 10) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

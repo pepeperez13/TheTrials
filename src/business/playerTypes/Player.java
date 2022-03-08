@@ -38,16 +38,8 @@ public abstract class Player {
         return playerType;
     }*/
 
-    /*public boolean checkUpdateStatus () {
-        if (playerType == PlayerTypeOptions.ENGINEER && PI >= 10) {
-            playerType = PlayerTypeOptions.MASTERS;
-            return true;
-        }
-        if (playerType == PlayerTypeOptions.MASTERS && PI >= 10) {
-            playerType = PlayerTypeOptions.DOCTORS;
-            return true;
-        }
+    public boolean checkUpdateStatus () {
         return false;
-    }*/
+    }
 
 }

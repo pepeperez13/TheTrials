@@ -41,14 +41,14 @@ public class Engineer extends Player{
 
     /*public PlayerTypeOptions getPlayerType () {
         return playerType;
-    }
-
-    public void checkUpdateStatus () {
-        if (playerType == PlayerTypeOptions.ENGINEER && PI >= 10) {
-            playerType = PlayerTypeOptions.MASTERS;
-        }
-        if (playerType == PlayerTypeOptions.MASTERS && PI >= 10) {
-            playerType = PlayerTypeOptions.DOCTORS;
-        }
     }*/
+
+    @Override
+    public boolean checkUpdateStatus() {
+        if ( PI >= 10) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

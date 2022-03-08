@@ -1,6 +1,8 @@
 package business.trialExecutionLogic;
 
 import business.PlayerTypeOptions;
+import business.playerTypes.Engineer;
+import business.playerTypes.Master;
 import business.playerTypes.Player;
 import business.typeTrials.DoctoralThesis;
 
@@ -18,7 +20,7 @@ public class DoctoralGame {
 
     public Player updatePI (Player player, boolean passed) {
         if (passed) {
-            if (player.getPlayerType() == PlayerTypeOptions.MASTERS) {
+            if (player instanceof Engineer) {
                 player.setPi(10);
             }else{
                 player.incrementPI(5);
@@ -31,7 +33,7 @@ public class DoctoralGame {
 
     public Player checkUpdateStatus (Player player, boolean passed) {
         if (passed) {
-            if (player.getPlayerType() == PlayerTypeOptions.MASTERS) {
+            if (player instanceof Master) {
                 player.changePlayerType(PlayerTypeOptions.DOCTORS);
             }else{
                 player.checkUpdateStatus();
