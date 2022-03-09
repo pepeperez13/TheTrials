@@ -1,7 +1,5 @@
 package business.playerTypes;
 
-import business.PlayerTypeOptions;
-
 public abstract class Player {
     private String name;
     private int PI;

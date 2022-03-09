@@ -1,6 +1,9 @@
 package persistance.CSV;
 
 import business.PlayerTypeOptions;
+import business.playerTypes.Doctor;
+import business.playerTypes.Engineer;
+import business.playerTypes.Master;
 import business.playerTypes.Player;
 import persistance.TeamDAO;
 
@@ -36,13 +39,25 @@ public class TeamCsvDAO implements TeamDAO {
      * @return String Cadena de caracteres a guardar
      */
     private String playerToCsv (Player player) {
-        return player.getName() + separator + player.getPI();
+        if (player instanceof Engineer) {
+            return player.getName() + separator + player.getPI() + separator + PlayerTypeOptions.ENGINEER;
+        } else if (player instanceof Doctor) {
+            return player.getName() + separator + player.getPI() + separator + PlayerTypeOptions.DOCTOR;
+        } else {
+            return player.getName() + separator + player.getPI() + separator + PlayerTypeOptions.MASTER;
+        }
     }
 
 
     private Player playerFromCsv(String csv) {
         String[] parts = csv.split(separator);
-        return new Player(parts[0], Integer.parseInt(parts[1]), PlayerTypeOptions.valueOf(parts[2]));
+        if (parts[2].equals("ENGINEER")) {
+            return new Engineer(parts[0], Integer.parseInt(parts[1]));
+        } else if (parts[2].equals("DOCTOR")) {
+            return new Doctor(parts[0], Integer.parseInt(parts[1]));
+        } else {
+            return new Master(parts[0], Integer.parseInt(parts[1]));
+        }
     }
 
     /**

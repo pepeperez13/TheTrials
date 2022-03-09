@@ -1,12 +1,9 @@
 package business.ManagersTrials;
 
 import business.DataSourceOptions;
-import business.PlayerTypeOptions;
-import business.typeTrials.Budget;
 import business.typeTrials.GenericTrial;
-import business.typeTrials.PaperPublication;
-import persistance.GenericTrialDAO;
 import persistance.CSV.GenericTrialCsvDAO;
+import persistance.GenericTrialDAO;
 import persistance.JSON.GenericTrialJsonDAO;
 
 import java.io.FileNotFoundException;
@@ -80,7 +77,7 @@ public class GenericTrialManager {
         return getTrialsNames().contains(name);
     }
 
-    private int getIndexByName (String name) {
+    public int getIndexByName (String name) {
         int i;
         boolean found = false;
         LinkedList<GenericTrial> genericTrials = trialsDAO.readAll();

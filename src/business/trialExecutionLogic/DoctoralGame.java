@@ -34,7 +34,7 @@ public class DoctoralGame {
     public Player checkUpdateStatus (Player player, boolean passed) {
         if (passed) {
             if (player instanceof Master) {
-                player.changePlayerType(PlayerTypeOptions.DOCTORS);
+                player.changePlayerType(PlayerTypeOptions.DOCTOR);
             }else{
                 player.checkUpdateStatus();
             }
