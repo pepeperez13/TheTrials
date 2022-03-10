@@ -1,6 +1,7 @@
 package presentation;
 
 import business.ManagersTrials.BudgetManager;
+import business.ManagersTrials.PaperPublicationManager;
 import business.TeamManager;
 import business.playerTypes.Doctor;
 import business.playerTypes.Engineer;
@@ -8,43 +9,46 @@ import business.playerTypes.Master;
 import business.playerTypes.Player;
 import business.typeTrials.Budget;
 import business.typeTrials.GenericTrial;
+import business.typeTrials.PaperPublication;
 
-import javax.print.Doc;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class GameExecutor {
     private GenericTrial genericTrial;
     private TeamManager teamManager;
     private BudgetManager budgetManager;
+    private PaperPublicationManager paperManager;
     private ViewController view;
 
-    public GameExecutor(GenericTrial genericTrial, TeamManager teamManager, BudgetManager budgetManager, ViewController view) {
+    public GameExecutor(GenericTrial genericTrial, TeamManager teamManager, BudgetManager budgetManager, PaperPublicationManager paperManager, ViewController view) {
         this.genericTrial = genericTrial;
         this.teamManager = teamManager;
         this.budgetManager = budgetManager;
+        this.paperManager = paperManager;
         this.view = view;
     }
 
     public void playTrial (GenericTrial genericTrial, TeamManager teamManager) throws IOException {
         switch (genericTrial.getType()) {
             case BUDGET ->  {
-                playBudget(teamManager, budgetManager.getBudgetByNameTrial(genericTrial.getName()));
+                playBudget(budgetManager.getBudgetByNameTrial(genericTrial.getName()));
             }
-            case DOCTORAL -> playDoctoral(teamManager);
-            case PAPER -> playPaper(teamManager);
-            case MASTER -> playMaster(teamManager);
+            case DOCTORAL -> playDoctoral();
+            case PAPER -> playPaper(paperManager.getPaperByName(genericTrial.getName()));
+            case MASTER -> playMaster();
         }
     }
 
-    private void playBudget (TeamManager teamManager, Budget budget) throws IOException {
+    /**Empieza gestión de budget**/
+    private void playBudget (Budget budget) throws IOException {
         boolean passed;
         if (teamManager.getPITeam() > (int) Math.pow(2, budget.getAmount())) {
-            //increasePITeam(teamManager);
             view.showMessage("The research group got the budget!\n");
             passed = true;
         } else {
-            //decreasePITeam(teamManager);
             view.showMessage("The research group didn't get the budget!\n");
             passed = false;
         }
@@ -58,24 +62,9 @@ public class GameExecutor {
                 view.showMessage(player.getName()+", PhD. PI count: " + player.getPI());
             }
         }
-        checkUpdateStatus(teamManager);
-    }
-
-    private void checkUpdateStatus (TeamManager teamManager) throws IOException {
-        int i = 0;
-        for (Player player : teamManager.getPlayers()) {
-            if (player instanceof Engineer) {
-                if (player.checkUpdateStatus()) {
-                    Player master = new Master(player.getName(), 5);
-                    teamManager.updatePlayer(i, master);
-                }
-            } else if (player instanceof Master) {
-                if (player.checkUpdateStatus()) {
-                    Player doctor = new Doctor(player.getName(), 5);
-                    teamManager.updatePlayer(i, doctor);
-                }
-            }
-            i++;
+        LinkedList<String> changedType = checkUpdateStatus();
+        for (String line: changedType) {
+            view.showMessageLine(line);
         }
     }
 
@@ -96,15 +85,123 @@ public class GameExecutor {
         }
     }
 
-    private void playDoctoral (TeamManager teamManager) {
+    private LinkedList<String> checkUpdateStatus () throws IOException {
+        int i = 0;
+        LinkedList<String> changedType = new LinkedList<>();
+        for (Player player : teamManager.getPlayers()) {
+            if (player instanceof Engineer) {
+                if (player.checkUpdateStatus()) {
+                    Player master = new Master(player.getName(), 5);
+                    teamManager.updatePlayer(i, master);
+                    // Añadimos a la lista de jugadores evolucionados para mostrarlo
+                    changedType.add(player.getName() + " is now a Master (with 5 PI). ");
+                }
+            } else if (player instanceof Master) {
+                if (player.checkUpdateStatus()) {
+                    Player doctor = new Doctor(player.getName(), 5);
+                    teamManager.updatePlayer(i, doctor);
+                    // Añadimos a la lista de jugadores evolucionados para mostrarlo
+                    changedType.add(player.getName() + "doctor");
+                }
+            }
+            i++;
+        }
+        return changedType;
+    }
+    /**Acaba gestión budget**/
+
+
+    /**Empieza gestión doctoral**/
+    private void playDoctoral (){
+
 
     }
 
-    private void playPaper (TeamManager teamManager) {
+    /**Acaba gestión doctoral**/
+
+    /**Empieza gestion paper**/
+    private void playPaper (PaperPublication paper) throws IOException {
+        int i = 0;
+
+        // Hacemos que todos los jugadores publiquen su articulo y vamos actualizando su PI
+        for (Player player: teamManager.getPlayers()){
+            view.showMessage(player.getName() + " is submitting...");
+            player = publishArticle(paper, player);
+            teamManager.updatePlayer(i, player);
+            view.showMessageLine("PI count:" + player.getPI());
+            i++;
+        }
+
+        LinkedList<String> changedType = checkUpdateStatus();
+        for (String line: changedType) {
+            view.showMessageLine(line);
+        }
+    }
+
+    private Player publishArticle (PaperPublication article, Player player) {
+
+        // Calculamos de forma aleatoria si se acepta, revisa o rechaza
+        int response;
+        do {
+            response = calculateResponse(article);
+        }while (response != 1 && response != 3);
+        // Aumentamos, mantenemos o reducimos puntuación segon el cuartil
+        player = manageScore(response, article, player);
+
+        return player;
+    }
+
+    private int calculateResponse (PaperPublication article) {
+        // Generamos un número aleatorio que estará entre 0 y 100
+        Random rand = new Random();
+        int response = 0;
+        int randomNumber = rand.nextInt(101);
+
+        //Creamos los rangos de aceptado, revisado y rechazado
+        int acceptedRange = article.getAcceptedProbability();
+        int revisedRange = acceptedRange + article.getRevisedProbability();
+        int rejectedRange = revisedRange + article.getRejectedProbability();
+
+        if (randomNumber  <= acceptedRange) {
+            view.showMessageLine("Accepted!");
+            response = 1;
+        }else if(randomNumber < revisedRange) {
+            view.showMessageLine("Revisions...");
+            response = 2;
+        }else if (randomNumber < rejectedRange){
+            view.showMessageLine("Rejected.");
+            response = 3;
+        }
+        return response;
+    }
+
+    private Player manageScore (int response, PaperPublication article, Player player) {
+        String quartile = article.getQuartile();
+
+        if (response == 1) {
+            switch (quartile) {
+                case "Q1" -> player.incrementPI(4);
+                case "Q2" -> player.incrementPI(3);
+                case "Q3" -> player.incrementPI(2);
+                case "Q4" -> player.incrementPI(1);
+            }
+        }
+        if (response == 3) {
+            switch (quartile) {
+                case "Q1" -> player.decrementPI(5);
+                case "Q2" -> player.decrementPI(4);
+                case "Q3" -> player.decrementPI(3);
+                case "Q4" -> player.decrementPI(2);
+            }
+        }
+        return player;
+    }
+    /**Acaba gestión paper**/
+
+    /**Empieza gestión master**/
+    private void playMaster () {
 
     }
 
-    private void playMaster (TeamManager teamManager) {
-
-    }
+    /**Acaba gestión master**/
 }
