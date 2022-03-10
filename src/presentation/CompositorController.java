@@ -68,7 +68,6 @@ public class CompositorController {
             switch (option) {
                 case "a":
                     addTrial();
-                    view.showMessage("\nThe trial was created successfully!");
                     break;
                 case "b":
                     listTrials();

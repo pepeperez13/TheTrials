@@ -34,14 +34,15 @@ public class PaperController {
                             if ((accepted + revision + rejection) == 100 && checkError(String.valueOf(rejection), 6)) {
                                 paperPublicationManager.addPaper(trialName, journalName, quartile, accepted, revision, rejection, false);
                                 genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("PAPER"));
+                                view.showMessage("\nThe trial was created successfully!");
                             }else{
-                                view.showMessage("Value must be between 0 and 100 and the sum of all percenatges can't be over 100.");
+                                view.showMessage("\nValue must be between 0 and 100 and the sum of all percenatges has to be 100.");
                             }
                         }else{
-                            view.showMessage("Value must be between 0 and 100 and the sum of all percenatges can't be over 100.");
+                            view.showMessage("\nValue must be between 0 and 100 and the sum of all percenatges can't be over 100.");
                         }
                     }else{
-                        view.showMessage("Value must be between 0 and 100 and the sum of all percenatges can't be over 100.");
+                        view.showMessage("\nValue must be between 0 and 100 and the sum of all percenatges can't be over 100.");
                     }
                 }else{
                     view.showMessage("\nQuartile must be one of the following values [Q1, Q2, Q3, Q4].");

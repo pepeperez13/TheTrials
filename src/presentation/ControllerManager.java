@@ -63,7 +63,7 @@ public class ControllerManager {
                 default -> viewController.showMessage("\nIncorrect option. Option must be one of the above [A, B]");
             }
             // EL programa sólo acabará cuando se hayan ejecutado todas las pruebas de la edición actual
-        } while (finalIndex < conductorController.getNumberOfTrials());
+        } while (true);
     }
 
     private void executeCompositor () throws IOException {
