@@ -15,14 +15,15 @@ import java.util.List;
 public class GenericTrialCsvDAO implements GenericTrialDAO {
 
     private static String separator = ",";
-    //private static File file = new File ("files/generic.csv");
-    private String fileName = "generic.csv";
+    private String fileName = "generics.csv";
     private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public GenericTrialCsvDAO () throws IOException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

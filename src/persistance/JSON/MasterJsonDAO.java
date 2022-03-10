@@ -12,8 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class MasterJsonDAO implements MasterDAO {
-
-    private String filename = "master.json";
+    private String filename = "masters.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
@@ -21,7 +20,9 @@ public class MasterJsonDAO implements MasterDAO {
 
     public MasterJsonDAO () throws FileNotFoundException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

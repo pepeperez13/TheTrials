@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class TeamJsonDAO implements TeamDAO {
-
-    private String filename = "team.json";
+    private String filename = "teams.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
@@ -19,7 +18,9 @@ public class TeamJsonDAO implements TeamDAO {
 
     public TeamJsonDAO () throws FileNotFoundException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

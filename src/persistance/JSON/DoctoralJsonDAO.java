@@ -1,7 +1,6 @@
 package persistance.JSON;
 
 import business.typeTrials.DoctoralThesis;
-import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistance.DoctoralDAO;
@@ -11,16 +10,17 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class DoctoralJsonDAO implements DoctoralDAO {
-
     private String filename = "doctorals.json";
     private String filePath = "files";
-    private final File test = new File(filePath, filename);
+    private final File file = new File(filePath, filename);
     private final Gson gson;
     private final DoctoralThesis[] doctorals;
 
     public DoctoralJsonDAO () throws FileNotFoundException {
         try {
-            test.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

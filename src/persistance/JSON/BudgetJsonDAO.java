@@ -11,16 +11,17 @@ import java.util.LinkedList;
 
 public class BudgetJsonDAO implements BudgetDAO {
 
-    private String filename = "budget.json";
-    //private String filePath = "C:\\Users\\Ashlyn Abraham\\Documents\\GitHub\\TheTrials\\files";
+    private String filename = "budgets.json";
     private String filePath = "files";
-    private File test = new File(filePath, filename);
+    private File file = new File(filePath, filename);
     private final Gson gson;
     private final Budget[] budgets;
 
     public BudgetJsonDAO () throws FileNotFoundException {
         try {
-            test.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,14 +10,15 @@ import java.util.List;
 
 public class MasterCsvDAO implements persistance.MasterDAO {
     private static String separator = ",";
-    //private static File file = new File ("files/master.csv");
-    private String fileName = "master.csv";
+    private String fileName = "masters.csv";
     private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public MasterCsvDAO () throws IOException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

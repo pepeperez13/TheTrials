@@ -10,14 +10,15 @@ import java.util.List;
 
 public class BudgetCsvDAO implements persistance.BudgetDAO {
     private static final String separator = ",";
-    //private static final File file = new File ("files/budget.csv");
-    private String fileName = "budget.csv";
+    private String fileName = "budgets.csv";
     private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public BudgetCsvDAO () throws IOException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

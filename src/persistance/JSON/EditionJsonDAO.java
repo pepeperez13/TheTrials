@@ -14,16 +14,17 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class EditionJsonDAO implements EditionDAO {
-
-    private String filename = "edition.json";
+    private String filename = "editions.json";
     private String filePath = "files";
-    private File test = new File(filePath, filename);
+    private File file = new File(filePath, filename);
     private final Gson gson;
     private final Edition[] editions;
 
     public EditionJsonDAO () throws FileNotFoundException {
         try {
-            test.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

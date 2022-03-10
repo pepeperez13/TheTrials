@@ -9,15 +9,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PaperCsvDAO implements PaperDAO {
-    //private static final File file = new File("files/trials.csv");
     private static final String separator = ",";
-    private String fileName = "paper.csv";
+    private String fileName = "papers.csv";
     private String filePath = "files";
     private File file = new File(filePath, fileName);
 
     public PaperCsvDAO () throws IOException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class GenericTrialJsonDAO implements GenericTrialDAO {
-
-    private String filename = "generic.json";
+    private String filename = "generics.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
@@ -19,7 +18,9 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
 
     public GenericTrialJsonDAO() throws FileNotFoundException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,7 +33,7 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         FileWriter writer = new FileWriter(filename);
 
         LinkedList<GenericTrial> namesList = new LinkedList<>();
-        if (namesList != null) { // Sólo leeremos elementos si el json no está vacío
+        if (genericTrials != null) { // Sólo leeremos elementos si el json no está vacío
             namesList = new LinkedList<>(Arrays.asList(genericTrials));
         }
 

@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class PaperJsonDAO implements PaperDAO {
-
-    private String filename = "paper.json";
+    private String filename = "papers.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
     private final Gson gson;
@@ -19,7 +18,9 @@ public class PaperJsonDAO implements PaperDAO {
 
     public PaperJsonDAO() throws FileNotFoundException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

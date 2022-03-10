@@ -18,7 +18,6 @@ import java.util.List;
  * @author Abraham Cedeño
  */
 public class TeamCsvDAO implements TeamDAO {
-    //private static final File file = new File("files/team.csv");
     private static final String separator = ",";
     private String fileName = "team.csv";
     private String filePath = "files";
@@ -26,7 +25,9 @@ public class TeamCsvDAO implements TeamDAO {
 
     public TeamCsvDAO () throws IOException {
         try {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
