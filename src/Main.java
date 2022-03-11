@@ -56,7 +56,7 @@ public class Main {
         /**
          * Le pasamos el tipo al Controller manager
          */
-        ControllerManager controllerManager = new ControllerManager(viewController, compositorController, conductorController, genericTrialManager);
+        ControllerManager controllerManager = new ControllerManager(viewController, compositorController, conductorController);
         controllerManager.run(option);
     }
 }

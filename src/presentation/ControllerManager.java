@@ -13,35 +13,35 @@ public class ControllerManager {
     private final ViewController viewController;
     private CompositorController compositorController;
     private ConductorController conductorController;
-    private GenericTrialManager genericTrialManager;
 
-    public ControllerManager(ViewController viewController, CompositorController compositorController, ConductorController conductorController, GenericTrialManager genericTrialManager) {
+    public ControllerManager(ViewController viewController, CompositorController compositorController, ConductorController conductorController) {
         this.viewController = viewController;
         this.compositorController = compositorController;
         this.conductorController = conductorController;
-        this.genericTrialManager = genericTrialManager;
     }
 
     public void run (String option) throws IOException {
         do {
             switch (option) {
                 case "I" -> {
-                    new PaperPublicationManager(DataSourceOptions.CSV, genericTrialManager);
+                    GenericTrialManager genericTrialManager = new GenericTrialManager(DataSourceOptions.CSV);
+                    //new PaperPublicationManager(DataSourceOptions.CSV, genericTrialManager);
                     new BudgetManager(DataSourceOptions.CSV, genericTrialManager);
-                    new DoctoralManager(DataSourceOptions.CSV, genericTrialManager);
-                    new MasterManager(DataSourceOptions.CSV, genericTrialManager);
-                    new EditionManager(DataSourceOptions.CSV);
-                    new TeamManager(DataSourceOptions.CSV);
+                    //new DoctoralManager(DataSourceOptions.CSV, genericTrialManager);
+                    //new MasterManager(DataSourceOptions.CSV, genericTrialManager);
+                    //new EditionManager(DataSourceOptions.CSV);
+                    //new TeamManager(DataSourceOptions.CSV);
                     viewController.showMessage("\nLoading data from CSV files...\n");
                     mainLoop();
                 }
                 case "II" -> {
-                    new PaperPublicationManager(DataSourceOptions.JSON, genericTrialManager);
+                    GenericTrialManager genericTrialManager = new GenericTrialManager(DataSourceOptions.JSON);
+                    //new PaperPublicationManager(DataSourceOptions.JSON, genericTrialManager);
                     new BudgetManager(DataSourceOptions.JSON, genericTrialManager);
-                    new DoctoralManager(DataSourceOptions.JSON, genericTrialManager);
-                    new MasterManager(DataSourceOptions.JSON, genericTrialManager);
-                    new EditionManager(DataSourceOptions.JSON);
-                    new TeamManager(DataSourceOptions.JSON);
+                    //new DoctoralManager(DataSourceOptions.JSON, genericTrialManager);
+                    //new MasterManager(DataSourceOptions.JSON, genericTrialManager);
+                    //new EditionManager(DataSourceOptions.JSON);
+                    //new TeamManager(DataSourceOptions.JSON);
                     viewController.showMessage("\nLoading data from JSON files...\n");
                     mainLoop();
                 }

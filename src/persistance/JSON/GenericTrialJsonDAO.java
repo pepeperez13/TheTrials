@@ -17,12 +17,14 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
     private final GenericTrial[] genericTrials;
 
     public GenericTrialJsonDAO() throws FileNotFoundException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("\nThe file already exist.");
         }
         gson = new GsonBuilder().setPrettyPrinting().create();
         genericTrials = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), GenericTrial[].class);

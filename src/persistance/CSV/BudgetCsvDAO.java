@@ -15,12 +15,14 @@ public class BudgetCsvDAO implements persistance.BudgetDAO {
     private File file = new File(filePath, fileName);
 
     public BudgetCsvDAO () throws IOException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("\nThe file already exist.");
         }
     }
 
