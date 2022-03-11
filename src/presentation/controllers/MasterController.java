@@ -23,25 +23,26 @@ public class MasterController {
     public void add() throws IOException {
         String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError(trialName, 1)) {
-            String masterName = view.askForString("\nEnter the master's name: ");
+            String masterName = view.askForString("Enter the master's name: ");
             if (checkError(masterName, 2)) {
-                int ECTS = view.askForInteger("\nEnter the master's ECTS number: ");
+                int ECTS = view.askForInteger("Enter the master's ECTS number: ");
                 if (checkError(String.valueOf(ECTS), 3)) {
-                    int creditPass = view.askForInteger("\nEnter the credit pass probability: ");
+                    int creditPass = view.askForInteger("Enter the credit pass probability: ");
                     if (checkError(String.valueOf(creditPass), 4)){
                         masterManager.addMaster(trialName, masterName, ECTS, creditPass, false);
                         genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("MASTER"));
+                        view.showMessage("\nThe trial was created successfully!");
                     }else{
-                        view.showMessage("Probability must be in the [0, 100] range.");
+                        view.showMessage("\nProbability must be in the [0, 100] range.");
                     }
                 }else{
-                    view.showMessage("Credits number must be in the [60, 120] range.");
+                    view.showMessage("\nCredits number must be in the [60, 120] range.");
                 }
             }else{
-                view.showMessage("Nom of the master can't be empty");
+                view.showMessage("\nNom of the master can't be empty");
             }
         }else{
-            view.showMessage("Trial name must be unique and not empty.");
+            view.showMessage("\nTrial name must be unique and not empty.");
         }
     }
 

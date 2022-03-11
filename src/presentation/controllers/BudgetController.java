@@ -30,14 +30,15 @@ public class BudgetController {
                 if (checkError(String.valueOf(budget), 3)) {
                     budgetManager.addBudget(trialName, entityName, budget, false);
                     genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("BUDGET"));
+                    view.showMessage("\nThe trial was created successfully!");
                 }else{
-                    view.showMessage("Budget amount must be in the [1000, 2000000000] range.");
+                    view.showMessage("\nBudget amount must be in the [1000, 2000000000] range.");
                 }
             }else{
-                view.showMessage("Entity name must not be empty.");
+                view.showMessage("\nEntity name must not be empty.");
             }
         }else{
-            view.showMessage("Trial name must be unique and not empty.");
+            view.showMessage("\nTrial name must be unique and not empty.");
         }
 
     }

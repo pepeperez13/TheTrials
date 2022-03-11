@@ -29,14 +29,15 @@ public class DoctoralController {
                 if (checkError(String.valueOf(difficulty), 3)) {
                     doctoralManager.addDoctoralThesis(trialName, thesis, difficulty, false);
                     genericTrialManager.addTrial(trialName, TrialTypeOptions.valueOf("DOCTORAL"));
+                    view.showMessage("\nThe trial was created successfully!");
                 }else{
-                    view.showMessage("Difficulty must be an integer in the [1, 10] range.");
+                    view.showMessage("\nDifficulty must be an integer in the [1, 10] range.");
                 }
             }else{
-                view.showMessage("Thesis field can not be empty.");
+                view.showMessage("\nThesis field can not be empty.");
             }
         }else{
-            view.showMessage("Trial name must be unique and not empty.");
+            view.showMessage("\nTrial name must be unique and not empty.");
         }
     }
 
