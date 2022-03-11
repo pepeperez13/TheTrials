@@ -14,8 +14,8 @@ public class BudgetJsonDAO implements BudgetDAO {
     private String filename = "budgets.json";
     private String filePath = "files";
     private File file = new File(filePath, filename);
-    private final Gson gson;
-    private final Budget[] budgets;
+    private Gson gson;
+    private Budget[] budgets;
 
     public BudgetJsonDAO () throws FileNotFoundException {
         if (!file.exists()) {
@@ -24,11 +24,11 @@ public class BudgetJsonDAO implements BudgetDAO {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
         } else {
             System.out.println("\nThe file already exist.");
         }
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
     }
 
     @Override

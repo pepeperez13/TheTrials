@@ -2,7 +2,6 @@ import business.DataSourceOptions;
 import business.EditionManager;
 import business.ManagersTrials.*;
 import business.TeamManager;
-import business.typeTrials.GenericTrial;
 import presentation.*;
 import presentation.controllers.BudgetController;
 import presentation.controllers.DoctoralController;
@@ -36,10 +35,10 @@ public class Main {
          */
         GenericTrialManager genericTrialManager = new GenericTrialManager(dataSourceOptions);
         BudgetManager budgetManager = new BudgetManager(dataSourceOptions, genericTrialManager);
-        EditionManager editionManager = new EditionManager(dataSourceOptions);
         PaperPublicationManager paperManager = new PaperPublicationManager(dataSourceOptions, genericTrialManager);
         MasterManager masterManager = new MasterManager(dataSourceOptions, genericTrialManager);
         DoctoralManager doctoralManager = new DoctoralManager(dataSourceOptions, genericTrialManager);
+        EditionManager editionManager = new EditionManager(dataSourceOptions);
 
         TeamManager teamManager = new TeamManager(dataSourceOptions);
 

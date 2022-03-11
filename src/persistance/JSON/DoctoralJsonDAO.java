@@ -1,5 +1,6 @@
 package persistance.JSON;
 
+import business.typeTrials.Budget;
 import business.typeTrials.DoctoralThesis;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,19 +14,21 @@ public class DoctoralJsonDAO implements DoctoralDAO {
     private String filename = "doctorals.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
-    private final Gson gson;
-    private final DoctoralThesis[] doctorals;
+    private Gson gson;
+    private DoctoralThesis[] doctorals;
 
     public DoctoralJsonDAO () throws FileNotFoundException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            doctorals = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), DoctoralThesis[].class);
+        } else {
+            System.out.println("\nThe file already exist.");
         }
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        doctorals = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), DoctoralThesis[].class);
     }
 
     @Override

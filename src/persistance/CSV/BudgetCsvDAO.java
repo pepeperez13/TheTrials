@@ -18,7 +18,7 @@ public class BudgetCsvDAO implements persistance.BudgetDAO {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         } else {

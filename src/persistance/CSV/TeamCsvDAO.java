@@ -24,12 +24,14 @@ public class TeamCsvDAO implements TeamDAO {
     private File file = new File(filePath, fileName);
 
     public TeamCsvDAO () throws IOException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("\nThe file already exist.");
         }
     }
 

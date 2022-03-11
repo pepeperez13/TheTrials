@@ -1,18 +1,13 @@
 package presentation;
 
 
-import business.DataSourceOptions;
-import business.EditionManager;
-import business.ManagersTrials.*;
-import business.TeamManager;
-
 import java.io.IOException;
 
 public class ControllerManager {
 
     private final ViewController viewController;
-    private CompositorController compositorController;
-    private ConductorController conductorController;
+    private final CompositorController compositorController;
+    private final ConductorController conductorController;
 
     public ControllerManager(ViewController viewController, CompositorController compositorController, ConductorController conductorController) {
         this.viewController = viewController;
@@ -24,24 +19,10 @@ public class ControllerManager {
         do {
             switch (option) {
                 case "I" -> {
-                    GenericTrialManager genericTrialManager = new GenericTrialManager(DataSourceOptions.CSV);
-                    //new PaperPublicationManager(DataSourceOptions.CSV, genericTrialManager);
-                    new BudgetManager(DataSourceOptions.CSV, genericTrialManager);
-                    //new DoctoralManager(DataSourceOptions.CSV, genericTrialManager);
-                    //new MasterManager(DataSourceOptions.CSV, genericTrialManager);
-                    //new EditionManager(DataSourceOptions.CSV);
-                    //new TeamManager(DataSourceOptions.CSV);
                     viewController.showMessage("\nLoading data from CSV files...\n");
                     mainLoop();
                 }
                 case "II" -> {
-                    GenericTrialManager genericTrialManager = new GenericTrialManager(DataSourceOptions.JSON);
-                    //new PaperPublicationManager(DataSourceOptions.JSON, genericTrialManager);
-                    new BudgetManager(DataSourceOptions.JSON, genericTrialManager);
-                    //new DoctoralManager(DataSourceOptions.JSON, genericTrialManager);
-                    //new MasterManager(DataSourceOptions.JSON, genericTrialManager);
-                    //new EditionManager(DataSourceOptions.JSON);
-                    //new TeamManager(DataSourceOptions.JSON);
                     viewController.showMessage("\nLoading data from JSON files...\n");
                     mainLoop();
                 }

@@ -7,6 +7,7 @@ import business.typeTrials.PaperPublication;
 import persistance.GenericTrialDAO;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.LinkedList;
@@ -20,10 +21,10 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
     private File file = new File(filePath, fileName);
 
     public GenericTrialCsvDAO () throws IOException {
-        if (!file.exists()) {
+        if (!file.exists() ) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         } else {

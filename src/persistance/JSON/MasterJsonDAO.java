@@ -1,6 +1,7 @@
 package persistance.JSON;
 
 
+import business.Edition;
 import business.typeTrials.MasterStudies;
 import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
@@ -15,19 +16,21 @@ public class MasterJsonDAO implements MasterDAO {
     private String filename = "masters.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
-    private final Gson gson;
-    private final MasterStudies[] masters;
+    private Gson gson;
+    private MasterStudies[] masters;
 
     public MasterJsonDAO () throws FileNotFoundException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
+        } else {
+            System.out.println("\nThe file already exist.");
         }
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
     }
 
     @Override

@@ -13,19 +13,21 @@ public class TeamJsonDAO implements TeamDAO {
     private String filename = "teams.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
-    private final Gson gson;
-    private final Player[] team;
+    private Gson gson;
+    private Player[] team;
 
     public TeamJsonDAO () throws FileNotFoundException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            team = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Player[].class);
+        } else {
+            System.out.println("\nThe file already exist.");
         }
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        team = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Player[].class);
     }
 
     @Override

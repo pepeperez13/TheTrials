@@ -13,19 +13,21 @@ public class PaperJsonDAO implements PaperDAO {
     private String filename = "papers.json";
     private String filePath = "files";
     private final File file = new File(filePath, filename);
-    private final Gson gson;
-    private final PaperPublication[] articles;
+    private Gson gson;
+    private PaperPublication[] articles;
 
     public PaperJsonDAO() throws FileNotFoundException {
-        try {
-            if (!file.exists()) {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            articles = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), PaperPublication[].class);
+        } else {
+            System.out.println("\nThe file already exist.");
         }
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        articles = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), PaperPublication[].class);
     }
 
     @Override
