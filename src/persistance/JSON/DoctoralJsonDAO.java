@@ -28,12 +28,14 @@ public class DoctoralJsonDAO implements DoctoralDAO {
             doctorals = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), DoctoralThesis[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            doctorals = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), DoctoralThesis[].class);
         }
     }
 
     @Override
     public boolean create(DoctoralThesis doctoralThesis) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<DoctoralThesis> doctoralsList = new LinkedList<>();
         if (doctorals != null) { // Sólo leeremos elementos si el json no está vacío
@@ -58,16 +60,16 @@ public class DoctoralJsonDAO implements DoctoralDAO {
 
     @Override
     public DoctoralThesis findByIndex(int index) {
-        return doctorals[index];
+        return doctorals[index - 1];
     }
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<DoctoralThesis> doctoralsList = new LinkedList<>(Arrays.asList(doctorals));
-        doctoralsList.remove(index);
+        doctoralsList.remove(index - 1);
 
         gson.toJson(doctoralsList, writer);
         writer.close();
@@ -76,13 +78,13 @@ public class DoctoralJsonDAO implements DoctoralDAO {
     }
     @Override
     public boolean changeLine(int index, DoctoralThesis doctoral) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<DoctoralThesis> doctoralsList = new LinkedList<>(Arrays.asList(doctorals));
 
-        doctoralsList.remove(index);
-        doctoralsList.add(index, doctoral);
+        doctoralsList.remove(index - 1);
+        doctoralsList.add(index - 1, doctoral);
 
         gson.toJson(doctoralsList, writer);
         writer.close();

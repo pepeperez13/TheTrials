@@ -30,12 +30,14 @@ public class MasterJsonDAO implements MasterDAO {
             masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
         }
     }
 
     @Override
     public boolean create(MasterStudies masterStudies) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<MasterStudies> mastersList = new LinkedList<>();
         if (masters != null) {
@@ -60,16 +62,16 @@ public class MasterJsonDAO implements MasterDAO {
 
     @Override
     public MasterStudies findByIndex(int index) {
-        return masters[index];
+        return masters[index - 1];
     }
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<MasterStudies> mastersList = new LinkedList<>(Arrays.asList(masters));
-        mastersList.remove(index);
+        mastersList.remove(index - 1);
 
         gson.toJson(mastersList, writer);
         writer.close();
@@ -78,13 +80,13 @@ public class MasterJsonDAO implements MasterDAO {
 
     @Override
     public boolean changeLine(int index, MasterStudies master) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<MasterStudies> mastersList = new LinkedList<>(Arrays.asList(masters));
 
-        mastersList.remove(index);
-        mastersList.add(index, master);
+        mastersList.remove(index - 1);
+        mastersList.add(index - 1, master);
 
         gson.toJson(mastersList, writer);
         writer.close();

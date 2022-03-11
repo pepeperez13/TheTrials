@@ -31,12 +31,14 @@ public class EditionJsonDAO implements EditionDAO {
             editions = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Edition[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            editions = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Edition[].class);
         }
     }
 
     @Override
     public boolean create(Edition edition) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<Edition> editionsList = new LinkedList<>();
         if (editions != null) {// Sólo leeremos elementos si el json no está vacío
@@ -62,11 +64,11 @@ public class EditionJsonDAO implements EditionDAO {
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<Edition> editionsList = new LinkedList<>(Arrays.asList(editions));
-        editionsList.remove(index);
+        editionsList.remove(index - 1);
 
         gson.toJson(editionsList, writer);
         writer.close();
@@ -79,6 +81,6 @@ public class EditionJsonDAO implements EditionDAO {
      */
     @Override
     public Edition findByIndex(int index) throws FileNotFoundException {
-        return editions[index];
+        return editions[index - 1];
     }
 }

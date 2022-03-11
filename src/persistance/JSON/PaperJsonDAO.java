@@ -27,12 +27,14 @@ public class PaperJsonDAO implements PaperDAO {
             articles = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), PaperPublication[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            articles = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), PaperPublication[].class);
         }
     }
 
     @Override
     public boolean create (PaperPublication article) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<PaperPublication> articlesList = new LinkedList<>();
         if (articles != null) { // Sólo leeremos elementos si el json no está vacío
@@ -58,7 +60,7 @@ public class PaperJsonDAO implements PaperDAO {
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<PaperPublication> articlesList = new LinkedList<>(Arrays.asList(articles));
@@ -71,7 +73,7 @@ public class PaperJsonDAO implements PaperDAO {
 
     @Override
     public boolean changeLine(int index, PaperPublication article) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<PaperPublication> articlesList = new LinkedList<>(Arrays.asList(articles));

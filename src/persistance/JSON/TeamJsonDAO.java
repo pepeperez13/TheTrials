@@ -27,12 +27,14 @@ public class TeamJsonDAO implements TeamDAO {
             team = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Player[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            team = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Player[].class);
         }
     }
 
     @Override
     public boolean create (Player player) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<Player> playersList = new LinkedList<>();
         if (team != null) {// Sólo leeremos elementos si el json no está vacío
@@ -58,11 +60,11 @@ public class TeamJsonDAO implements TeamDAO {
 
     @Override
     public boolean delete (int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(team));
-        playersList.remove(index);
+        playersList.remove(index - 1);
 
         gson.toJson(playersList, writer);
         writer.close();
@@ -71,12 +73,12 @@ public class TeamJsonDAO implements TeamDAO {
 
     @Override
     public boolean changeLine (int index, Player player) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<Player> playersList = new LinkedList<>(Arrays.asList(team));
 
-        playersList.remove(index);
-        playersList.add(index, player);
+        playersList.remove(index - 1);
+        playersList.add(index - 1, player);
 
         gson.toJson(playersList, writer);
         writer.close();
@@ -85,7 +87,7 @@ public class TeamJsonDAO implements TeamDAO {
 
     @Override
     public boolean emptyFile () throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         gson.toJson(new LinkedList<>(), writer);
         return false;

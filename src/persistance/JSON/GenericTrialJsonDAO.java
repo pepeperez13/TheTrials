@@ -27,12 +27,14 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
             genericTrials = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), GenericTrial[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            genericTrials = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), GenericTrial[].class);
         }
     }
 
     @Override
     public boolean create(GenericTrial name) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<GenericTrial> namesList = new LinkedList<>();
         if (genericTrials != null) { // Sólo leeremos elementos si el json no está vacío
@@ -58,12 +60,12 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
 
     @Override
     public GenericTrial findByIndex(int index) {
-        return genericTrials[index];
+        return genericTrials[index - 1];
     }
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<GenericTrial> namesList = new LinkedList<>(Arrays.asList(genericTrials));

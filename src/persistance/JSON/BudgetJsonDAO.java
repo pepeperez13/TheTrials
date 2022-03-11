@@ -28,12 +28,14 @@ public class BudgetJsonDAO implements BudgetDAO {
             budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
         } else {
             System.out.println("\nThe file already exist.");
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
         }
     }
 
     @Override
     public boolean create(Budget budget) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         LinkedList<Budget> budgetsList = new LinkedList<>();
         if (budgets != null) { // Sólo leeremos elementos si el json no está vacío
@@ -59,16 +61,16 @@ public class BudgetJsonDAO implements BudgetDAO {
 
     @Override
     public Budget findByIndex(int index) {
-        return budgets[index];
+        return budgets[index - 1];
     }
 
     @Override
     public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<Budget> budgetsList = new LinkedList<>(Arrays.asList(budgets));
-        budgetsList.remove(index);
+        budgetsList.remove(index - 1);
 
         gson.toJson(budgetsList, writer);
         writer.close();
@@ -77,13 +79,13 @@ public class BudgetJsonDAO implements BudgetDAO {
     }
     @Override
     public boolean changeLine(int index, Budget budget) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+        FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
         LinkedList<Budget> budgetsList = new LinkedList<>(Arrays.asList(budgets));
 
-        budgetsList.remove(index);
-        budgetsList.add(index, budget);
+        budgetsList.remove(index - 1);
+        budgetsList.add(index - 1, budget);
 
         gson.toJson(budgetsList, writer);
         writer.close();
