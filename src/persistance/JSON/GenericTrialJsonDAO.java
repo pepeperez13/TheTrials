@@ -34,14 +34,22 @@ public class GenericTrialJsonDAO {
     public static void main (String[] args) {
         GenericTrialJsonDAO generic = new GenericTrialJsonDAO();
 
-        for (int i = 0; i < 5; i++){
-            create(new GenericTrial("Prueba " + Integer.valueOf(i), TrialTypeOptions.PAPER));
+
+        for (int i = 0; i < 30; i++){
+            //create(new GenericTrial("Prueba " + Integer.valueOf(i), TrialTypeOptions.PAPER));
         }
 
         List<GenericTrial> generics = readAll();
-        System.out.println(findByIndex(3).getName()+findByIndex(3).getType());
 
-        //System.out.println(findByIndex(3).getName() + findByIndex(3).getType());
+
+        System.out.println(generics.get(0).getName());
+        System.out.println(findByIndex(22).getName());
+
+        delete(0);
+        delete(1);
+        delete(20);
+
+        System.out.println(generics.get(0).getName());
 
     }
 
@@ -77,12 +85,24 @@ public class GenericTrialJsonDAO {
             Gson gson = new Gson();
             String lines = Files.readString(path);Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
             List<GenericTrial> genericList = gson.fromJson(lines, listType);
-            System.out.println(genericList.get(index));
             return genericList.get(index - 1);
         } catch (IOException e) {
             return null;
         }
     }
 
+    public static boolean delete (int index) {
+        try {
+            Gson gson = new Gson();
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            List<GenericTrial> genericTrials = readAll();
+            String jsonData = gson.toJson(genericTrials, List.class);
+            Files.write(path, jsonData.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
 }
