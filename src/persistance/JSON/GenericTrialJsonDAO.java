@@ -4,13 +4,15 @@ import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.GenericTrial;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import persistance.GenericTrialDAO;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GenericTrialJsonDAO {
     private String filename = "generics.json";
@@ -36,8 +38,8 @@ public class GenericTrialJsonDAO {
             create(new GenericTrial("Prueba " + Integer.valueOf(i), TrialTypeOptions.PAPER));
         }
 
-        LinkedList<GenericTrial> generics = readAll();
-        System.out.println(generics.get(3).getName());
+        List<GenericTrial> generics = readAll();
+        System.out.println(findByIndex(3).getName()+findByIndex(3).getType());
 
         //System.out.println(findByIndex(3).getName() + findByIndex(3).getType());
 
@@ -59,11 +61,11 @@ public class GenericTrialJsonDAO {
         }
     }
 
-    public static LinkedList<GenericTrial> readAll () {
+    public static List<GenericTrial> readAll () {
         try{
             Gson gson = new Gson();
-            String lines = Files.readString(path);
-            LinkedList<GenericTrial> genericList = gson.fromJson(lines, LinkedList.class);
+            String lines = Files.readString(path);Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
+            List<GenericTrial> genericList = gson.fromJson(lines, listType);
             return genericList;
         } catch (IOException e) {
             return new LinkedList<>();
@@ -73,8 +75,8 @@ public class GenericTrialJsonDAO {
     public static GenericTrial findByIndex (int index) {
         try{
             Gson gson = new Gson();
-            String lines = Files.readString(path);
-            LinkedList<GenericTrial> genericList = gson.fromJson(lines, LinkedList.class);
+            String lines = Files.readString(path);Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
+            List<GenericTrial> genericList = gson.fromJson(lines, listType);
             System.out.println(genericList.get(index));
             return genericList.get(index - 1);
         } catch (IOException e) {
