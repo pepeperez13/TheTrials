@@ -38,7 +38,7 @@ public class ConductorController {
             view.showMessage("\nNo edition is defined for the current year (2021)");
             view.showMessage("\nShutting down...");
         } else {
-            view.showMessage("\n--- The Trials 2021 ---\n"); //Ojo con la fecha
+            view.showMessage("\n--- The Trials 2022 ---\n"); //Ojo con la fecha
             // Siempre que finalIndex valga 0, se tendran que volver a pedir los jugadores
             if (finalIndex == 0) {
                 savePlayers();
@@ -82,10 +82,23 @@ public class ConductorController {
 
     private int playTrials (int numTrials, int index) throws IOException {
         int i;
+        boolean continueExecution = true;
+        String aux = "";
         for (i = index; i < numTrials; i++) {
-            view.showMessage("Trial #"+i+"- "+editionManager.getEditionCurrentYear().getTrialNameByIndex(i));
+            view.showMessage("\nTrial #" + (i+1) + " - " + editionManager.getEditionCurrentYear().getTrialNameByIndex(i));
             //Pasamos un GenericTrial al gameExecutor
-            gameExecutor.playTrial(genericTrialManager.getGenericalTrial(genericTrialManager.getIndexByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i))));
+            gameExecutor.playTrial(genericTrialManager.getGenericalTrial(genericTrialManager.getIndexByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i))+1));
+            boolean dead = teamManager.checkDeadPlayers();
+            if (i != numTrials - 1 && !dead) { // Si no se han ejecutado ya todos los trials, preguntamos si seguir con ejecución o no
+                do {
+                    aux = view.askForString("\nContinue the execution? [yes/no]: ");
+                    switch (aux) {
+                        case "yes" -> continueExecution = true;
+                        case "no" -> continueExecution = false;
+                        default -> view.showMessage("Expected yes/no. Try again. ");
+                    }
+                } while (!aux.equals("yes") && !aux.equals("no"));
+            }
         }
         return i;
     }

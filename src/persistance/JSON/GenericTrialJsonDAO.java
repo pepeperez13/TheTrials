@@ -1,5 +1,6 @@
 package persistance.JSON;
 
+import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.GenericTrial;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,8 +29,8 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         } else {
             System.out.println("\nThe file already exist.");
             gson = new GsonBuilder().setPrettyPrinting().create();
-            genericTrials = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), GenericTrial[].class);
         }
+        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     @Override
@@ -43,24 +44,27 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
 
         namesList.add(name);
         gson.toJson(namesList, writer);
+        genericTrials = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), GenericTrial[].class);
         writer.close();
 
         return false;
     }
 
     @Override
-    public LinkedList<GenericTrial> readAll() {
+    public LinkedList<GenericTrial> readAll()  {
         // Nunca va estar vacia (comprobamos antes de llamar)
         try {
             return new LinkedList<>(Arrays.asList(genericTrials));
         } catch (NullPointerException e) {
             return new LinkedList<>();
         }
+
     }
 
     @Override
     public GenericTrial findByIndex(int index) {
-        return genericTrials[index - 1];
+        //return genericTrials[index - 1];
+        return new GenericTrial("Hola", TrialTypeOptions.BUDGET);
     }
 
     @Override
@@ -68,10 +72,10 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         FileWriter writer = new FileWriter("files/"+filename);
 
         // Nunca va estar vacia (comprobamos antes de llamar)
-        LinkedList<GenericTrial> namesList = new LinkedList<>(Arrays.asList(genericTrials));
-        namesList.remove(index);
+        //LinkedList<GenericTrial> namesList = new LinkedList<>(Arrays.asList(genericTrials));
+        //namesList.remove(index);
 
-        gson.toJson(namesList, writer);
+        //gson.toJson(namesList, writer);
         writer.close();
 
         return false;

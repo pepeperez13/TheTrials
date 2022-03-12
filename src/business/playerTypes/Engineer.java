@@ -10,10 +10,11 @@ public class Engineer extends Player{
         this.name = name;
         this.PI = PI;
     }
-    /*
+
+    @Override
     public void incrementPI (int change) {
         this.PI = this.PI + change;
-    }*/
+    }
 
     @Override
     public void decrementPI (int change) {

@@ -123,7 +123,7 @@ public class TeamCsvDAO implements TeamDAO {
     public boolean emptyFile() {
         try {
             LinkedList<String> players = new LinkedList<>();
-            players.add("");
+            //players.add("");
             Files.write(file.toPath(), players);
             return true;
         } catch (IOException e) {

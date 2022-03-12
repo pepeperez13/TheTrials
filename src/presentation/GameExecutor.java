@@ -108,10 +108,10 @@ public class GameExecutor {
                 }else{
                     player.incrementPI(5);
                 }
-                view.showMessageLine(player.getName() + "was successful. Congrats! PI count: " + player.getPI());
+                view.showMessage(player.getName() + " was successful. Congrats! PI count: " + player.getPI());
             }else{
                 player.decrementPI(5);
-                view.showMessageLine(player.getName() + "was not successful. Sorry... PI count: " + player.getPI());
+                view.showMessage(player.getName() + " was not successful. Sorry... PI count: " + player.getPI());
             }
             teamManager.updatePlayer(j, player);
             j++;
@@ -133,10 +133,12 @@ public class GameExecutor {
 
         // Hacemos que todos los jugadores publiquen su articulo y vamos actualizando su PI
         for (Player player: teamManager.getPlayers()){
-            view.showMessage(player.getName() + " is submitting...");
-            player = publishArticle(paper, player);
-            teamManager.updatePlayer(i, player);
-            view.showMessageLine("PI count:" + player.getPI());
+            if (player.getPI() != 0) {
+                view.showMessageLine(player.getName() + " is submitting...");
+                player = publishArticle(paper, player);
+                teamManager.updatePlayer(i, player);
+                view.showMessageLine(" PI count: " + player.getPI() + "\n");
+            }
             i++;
         }
 
@@ -155,7 +157,7 @@ public class GameExecutor {
             response = calculateResponse(article);
         }while (response != 1 && response != 3);
         // Aumentamos, mantenemos o reducimos puntuación segon el cuartil
-        player = manageScore(response, article, player);
+        manageScore(response, article, player);
 
         return player;
     }
@@ -184,7 +186,7 @@ public class GameExecutor {
         return response;
     }
 
-    private Player manageScore (int response, PaperPublication article, Player player) {
+    private void manageScore (int response, PaperPublication article, Player player) {
         String quartile = article.getQuartile();
 
         if (response == 1) {
@@ -203,7 +205,7 @@ public class GameExecutor {
                 case "Q4" -> player.decrementPI(2);
             }
         }
-        return player;
+
     }
     /**Acaba gestión paper**/
 

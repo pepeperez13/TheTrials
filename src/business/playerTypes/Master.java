@@ -10,6 +10,11 @@ public class Master extends Player {
     }
 
     @Override
+    public void incrementPI (int change) {
+        this.PI = this.PI + change;
+    }
+
+    @Override
     public void decrementPI (int change) {
         if (super.getPI() - change >= 0) {
             super.setPi(super.getPI() - change);
