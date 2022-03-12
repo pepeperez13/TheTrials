@@ -1,6 +1,5 @@
 package persistance.JSON;
 
-import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.GenericTrial;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,7 +10,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,9 +31,10 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
     }
 
     @Override
-    public  boolean create (GenericTrial generic) {
+    public boolean create (GenericTrial generic) {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new Gson();
+            gson = new GsonBuilder().setPrettyPrinting().create();
             String lines = Files.readString(path);
             LinkedList<GenericTrial> genericList = gson.fromJson(lines, LinkedList.class);
             genericList.add(generic);
@@ -51,8 +50,7 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
     public LinkedList<GenericTrial> readAll () {
         try{
             Gson gson = new Gson();
-            String lines = Files.readString(path);
-            Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
+            String lines = Files.readString(path);Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
             List<GenericTrial> genericList = gson.fromJson(lines, listType);
             LinkedList<GenericTrial> genericLinked = new LinkedList<>(genericList);
             return genericLinked;
@@ -65,8 +63,7 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
     public GenericTrial findByIndex (int index) {
         try{
             Gson gson = new Gson();
-            String lines = Files.readString(path);
-            Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
+            String lines = Files.readString(path);Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
             List<GenericTrial> genericList = gson.fromJson(lines, listType);
             return genericList.get(index - 1);
         } catch (IOException e) {
@@ -77,16 +74,16 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
     @Override
     public boolean delete (int index) {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new Gson();
+            gson = new GsonBuilder().setPrettyPrinting().create();
             List<GenericTrial> genericTrials = readAll();
-            genericTrials.remove(index);
             String jsonData = gson.toJson(genericTrials, List.class);
             Files.write(path, jsonData.getBytes());
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
+        return true;
     }
 
 }

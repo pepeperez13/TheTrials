@@ -8,11 +8,11 @@ import java.util.LinkedList;
 
 public interface PaperDAO {
 
-    boolean create(PaperPublication article) throws IOException;
+    boolean create(PaperPublication article);
 
-    LinkedList<PaperPublication> readAll() throws FileNotFoundException;
+    LinkedList<PaperPublication> readAll();
 
-    boolean delete(int index) throws IOException;
+    boolean delete(int index);
 
-    boolean changeLine(int index, PaperPublication paperPublication) throws IOException;
+    boolean changeLine(int index, PaperPublication paperPublication);
 }

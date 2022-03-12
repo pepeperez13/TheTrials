@@ -20,11 +20,11 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
     private String filePath = "files";
     private File file = new File(filePath, fileName);
 
-    public GenericTrialCsvDAO () throws IOException {
+    public GenericTrialCsvDAO () {
         if (!file.exists() ) {
             try {
                 file.createNewFile();
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
