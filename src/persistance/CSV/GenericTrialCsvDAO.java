@@ -78,7 +78,7 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
     }
 
     @Override
-    public boolean delete(int index) throws IOException {
+    public boolean delete(int index) {
         try {
             List<String> genericTrials = Files.readAllLines(file.toPath());
             genericTrials.remove(index);

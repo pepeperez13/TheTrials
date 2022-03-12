@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public interface BudgetDAO {
-    boolean create(Budget budget) throws IOException;
+    boolean create(Budget budget);
 
     LinkedList<Budget> readAll();
 

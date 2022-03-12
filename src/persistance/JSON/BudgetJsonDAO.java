@@ -1,95 +1,107 @@
 package persistance.JSON;
 
 import business.typeTrials.Budget;
+import business.typeTrials.GenericTrial;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import persistance.BudgetDAO;
 
 import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class BudgetJsonDAO implements BudgetDAO {
-
     private String filename = "budgets.json";
-    private String filePath = "files";
-    private File file = new File(filePath, filename);
-    private Gson gson;
-    private Budget[] budgets;
+    private static String route = "files/budgets.json";
+    private static Path path = Path.of(route);
+    private File file = new File("files", filename);
 
-    public BudgetJsonDAO () throws FileNotFoundException {
-        if (!file.exists()) {
-            try {
+    public BudgetJsonDAO () {
+        try {
+            if(!file.exists()){
                 file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+                Files.write(Path.of(String.valueOf(path)), "[]".getBytes());
             }
-            gson = new GsonBuilder().setPrettyPrinting().create();
-            budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
-        } else {
-            System.out.println("\nThe file already exist.");
-            gson = new GsonBuilder().setPrettyPrinting().create();
-            budgets = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), Budget[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public boolean create(Budget budget) throws IOException {
-        FileWriter writer = new FileWriter("files/"+filename);
-
-        LinkedList<Budget> budgetsList = new LinkedList<>();
-        if (budgets != null) { // Sólo leeremos elementos si el json no está vacío
-            budgetsList = new LinkedList<>(Arrays.asList(budgets));
+    public boolean create(Budget budget)  {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String lines = Files.readString(path);
+            LinkedList<Budget> budgetList = gson.fromJson(lines, LinkedList.class);
+            budgetList.add(budget);
+            String jsonData = gson.toJson(budgetList, LinkedList.class);
+            Files.write(path, jsonData.getBytes());
+            return true;
+        }catch (IOException e) {
+            return false;
         }
-
-        budgetsList.add(budget);
-        gson.toJson(budgetsList, writer);
-        writer.close();
-
-        return false;
     }
 
     @Override
     public LinkedList<Budget> readAll() {
-        // Nunca va estar vacia (comprobamos antes de llamar)
-        try {
-            return new LinkedList<>(Arrays.asList(budgets));
-        } catch (NullPointerException e) {
+        try{
+            Gson gson = new Gson();
+            String lines = Files.readString(path);
+            Type listType = new TypeToken<List<Budget>>(){}.getType();
+            List<Budget> budgetList = gson.fromJson(lines, listType);
+            LinkedList<Budget> budgetLinked = new LinkedList<>(budgetList);
+            return budgetLinked;
+        } catch (IOException e) {
             return new LinkedList<>();
         }
     }
 
     @Override
     public Budget findByIndex(int index) {
-        return budgets[index - 1];
+        try{
+            Gson gson = new Gson();
+            String lines = Files.readString(path);
+            Type listType = new TypeToken<List<Budget>>(){}.getType();
+            List<Budget> budgetList = gson.fromJson(lines, listType);
+            return budgetList.get(index - 1);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     @Override
-    public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter("files/"+filename);
-
-        // Nunca va estar vacia (comprobamos antes de llamar)
-        LinkedList<Budget> budgetsList = new LinkedList<>(Arrays.asList(budgets));
-        budgetsList.remove(index - 1);
-
-        gson.toJson(budgetsList, writer);
-        writer.close();
-
-        return false;
+    public boolean delete (int index) throws IOException {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            List<Budget> budgets = readAll();
+            budgets.remove(index);
+            String jsonData = gson.toJson(budgets, List.class);
+            Files.write(path, jsonData.getBytes());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     @Override
     public boolean changeLine(int index, Budget budget) throws IOException {
-        FileWriter writer = new FileWriter("files/"+filename);
-
-        // Nunca va estar vacia (comprobamos antes de llamar)
-        LinkedList<Budget> budgetsList = new LinkedList<>(Arrays.asList(budgets));
-
-        budgetsList.remove(index - 1);
-        budgetsList.add(index - 1, budget);
-
-        gson.toJson(budgetsList, writer);
-        writer.close();
-        return false;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            List<Budget> budgets = readAll();
+            budgets.remove(index);
+            budgets.add(index, budget);
+            String jsonData = gson.toJson(budgets, List.class);
+            Files.write(path, jsonData.getBytes());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

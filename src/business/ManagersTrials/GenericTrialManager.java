@@ -16,7 +16,7 @@ public class GenericTrialManager {
 
     public GenericTrialManager(DataSourceOptions options) throws IOException {
         switch (options) {
-            //case JSON -> trialsDAO = new GenericTrialJsonDAO();
+            case JSON -> trialsDAO = new GenericTrialJsonDAO();
             case CSV -> trialsDAO= new GenericTrialCsvDAO();
         }
     }

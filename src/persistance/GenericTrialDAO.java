@@ -14,7 +14,7 @@ public interface GenericTrialDAO {
 
     GenericTrial findByIndex(int index);
 
-    boolean delete(int index) throws IOException;
+    boolean delete(int index);
 
     //boolean changeLine (int index, GenericTrial genericTrial);
 
