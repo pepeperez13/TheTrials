@@ -42,7 +42,7 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
     }
 
     @Override
-    public boolean create(GenericTrial generic) throws IOException {
+    public boolean create(GenericTrial generic)  {
         try {
             List<String> list = Files.readAllLines(file.toPath());
             list.add(genericTrialToCsv(generic));

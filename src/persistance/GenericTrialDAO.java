@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public interface GenericTrialDAO {
 
-    boolean create(GenericTrial name) throws IOException;
+    boolean create(GenericTrial name) ;
 
     LinkedList<GenericTrial> readAll() ;
 
