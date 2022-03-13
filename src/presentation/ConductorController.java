@@ -35,7 +35,7 @@ public class ConductorController {
         // vez que entremos tiene que continuar la ejecución o empezar de nuevo
         view.showMessage("\nEntering execution mode ...");
         if (!checkYear(editionManager.getEditions())) {
-            view.showMessage("\nNo edition is defined for the current year (2021)");
+            view.showMessage("\nNo edition is defined for the current year (2022)");
             view.showMessage("\nShutting down...");
         } else {
             view.showMessage("\n--- The Trials 2022 ---\n"); //Ojo con la fecha

@@ -232,7 +232,7 @@ public class GameExecutor {
         int pass = 0, deny = 0;
 
         //Comprobar uno a uno cúantos créditos pasa
-        for (int i = 0; i <= masterStudies.getNumberCredits() ; i++) {
+        for (int i = 0; i < masterStudies.getNumberCredits() ; i++) {
             if (randomNumber <= masterStudies.getProbability()) {
                 pass++;
             }
@@ -247,10 +247,10 @@ public class GameExecutor {
             }else{
                 player.incrementPI(3);
             }
-            view.showMessage(player.getName() + "passed " + pass + "/" + masterStudies.getNumberCredits() + "Congrats! PI count: " + player.getPI());
+            view.showMessage(player.getName() + " passed " + pass + "/" + masterStudies.getNumberCredits() + " Congrats! PI count: " + player.getPI());
         }else{
             player.decrementPI(3);
-            view.showMessage(player.getName() + "passed " + pass + "/" + masterStudies.getNumberCredits() + "Sorry... PI count: " + player.getPI());
+            view.showMessage(player.getName() + " passed " + pass + "/" + masterStudies.getNumberCredits() + " Sorry... PI count: " + player.getPI());
         }
 
     }
@@ -268,6 +268,9 @@ public class GameExecutor {
                     teamManager.updatePlayer(i, master);
                     // Añadimos a la lista de jugadores evolucionados para mostrarlo
                     changedType.add(player.getName() + " is now a master (with 5 PI). ");
+                    if (i == teamManager.getPlayers().size() - 1) { // Añade un espacio al final
+                        view.showMessage("");
+                    }
                 }
             } else if (player instanceof Master) {
                 if (player.checkUpdateStatus()) {
@@ -275,6 +278,9 @@ public class GameExecutor {
                     teamManager.updatePlayer(i, doctor);
                     // Añadimos a la lista de jugadores evolucionados para mostrarlo
                     changedType.add(player.getName() + "is now a doctor (with 5 PI). ");
+                    if (i == teamManager.getPlayers().size() - 1) { // Añade un espacio al final
+                        view.showMessage("");
+                    }
                 }
             }
             i++;

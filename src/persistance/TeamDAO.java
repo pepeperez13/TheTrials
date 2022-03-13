@@ -8,13 +8,13 @@ import java.util.LinkedList;
 
 public interface TeamDAO {
 
-    boolean create(Player player) throws IOException;
+    boolean create(Player player);
 
-    LinkedList<Player> readAll() throws FileNotFoundException;
+    LinkedList<Player> readAll();
 
-    boolean delete(int index) throws IOException;
+    boolean delete(int index);
 
-    boolean changeLine(int index, Player player) throws IOException;
+    boolean changeLine(int index, Player player);
 
-    boolean emptyFile() throws IOException;
+    boolean emptyFile();
 }

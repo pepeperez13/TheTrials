@@ -199,41 +199,45 @@ public class CompositorController {
 
     private void addEdition () throws IOException {
         int year, numPlayers, numTrials;
-        year = view.askForInteger("\nEnter the edition's year: ");
-        do {
-            numPlayers = view.askForInteger("Enter the initial number of players: ");
-            if (numPlayers < 0 || numPlayers > 5) {
-                System.out.println("\nIncorrect option\n");
-            }
-        } while (numPlayers < 0 || numPlayers > 5);
-        do {
-            numTrials = view.askForInteger("Enter the number of trials: ");
-            if (numTrials < 3 || numTrials > 12) {
-                System.out.println("\nIncorrect option");
-            }
-        } while (numTrials < 3 || numTrials > 12);
-        view.showMessage("\n\t--- Trials ---\n");
-        view.showList(genericTrialManager.getTrialsNames());
-
-        // Guardamos los indices de las pruebas que se quieren guardar en la edición
-        ArrayList<Integer> trialsIndexes = new ArrayList<>();
-        view.showMessage("");
-        int index;
-        for (int i = 0; i < numTrials; i++) {
+        if (!(genericTrialManager.getTrials().size() == 0)) {
+            year = view.askForInteger("\nEnter the edition's year: ");
             do {
-                index = view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ");
-            }while (index > genericTrialManager.getTrials().size());
-            trialsIndexes.add(index - 1);
-        }
+                numPlayers = view.askForInteger("Enter the initial number of players: ");
+                if (numPlayers < 0 || numPlayers > 5) {
+                    System.out.println("\nIncorrect option\n");
+                }
+            } while (numPlayers < 0 || numPlayers > 5);
+            do {
+                numTrials = view.askForInteger("Enter the number of trials: ");
+                if (numTrials < 3 || numTrials > 12) {
+                    System.out.println("\nIncorrect option");
+                }
+            } while (numTrials < 3 || numTrials > 12);
+            view.showMessage("\n\t--- Trials ---\n");
+            view.showList(genericTrialManager.getTrialsNames());
 
-        // Activamos las pruebas introducidas como en uso
-        setTrialsInUse(trialsIndexes);
+            // Guardamos los indices de las pruebas que se quieren guardar en la edición
+            ArrayList<Integer> trialsIndexes = new ArrayList<>();
+            view.showMessage("");
+            int index;
+            for (int i = 0; i < numTrials; i++) {
+                do {
+                    index = view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ");
+                } while (index > genericTrialManager.getTrials().size());
+                trialsIndexes.add(index - 1);
+            }
 
-        // Obtenemos los nombres de las pruebas con dichos índices
-        String[] names = genericTrialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
+            // Activamos las pruebas introducidas como en uso
+            setTrialsInUse(trialsIndexes);
 
-        if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
-            view.showMessage("\nThe edition was created successfully!");
+            // Obtenemos los nombres de las pruebas con dichos índices
+            String[] names = genericTrialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
+
+            if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
+                view.showMessage("\nThe edition was created successfully!");
+            }
+        }else{
+            view.showMessage("\nNo editions can be created as there are no existing trials.");
         }
     }
 

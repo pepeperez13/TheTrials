@@ -51,7 +51,7 @@ public class MasterController {
         MasterStudies master = masterManager.getMasterByName(name);
         view.showMessage("\nTrial: " + master.getName() + " (Master studies)");
         view.showMessage("Master: " + master.getNom());
-        view.showMessage("ECTS:" + master.getNumberCredits()
+        view.showMessage("ECTS: " + master.getNumberCredits()
                 + ", with a " + master.getProbability()
                 + "% chance to pass each one");
     }

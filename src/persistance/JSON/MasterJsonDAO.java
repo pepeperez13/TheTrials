@@ -1,95 +1,111 @@
 package persistance.JSON;
 
 
-import business.Edition;
 import business.typeTrials.MasterStudies;
-import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import persistance.MasterDAO;
 
 import java.io.*;
-import java.util.Arrays;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MasterJsonDAO implements MasterDAO {
-    private String filename = "masters.json";
-    private String filePath = "files";
-    private final File file = new File(filePath, filename);
-    private Gson gson;
-    private MasterStudies[] masters;
+    private final String filename = "masters.json";
+    private static final String route = "files/masters.json";
+    private static final Path path = Path.of(route);
+    private File file = new File("files", filename);
 
-    public MasterJsonDAO () throws FileNotFoundException {
-        if (!file.exists()) {
-            try {
+    public MasterJsonDAO () {
+        try {
+            if(!file.exists()){
                 file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+                Files.write(Path.of(String.valueOf(path)), "[]".getBytes());
             }
-            gson = new GsonBuilder().setPrettyPrinting().create();
-            masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
-        } else {
-            System.out.println("\nThe file already exist.");
-            gson = new GsonBuilder().setPrettyPrinting().create();
-            masters = gson.fromJson(gson.newJsonReader(new FileReader("files/"+filename)), MasterStudies[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public boolean create(MasterStudies masterStudies) throws IOException {
-        FileWriter writer = new FileWriter("files/"+filename);
-
-        LinkedList<MasterStudies> mastersList = new LinkedList<>();
-        if (masters != null) {
-            mastersList = new LinkedList<>(Arrays.asList(masters));
+    public boolean create(MasterStudies masterStudies) {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String lines = Files.readString(path);
+            LinkedList<MasterStudies> mastersList = new LinkedList<>();
+            // Solo leeremos elementos si el json no está vacío
+            if (gson.fromJson(lines, LinkedList.class) != null) {
+                mastersList = gson.fromJson(lines, LinkedList.class);
+            }
+            mastersList.add(masterStudies);
+            String jsonData = gson.toJson(mastersList, LinkedList.class);
+            Files.write(path, jsonData.getBytes());
+            return true;
+        }catch (IOException e) {
+            return false;
         }
-
-        mastersList.add(masterStudies);
-        gson.toJson(mastersList, writer);
-        writer.close();
-
-        return false;
     }
 
     @Override
     public LinkedList<MasterStudies> readAll() {
-        try {
-            return new LinkedList<>(Arrays.asList(masters));
-        } catch (NullPointerException e) {
+        try{
+            Gson gson = new Gson();
+            String lines = Files.readString(path);
+            Type listType = new TypeToken<List<MasterStudies>>(){}.getType();
+            List<MasterStudies> mastersList = new LinkedList<>();
+            if (gson.fromJson(lines, listType) != null) {
+                mastersList = gson.fromJson(lines, listType);
+            }
+            return new LinkedList<>(mastersList);
+        } catch (IOException e) {
             return new LinkedList<>();
         }
     }
 
     @Override
     public MasterStudies findByIndex(int index) {
-        return masters[index - 1];
+        try{
+            Gson gson = new Gson();
+            String lines = Files.readString(path);
+            Type listType = new TypeToken<List<MasterStudies>>(){}.getType();
+            List<MasterStudies> mastersList = gson.fromJson(lines, listType);
+            return mastersList.get(index - 1);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     @Override
-    public boolean delete(int index) throws IOException {
-        FileWriter writer = new FileWriter("files/"+filename);
-
-        // Nunca va estar vacia (comprobamos antes de llamar)
-        LinkedList<MasterStudies> mastersList = new LinkedList<>(Arrays.asList(masters));
-        mastersList.remove(index - 1);
-
-        gson.toJson(mastersList, writer);
-        writer.close();
-        return false;
+    public boolean delete(int index) {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            List<MasterStudies> masters = readAll();
+            masters.remove(index);
+            String jsonData = gson.toJson(masters, List.class);
+            Files.write(path, jsonData.getBytes());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public boolean changeLine(int index, MasterStudies master) throws IOException {
-        FileWriter writer = new FileWriter("files/"+filename);
-
-        // Nunca va estar vacia (comprobamos antes de llamar)
-        LinkedList<MasterStudies> mastersList = new LinkedList<>(Arrays.asList(masters));
-
-        mastersList.remove(index - 1);
-        mastersList.add(index - 1, master);
-
-        gson.toJson(mastersList, writer);
-        writer.close();
-        return false;
+    public boolean changeLine(int index, MasterStudies master) {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            List<MasterStudies> masters = readAll();
+            masters.remove(index);
+            masters.add(index, master);
+            String jsonData = gson.toJson(masters, List.class);
+            Files.write(path, jsonData.getBytes());
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }

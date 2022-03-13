@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public interface EditionDAO {
-    LinkedList<Edition> readAll() throws FileNotFoundException;
+    LinkedList<Edition> readAll();
 
-    boolean create(Edition edition) throws IOException;
+    boolean create(Edition edition);
 
-    boolean delete(int index) throws IOException;
+    boolean delete(int index);
 
-    Edition findByIndex(int index) throws FileNotFoundException;
+    Edition findByIndex(int index);
 }

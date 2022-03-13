@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public interface DoctoralDAO {
-    boolean create(DoctoralThesis doctoralThesis) throws IOException;
+    boolean create(DoctoralThesis doctoralThesis);
 
     LinkedList<DoctoralThesis> readAll();
 
     DoctoralThesis findByIndex(int index);
 
-    boolean delete(int index) throws IOException;
+    boolean delete(int index);
 
-    boolean changeLine (int index, DoctoralThesis doctoralThesis) throws IOException;
+    boolean changeLine (int index, DoctoralThesis doctoralThesis);
 }

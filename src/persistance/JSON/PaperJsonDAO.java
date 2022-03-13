@@ -11,17 +11,16 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class PaperJsonDAO implements PaperDAO {
-    private String filename = "papers.json";
-    private static String route = "files/papers.json";
-    private static Path path = Path.of(route);
+    private final String filename = "papers.json";
+    private static final String route = "files/papers.json";
+    private static final Path path = Path.of(route);
     private File file = new File("files", filename);
 
-    public PaperJsonDAO() throws FileNotFoundException {
+    public PaperJsonDAO() {
         try {
             if(!file.exists()){
                 file.createNewFile();
@@ -37,7 +36,11 @@ public class PaperJsonDAO implements PaperDAO {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String lines = Files.readString(path);
-            LinkedList<PaperPublication> articlesList = gson.fromJson(lines, LinkedList.class);
+            LinkedList<PaperPublication> articlesList = new LinkedList<>();
+            // Solo leeremos elementos si el json no está vacío
+            if (gson.fromJson(lines, LinkedList.class) != null) {
+                articlesList = gson.fromJson(lines, LinkedList.class);
+            }
             articlesList.add(article);
             String jsonData = gson.toJson(articlesList, LinkedList.class);
             Files.write(path, jsonData.getBytes());
@@ -52,10 +55,12 @@ public class PaperJsonDAO implements PaperDAO {
         try{
             Gson gson = new Gson();
             String lines = Files.readString(path);
-            Type listType = new TypeToken<List<GenericTrial>>(){}.getType();
-            List<PaperPublication> paperPublications = gson.fromJson(lines, listType);
-            LinkedList<PaperPublication> paperLinked = new LinkedList<>(paperPublications);
-            return paperLinked;
+            Type listType = new TypeToken<List<PaperPublication>>(){}.getType();
+            List<PaperPublication> paperPublications = new LinkedList<>();
+            if (gson.fromJson(lines, listType) != null) {
+                paperPublications= gson.fromJson(lines, listType);
+            }
+            return new LinkedList<>(paperPublications);
         } catch (IOException e) {
             return new LinkedList<>();
         }

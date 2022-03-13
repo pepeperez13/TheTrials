@@ -91,7 +91,7 @@ public class ViewController {
 
     public void showListGuion (List<String> items) {
         for (int i = 0; i < items.size(); i++) {
-            System.out.println("\t " + (i+1) + "- " + items.get(i) + " " + "(Paper publication)");
+            System.out.println("\t " + (i+1) + "- " + items.get(i));
         }
     }
 
