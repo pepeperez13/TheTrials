@@ -1,9 +1,7 @@
 package business.playerTypes;
 
-import business.PlayerTypeOptions;
-
 public class Engineer extends Player{
-    private final String name;
+    private String name;
     private int PI;
 
     public Engineer (String name, int PI){

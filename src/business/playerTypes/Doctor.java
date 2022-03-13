@@ -4,9 +4,9 @@ public class Doctor extends Player{
     private String name;
     private int PI;
 
-    public Doctor (String name, int pi) {
+    public Doctor (String name, int PI) {
         this.name = name;
-        this.PI = pi;
+        this.PI = PI;
     }
 
     @Override

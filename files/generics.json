@@ -1,0 +1,22 @@
+[
+  {
+    "name": "tangas",
+    "type": "PAPER"
+  },
+  {
+    "name": "latencia",
+    "type": "MASTER"
+  },
+  {
+    "name": "niagara",
+    "type": "DOCTORAL"
+  },
+  {
+    "name": "mola",
+    "type": "BUDGET"
+  },
+  {
+    "name": "sqsl",
+    "type": "PAPER"
+  }
+]

@@ -11,18 +11,17 @@ import business.playerTypes.Master;
 import business.playerTypes.Player;
 import business.typeTrials.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class GameExecutor {
-    private TeamManager teamManager;
-    private BudgetManager budgetManager;
-    private PaperPublicationManager paperManager;
-    private MasterManager masterManager;
-    private DoctoralManager doctoralManager;
-    private ViewController view;
+    private final TeamManager teamManager;
+    private final BudgetManager budgetManager;
+    private final PaperPublicationManager paperManager;
+    private final MasterManager masterManager;
+    private final DoctoralManager doctoralManager;
+    private final ViewController view;
 
     public GameExecutor(TeamManager teamManager, BudgetManager budgetManager, PaperPublicationManager paperManager, MasterManager masterManager, DoctoralManager doctoralManager, ViewController view) {
         this.teamManager = teamManager;
@@ -45,7 +44,7 @@ public class GameExecutor {
     /**Empieza gestión de budget**/
     private void playBudget (Budget budget) throws IOException {
         boolean passed;
-        if (teamManager.getPITeam() > (int) Math.pow(2, budget.getAmount())) {
+        if (teamManager.getPITeam() > (int) (Math.log(budget.getAmount()) / Math.log(2))) {
             view.showMessage("The research group got the budget!\n");
             passed = true;
         } else {
@@ -72,17 +71,20 @@ public class GameExecutor {
 
     private void updatePiTeam (TeamManager teamManager, boolean passed) throws IOException {
         if (passed) {
+            Player aux;
             for (int i = 0; i < teamManager.getPlayers().size(); i++) {
-                //Cambios el PI por cada jugador y lo actualizamos
-                teamManager.getPlayers().get(i).incrementPI(teamManager.getPlayers().get(i).getPI()/2);
-                teamManager.updatePlayer(i, teamManager.getPlayers().get(i));
+                aux = teamManager.getPlayers().get(i);
+                aux.incrementPI((int) Math.ceil((double) aux.getPI()/2));
+                teamManager.updatePlayer(i, aux);
             }
         }
         else {
+            Player aux;
             for (int i = 0; i < teamManager.getPlayers().size(); i++) {
                 //Cambios el PI por cada jugador y lo actualizamos
-                teamManager.getPlayers().get(i).decrementPI(2);
-                teamManager.updatePlayer(i, teamManager.getPlayers().get(i));
+                aux = teamManager.getPlayers().get(i);
+                aux.decrementPI(2);
+                teamManager.updatePlayer(i, aux);
             }
         }
     }
@@ -232,11 +234,12 @@ public class GameExecutor {
 
     private void checkPassed (MasterStudies masterStudies, Player player) {
         Random random = new Random();
-        int randomNumber = random.nextInt(101);
+        int randomNumber;
         int pass = 0, deny = 0;
 
         //Comprobar uno a uno cúantos créditos pasa
         for (int i = 0; i < masterStudies.getNumberCredits() ; i++) {
+            randomNumber = random.nextInt(101);
             if (randomNumber <= masterStudies.getProbability()) {
                 pass++;
             }

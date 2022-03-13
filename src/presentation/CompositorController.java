@@ -1,5 +1,6 @@
 package presentation;
 
+import business.Edition;
 import business.EditionManager;
 import business.ManagersTrials.*;
 import presentation.controllers.*;
@@ -199,44 +200,57 @@ public class CompositorController {
 
     private void addEdition () throws IOException {
         int year, numPlayers, numTrials;
+        boolean repeatYear = false;
         if (!(genericTrialManager.getTrials().size() == 0)) {
             year = view.askForInteger("\nEnter the edition's year: ");
-            do {
-                numPlayers = view.askForInteger("Enter the initial number of players: ");
-                if (numPlayers < 0 || numPlayers > 5) {
-                    System.out.println("\nIncorrect option\n");
+            for (Edition edition:editionManager.getEditions()) {
+                if (edition.getYear() == year) {
+                    repeatYear = true;
                 }
-            } while (numPlayers < 0 || numPlayers > 5);
-            do {
-                numTrials = view.askForInteger("Enter the number of trials: ");
-                if (numTrials < 3 || numTrials > 12) {
-                    System.out.println("\nIncorrect option");
-                }
-            } while (numTrials < 3 || numTrials > 12);
-            view.showMessage("\n\t--- Trials ---\n");
-            view.showList(genericTrialManager.getTrialsNames());
-
-            // Guardamos los indices de las pruebas que se quieren guardar en la edición
-            ArrayList<Integer> trialsIndexes = new ArrayList<>();
-            view.showMessage("");
-            int index;
-            for (int i = 0; i < numTrials; i++) {
+            }
+            if (!repeatYear) {
                 do {
-                    index = view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ");
-                } while (index > genericTrialManager.getTrials().size());
-                trialsIndexes.add(index - 1);
+                    numPlayers = view.askForInteger("Enter the initial number of players: ");
+                    if (numPlayers < 0 || numPlayers > 5) {
+                        System.out.println("\nIncorrect option\n");
+                    }
+                } while (numPlayers < 0 || numPlayers > 5);
+                do {
+                    numTrials = view.askForInteger("Enter the number of trials: ");
+                    if (numTrials < 3 || numTrials > 12) {
+                        System.out.println("\nIncorrect option");
+                    }
+                } while (numTrials < 3 || numTrials > 12);
+                view.showMessage("\n\t--- Trials ---\n");
+                view.showList(genericTrialManager.getTrialsNames());
+
+                // Guardamos los indices de las pruebas que se quieren guardar en la edición
+                ArrayList<Integer> trialsIndexes = new ArrayList<>();
+                view.showMessage("");
+                int index;
+                for (int i = 0; i < numTrials; i++) {
+                    do {
+                        index = view.askForInteger("Pick a trial (" + (i + 1) + "/" + numTrials + "): ");
+                        if (index > genericTrialManager.getTrials().size()) {
+                            view.showMessage("\nIncorrect option");
+                        }
+                    } while (index > genericTrialManager.getTrials().size());
+                    trialsIndexes.add(index - 1);
+                }
+
+                // Activamos las pruebas introducidas como en uso
+                setTrialsInUse(trialsIndexes);
+
+                // Obtenemos los nombres de las pruebas con dichos índices
+                String[] names = genericTrialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
+
+                if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
+                    view.showMessage("\nThe edition was created successfully!");
+                }
+            } else {
+                view.showMessage("\nThere is already an edition for this year");
             }
-
-            // Activamos las pruebas introducidas como en uso
-            setTrialsInUse(trialsIndexes);
-
-            // Obtenemos los nombres de las pruebas con dichos índices
-            String[] names = genericTrialManager.getTrialsNamesByIndexes(trialsIndexes);  // Array de strings donde se guardaran los nombres que necesitemos
-
-            if (editionManager.addEdition(year, numPlayers, numTrials, names)) {
-                view.showMessage("\nThe edition was created successfully!");
-            }
-        }else{
+        } else {
             view.showMessage("\nNo editions can be created as there are no existing trials.");
         }
     }
@@ -272,10 +286,10 @@ public class CompositorController {
                 }else{
                     view.showMessage("\nThe year introduced does not match");
                 }
-            } else if (numEdition == editionManager.getEditions().size() + 1) {
-                //Back
             } else {
-                view.showMessage("\nThe introduced edition is not valid");
+                if (numEdition != editionManager.getEditions().size() + 1) {
+                    view.showMessage("\nThe introduced edition is not valid");
+                }
             }
         } else {
             view.showMessage("\nNo editions can be deleted as there are no existing editions.");
@@ -298,10 +312,10 @@ public class CompositorController {
                 editionManager.duplicateEdition(numEdition, year, numPlayers);
                 view.showMessage("\nThe edition was cloned successfully!");
 
-            } else if (numEdition == editionManager.getEditions().size() + 1) {
-                //Back
             } else {
-                view.showMessage("\nThe introduced edition is not valid.");
+                if (numEdition != editionManager.getEditions().size() + 1) {
+                    view.showMessage("\nThe introduced edition is not valid.");
+                }
             }
         }
         else {
@@ -323,10 +337,10 @@ public class CompositorController {
                  * La parte de mostrar las pruebas que pertenecen a  una edición está mal, porque se muestra que siempre es un (paper publication).
                  * Hay que ver como gestionamos eso, para que muestre correctamente que tipo de prueba es cada una
                  */
-            } else if (numEdition == editionManager.getEditions().size() + 1) {
-                //Back
             } else {
-                view.showMessage("\nThe introduced option is not valid.");
+                if (numEdition != editionManager.getEditions().size() + 1) {
+                    view.showMessage("\nThe introduced option is not valid.");
+                }
             }
         } else {
             view.showMessage("\nNo editions can be shown as there are no existing editions.");

@@ -65,10 +65,6 @@ public class ConductorController {
         return finalIndex;
     }
 
-    public int getNumberOfTrials () throws FileNotFoundException {
-        return editionManager.getEditionCurrentYear().getNumTrials();
-    }
-
     private void savePlayers () throws IOException {
         int numPlayers = editionManager.getEditionCurrentYear().getNumPlayers();
 
