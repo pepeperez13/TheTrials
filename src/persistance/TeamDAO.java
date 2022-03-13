@@ -2,10 +2,11 @@ package persistance;
 
 import business.playerTypes.Player;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.LinkedList;
 
+/**
+ * Interficie contiene los métodos de
+ */
 public interface TeamDAO {
 
     boolean create(Player player);

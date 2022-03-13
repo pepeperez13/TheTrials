@@ -1,5 +1,10 @@
 package business.typeTrials;
 
+/**
+ * Representa una de las pruebas que pueden incluir las ediciones
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class PaperPublication {
     private String articleName;
     private String magazineName;
@@ -102,9 +107,5 @@ public class PaperPublication {
      */
     public boolean InUse () {
         return this.inUse;
-    }
-
-    public boolean isInUse() {
-        return inUse;
     }
 }

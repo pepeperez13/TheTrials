@@ -1,6 +1,7 @@
 package business;
 
 import business.playerTypes.Player;
+import com.google.gson.annotations.SerializedName;
 import persistance.CSV.TeamCsvDAO;
 import persistance.JSON.TeamJsonDAO;
 import persistance.TeamDAO;
@@ -22,11 +23,16 @@ public class TeamManager {
     /** Método que añade un nuevo participante
      * @param player Nombre del jugador
      */
-    public void addPlayer (Player player) throws IOException {
+    public void addPlayer (Player player) {
         teamDAO.create(player);
     }
 
-    public void updatePlayer(int index, Player player) throws IOException {
+    /**
+     * Método que actualiza la información de un jugador en una posición determinada
+     * @param index Posición del jugador en el archivo
+     * @param player Player actualizado
+     */
+    public void updatePlayer(int index, Player player) {
         teamDAO.changeLine(index, player);
     }
 
@@ -45,15 +51,26 @@ public class TeamManager {
         return dead;
     }
 
-    public void removeAllPlayers () throws IOException {
+    /**
+     * Método que eliminar a todos los jugadores
+     */
+    public void removeAllPlayers () {
         teamDAO.emptyFile();
     }
 
-    public LinkedList<Player> getPlayers () throws FileNotFoundException {
+    /**
+     * Método que obtiene todos los jugadores en una lista
+     * @return LinkedList con todos lo s jugadores
+     */
+    public LinkedList<Player> getPlayers () {
         return teamDAO.readAll();
     }
 
-    public int getPITeam () throws FileNotFoundException {
+    /**
+     * Método que obtiene el PI total de todos los miembros del equipo
+     * @return Entero con el PI del equipo
+     */
+    public int getPITeam () {
         int total = 0;
         for (int i = 0; i < getPlayers().size(); i++) {
             total += getPlayers().get(i).getPI();

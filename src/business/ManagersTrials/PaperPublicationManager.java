@@ -144,7 +144,7 @@ public class PaperPublicationManager {
     }
 
     public boolean isInUse (String name) throws FileNotFoundException {
-        return getPaperByName(name).isInUse();
+        return getPaperByName(name).InUse();
     }
 
     public void setInUseByName(String name) throws IOException {
