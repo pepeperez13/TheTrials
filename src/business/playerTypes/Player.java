@@ -1,11 +1,15 @@
 package business.playerTypes;
 
-public abstract class Player {
+import java.io.Serializable;
+
+public abstract class Player implements Serializable {
     private String name;
     private int PI;
+    ///@SerializedName("type")
+    //private String typeName;
 
-    /*public void changePlayerType (PlayerTypeOptions playerType) {
-        this.playerType = playerType;
+    /*public Player () {
+        typeName = getClass().getName();
     }*/
 
     public void incrementPI (int change) {

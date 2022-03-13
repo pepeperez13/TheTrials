@@ -5,7 +5,7 @@ import business.playerTypes.Player;
 import java.util.LinkedList;
 
 /**
- * Interficie contiene los métodos de
+ * Interficie contiene los métodos de escritura y lectura del equipo
  */
 public interface TeamDAO {
 
