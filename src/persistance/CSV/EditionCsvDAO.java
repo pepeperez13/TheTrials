@@ -8,27 +8,34 @@ import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Clase que gestiona la lectura y escritura del fichero CSV de las ediciones
+ * @author José Perez
+ * @author Abraham Cedeño
+ */
 public class EditionCsvDAO implements EditionDAO {
-    private static String separator = ",";
-    private String fileName = "editions.csv";
-    private String filePath = "files";
+    private static final String separator = ",";
+    private final String fileName = "editions.csv";
+    private final String filePath = "files";
     private File file = new File(filePath, fileName);
 
-    public EditionCsvDAO () throws IOException {
+    /**
+     * Método constructor que crea un fichero CSV nuevo, en caso de no existir
+     */
+    public EditionCsvDAO () {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("\nThe file already exist.");
         }
     }
+
     /**
      * Este método transforma un elemento de la clase Edition
      * para darle el formato requerido
-     * @param edition
+     * @param edition edicion a transformar
      * @return String
      */
     private String editionToCsv (Edition edition) {
@@ -70,7 +77,7 @@ public class EditionCsvDAO implements EditionDAO {
      * @return Retorna una lista que contiene todas las ediciones
      */
     @Override
-    public LinkedList<Edition> readAll() { //Todo el fichero articulos
+    public LinkedList<Edition> readAll() {
         try{
             LinkedList<Edition> editions = new LinkedList<>();
             List<String> list = Files.readAllLines(file.toPath());
@@ -86,7 +93,7 @@ public class EditionCsvDAO implements EditionDAO {
     /**
      * Este método nos permite obtener una edicion en concreto
      * @param index Indice que nos indica la posicion del objeto deseado
-     * @return Edition Retorna la edicion deseada
+     * @return Edition Retorna la edición deseada
      */
     @Override
     public Edition findByIndex(int index) {
@@ -100,7 +107,7 @@ public class EditionCsvDAO implements EditionDAO {
 
     /**
      * Método que elimina una edición según el año
-     * @param "Index" Entero que nos indica la edición a eliminar
+     * @param index Entero que nos indica la edición a eliminar
      * @return boolean Indica si se ha podido o no eliminar una edición
      */
     @Override

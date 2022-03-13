@@ -9,17 +9,32 @@ import presentation.ViewController;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Controla ciertas partes de la entrada y salida de datos de los Paper
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class PaperController {
-    private ViewController view;
-    private PaperPublicationManager paperPublicationManager;
-    private GenericTrialManager genericTrialManager;
+    private final ViewController view;
+    private final PaperPublicationManager paperPublicationManager;
+    private final GenericTrialManager genericTrialManager;
+
+    /**
+     * Constructor que crea un nuevo PaperController
+     * @param view clase vista
+     * @param paperPublicationManager manager de los budgets que se comunica con la persistencia
+     * @param genericTrialManager manager de los trials de tipo genérico
+     */
     public PaperController(ViewController view, PaperPublicationManager paperPublicationManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.paperPublicationManager = paperPublicationManager;
         this.genericTrialManager = genericTrialManager;
     }
 
-    public void add() throws IOException {
+    /**
+     * Método que pide los datos para añadir un nuevo budget, comprobando para cada dato si es correcto
+     */
+    public void add() {
         String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError (trialName, 1)) {
             String journalName = view.askForString("Enter the journal's name: ");
@@ -56,10 +71,10 @@ public class PaperController {
     }
 
     /**
-     * Muestra la información detallada de una prueba en concreto
+     * Muestra la información detallada de un Paper en concreto
      * @param numTrial Indice de la prueba concreta sobre la que se quiera obtener información
      */
-    public void showPaper(int numTrial) throws FileNotFoundException {
+    public void showPaper(int numTrial)  {
         String name = genericTrialManager.getGenericalTrial(numTrial).getName();
         PaperPublication paper = paperPublicationManager.getPaperByName(name);
         view.showMessage("\nTrial: " + paper.getArticleName() + " (Paper publication)");
@@ -69,7 +84,13 @@ public class PaperController {
                 paper.getRejectedProbability() + "% rejection");
     }
 
-    private boolean checkError (String aux, int mode) throws FileNotFoundException {
+    /**
+     * Comprueba, para cada tipo de dato, si hay algún error
+     * @param aux cadena que contiene la información para comprobar
+     * @param mode entero que nos permite saber qué tipo de comprobación realizar
+     * @return booleano que permite saber is ha habido error o no
+     */
+    private boolean checkError (String aux, int mode) {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista
                 if (!aux.isEmpty()) {

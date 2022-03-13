@@ -50,7 +50,7 @@ public class Main {
         PaperController paperController = new PaperController(viewController, paperManager, genericTrialManager);
 
         CompositorController compositorController = new CompositorController(viewController, budgetController, doctoralController, masterController, paperController, editionManager, genericTrialManager, budgetManager, doctoralManager, masterManager, paperManager);
-        ConductorController conductorController = new ConductorController(paperManager, editionManager, teamManager, viewController, gameExecutor, genericTrialManager);
+        ConductorController conductorController = new ConductorController(editionManager, teamManager, viewController, gameExecutor, genericTrialManager);
 
         /**
          * Le pasamos el tipo al Controller manager

@@ -1,6 +1,5 @@
 package persistance.JSON;
 
-import business.typeTrials.GenericTrial;
 import business.typeTrials.PaperPublication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,12 +13,20 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Clase que gestiona la lectura y escritura del fichero JSON de los PaperPublication
+ * @author José Perez
+ * @author Abraham Cedeño
+ */
 public class PaperJsonDAO implements PaperDAO {
     private final String filename = "papers.json";
     private static final String route = "files/papers.json";
     private static final Path path = Path.of(route);
     private File file = new File("files", filename);
 
+    /**
+     * Método constructor que crea un fichero CSV nuevo, en caso de no existir
+     */
     public PaperJsonDAO() {
         try {
             if(!file.exists()){
@@ -31,6 +38,11 @@ public class PaperJsonDAO implements PaperDAO {
         }
     }
 
+    /**
+     * Crea un nuevo PaperPublication y lo escribe en el fichero
+     * @param article article que se desea escribir
+     * @return booleano que indica si se ha escrito correctamente
+     */
     @Override
     public boolean create (PaperPublication article){
         try {
@@ -50,6 +62,10 @@ public class PaperJsonDAO implements PaperDAO {
         }
     }
 
+    /**
+     * Lee todos los elementos de un fichero JSON
+     * @return Lista con los objetos de todos los elementos leídos
+     */
     @Override
     public LinkedList<PaperPublication> readAll () {
         try{
@@ -66,6 +82,11 @@ public class PaperJsonDAO implements PaperDAO {
         }
     }
 
+    /**
+     * Elimina un dato en una posición del fichero
+     * @param index posición del dato a eliminar
+     * @return booleano que indica si se ha eliminado correctamente
+     */
     @Override
     public boolean delete(int index) {
         try {
@@ -80,6 +101,12 @@ public class PaperJsonDAO implements PaperDAO {
         }
     }
 
+    /**
+     * Actualiza una posición del fichero
+     * @param index Posición del dato que se quiere modificar
+     * @param article Nuevo objeto que quiere escribirse en la posicion
+     * @return booleano que indica si se ha modificado correctamente
+     */
     @Override
     public boolean changeLine(int index, PaperPublication article) {
         try {

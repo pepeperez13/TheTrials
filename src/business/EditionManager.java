@@ -10,10 +10,19 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
+/**
+ * Gestiona aquello relacionado con las ediciones
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class EditionManager {
     private EditionDAO editionDAO;
 
-    public EditionManager (DataSourceOptions options) throws IOException {
+    /**
+     * Método constructor que crea un nuevo manager, relacionandolo con CSV o JSON
+     * @param options Opción que indica en que tipo de persisitencia se escribirá
+     */
+    public EditionManager (DataSourceOptions options)  {
         switch (options) {
             case JSON -> editionDAO = new EditionJsonDAO();
             case CSV -> editionDAO = new EditionCsvDAO();
@@ -28,7 +37,7 @@ public class EditionManager {
      * @param nombrePruebas Nombres de todos las pruebas (artículos) que componen la ecición
      * @return Booleano que nos permite saber si la edición se ha creado correctamente
      */
-    public boolean addEdition (int year, int numPlayers, int numTrials, String[] nombrePruebas) throws IOException {
+    public boolean addEdition (int year, int numPlayers, int numTrials, String[] nombrePruebas) {
         Edition edition = new Edition(year, numPlayers, numTrials, nombrePruebas);
         return editionDAO.create(edition);
     }
@@ -37,7 +46,7 @@ public class EditionManager {
      * Método que lee el fichero de ediciones y devuelve una lista con todas las líneas
      * @return Lista donde cada elemento es una línea del fichero
      */
-    public LinkedList<Edition> getEditions () throws FileNotFoundException {
+    public LinkedList<Edition> getEditions () {
         return editionDAO.readAll();
     }
 
@@ -46,7 +55,7 @@ public class EditionManager {
      * @param index Indice que nos permitirá acceder a la información en la línea del fichero concreta
      * @return Información de la edición solicitada
      */
-    public Edition getEditionByIndex (int index) throws FileNotFoundException {
+    public Edition getEditionByIndex (int index) {
         Edition edition = editionDAO.findByIndex(index);
         return edition;
     }
@@ -55,7 +64,7 @@ public class EditionManager {
      * Método que permite obtener toda la información de la edición del año actual
      * @return Información de la edición solicitada
      */
-    public Edition getEditionCurrentYear () throws FileNotFoundException {
+    public Edition getEditionCurrentYear ()  {
         Calendar calendar = new GregorianCalendar();
         boolean found = false;
         LinkedList<Edition> editions = editionDAO.readAll();
@@ -73,7 +82,7 @@ public class EditionManager {
      * @param index Indice que nos permitirá acceder a la información en la línea del fichero concreta
      * @return Lista con los nombres de las pruebas
      */
-    public LinkedList<String> getEditionTrialsNames (int index) throws FileNotFoundException {
+    public LinkedList<String> getEditionTrialsNames (int index) {
         Edition edition = findByIndex(index);
         LinkedList<String> editionTrialsNames = new LinkedList<>();
         for (int i = 0; i < edition.getNumTrials(); i++) {
@@ -82,7 +91,7 @@ public class EditionManager {
         return editionTrialsNames;
     }
 
-    private Edition findByIndex (int index) throws FileNotFoundException {
+    private Edition findByIndex (int index) {
         return editionDAO.readAll().get(index);
     }
 
@@ -90,7 +99,7 @@ public class EditionManager {
      * Método que obtiene los nombres de las ediciones en un formato determinado
      * @return Lista con los nombres de las ediciones
      */
-    public LinkedList<String> getEditionsNames () throws FileNotFoundException {
+    public LinkedList<String> getEditionsNames () {
         LinkedList<String> editionsNames = new LinkedList<>();
         for (Edition edition: editionDAO.readAll()) {
             editionsNames.add("The trials " + edition.getYear());
@@ -106,7 +115,7 @@ public class EditionManager {
      * @param numPlayers Número de jugadores de la nueva edición
      * @return Booleano que nos permite saber si la edición se ha duplicado correctamente
      */
-    public boolean duplicateEdition (int index, int year, int numPlayers) throws IOException {
+    public boolean duplicateEdition (int index, int year, int numPlayers) {
         Edition newEdition = editionDAO.findByIndex(index); // Cargamos los datos de la edición que queremos copiar
         newEdition = new Edition(year, numPlayers, newEdition.getNumTrials(), newEdition.getTrialNames()); // Creamos nueva edición con los mismas pruebas, pero cambiando año y players
         return editionDAO.create(newEdition);
@@ -118,11 +127,11 @@ public class EditionManager {
      * @param year Año de la edición a eliminar
      * @return Bolleano que indica si la edición se ha podido eliminar
      */
-    public boolean deleteEdition (int year) throws IOException {
+    public boolean deleteEdition (int year) {
         return editionDAO.delete(searchByYear(year));
     }
 
-    public LinkedList<String> getAllTrialsNamesInUse () throws FileNotFoundException { //Nombres en uso
+    public LinkedList<String> getAllTrialsNamesInUse () { //Nombres en uso
         LinkedList<String> namesTrials = new LinkedList<>();
         for (int i = 0; i < getEditions().size(); i++) {
             for (int j = 0; j < getEditions().get(i).getNumTrials(); j++) {
@@ -134,7 +143,7 @@ public class EditionManager {
         return namesTrials;
     }
 
-    private int searchByYear (int year) throws FileNotFoundException {
+    private int searchByYear (int year) {
         int index = 0;
         for (int i = 0; i < getEditions().size(); i++) {
             if (year == getEditions().get(i).getYear()) {

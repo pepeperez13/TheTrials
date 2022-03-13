@@ -3,18 +3,32 @@ package presentation;
 
 import java.io.IOException;
 
+/**
+ * Clase que va a mostrar el mensaje inicial y posteriormente se encargará de ir ejecutando por tiempo indefinido
+ * el modo compositor o el modo conductor
+ *
+ */
 public class ControllerManager {
-
     private final ViewController viewController;
     private final CompositorController compositorController;
     private final ConductorController conductorController;
 
+    /**
+     * Construye un nuevo ControllerManager, con todas las clases que este necesita
+     * @param compositorController Inicializa el CompositorController para poder llamarlo
+     * @param conductorController Inicializa el ConductorController para poder llamarlo
+     * @param viewController Inicializa la vista para poder llamarla
+     */
     public ControllerManager(ViewController viewController, CompositorController compositorController, ConductorController conductorController) {
         this.viewController = viewController;
         this.compositorController = compositorController;
         this.conductorController = conductorController;
     }
 
+    /**
+     * Método principal del programa, en forma de bucle, que da a escoger entre Compositor y Conductor,
+     * cuya ejecución no acabará nunca
+     */
     public void run (String option) throws IOException {
         do {
             switch (option) {
@@ -31,7 +45,10 @@ public class ControllerManager {
         } while (!option.equals("I") && !option.equals("II"));
     }
 
-    private void mainLoop() throws IOException {
+    /**
+     * Bucle principal del programa. Ejecuta indefinidamente
+     */
+    private void mainLoop()  {
         viewController.showLogo();
         int finalIndex = 0;
         do {
@@ -47,11 +64,20 @@ public class ControllerManager {
         } while (true);
     }
 
-    private void executeCompositor () throws IOException {
+    /**
+     * LLama a la función principal de ejecución del Compositor
+     */
+    private void executeCompositor () {
         compositorController.run();
     }
 
-    private int executeConductor(int finalIndex) throws IOException {
+    /**
+     * Llama a la función principal de ejecución del Conductor
+     * @param finalIndex Permite saber al Conductor cual fue la última prueba ejecutada
+     * @return Permite guardar cuál ha sido la última prueba ejecutada para, si se vuelve a ejecutar, seguir la ejecución
+     * desde la prueba correspondiente
+     */
+    private int executeConductor(int finalIndex) {
         return conductorController.run(finalIndex);
     }
 }

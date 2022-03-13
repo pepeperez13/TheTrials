@@ -1,25 +1,30 @@
 package persistance.CSV;
 
 import business.ManagersTrials.TrialTypeOptions;
-import business.PlayerTypeOptions;
 import business.typeTrials.GenericTrial;
-import business.typeTrials.PaperPublication;
 import persistance.GenericTrialDAO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Clase que gestiona la lectura y escritura del fichero CSV de los GenericTrial
+ * @author José Perez
+ * @author Abraham Cedeño
+ */
 public class GenericTrialCsvDAO implements GenericTrialDAO {
 
-    private static String separator = ",";
-    private String fileName = "generics.csv";
-    private String filePath = "files";
+    private static final String separator = ",";
+    private final String fileName = "generics.csv";
+    private final String filePath = "files";
     private File file = new File(filePath, fileName);
 
+    /**
+     * Método constructor que crea un fichero CSV nuevo, en caso de no existir
+     */
     public GenericTrialCsvDAO () {
         if (!file.exists() ) {
             try {
@@ -27,20 +32,33 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("\nThe file already exist.");
         }
     }
 
-    private String genericTrialToCsv (GenericTrial name) {
-        return name.getName() + separator + name.getType();
+    /**
+     * Convierte un objeto de tipo GenericTrial a un String de CSV
+     * @param trial objeto a convertir a string
+     * @return string del objeto
+     */
+    private String genericTrialToCsv (GenericTrial trial) {
+        return trial.getName() + separator + trial.getType();
     }
 
+    /**
+     * Método que crea un objeto de GenericTrial a partir de una línea de CSV
+     * @param csv Línea que queremos convertir
+     * @return GenericTrial pedido
+     */
     private GenericTrial genericFromCsv (String csv) {
         String[] parts = csv.split(separator);
         return new GenericTrial(parts[0], TrialTypeOptions.valueOf(parts[1]));
     }
 
+    /**
+     * Crea un nuevo GenericTrial y lo escribe en el fichero
+     * @param generic GenericTrial que se desea escribir
+     * @return booleano que indica si se ha escrito correctamente
+     */
     @Override
     public boolean create(GenericTrial generic)  {
         try {
@@ -53,6 +71,10 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Lee todos los elementos de un fichero CSV
+     * @return Lista con los objetos de todos los elementos leídos
+     */
     @Override
     public LinkedList<GenericTrial> readAll() {
         try{
@@ -67,6 +89,11 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Obtiene el objeto a través de la posición en la que está escrito en el fichero
+     * @param index posición en el fichero
+     * @return objeto del GenericTrial solicitado
+     */
     @Override
     public GenericTrial findByIndex(int index) {
         try {
@@ -77,6 +104,11 @@ public class GenericTrialCsvDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Elimina una línea del fichero
+     * @param index posición de la línea a eliminar
+     * @return booleano que indica si se ha eliminado correctamente
+     */
     @Override
     public boolean delete(int index) {
         try {

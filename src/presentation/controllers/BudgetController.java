@@ -6,22 +6,33 @@ import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.Budget;
 import presentation.ViewController;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
+/**
+ * Controla ciertas partes de la entrada y salida de datos de los Budget
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class BudgetController {
+    private final BudgetManager budgetManager;
+    private final ViewController view;
+    private final GenericTrialManager genericTrialManager;
 
-    private BudgetManager budgetManager;
-    private ViewController view;
-    private GenericTrialManager genericTrialManager;
-
+    /**
+     * Constructor que crea un nuevo BudgetController
+     * @param budgetManager manager de los budgets que se comunica con la persistencia
+     * @param view clase vista
+     * @param genericTrialManager manager de los trials de tipo genérico
+     */
     public BudgetController(BudgetManager budgetManager, ViewController view, GenericTrialManager genericTrialManager) {
         this.budgetManager = budgetManager;
         this.view = view;
         this.genericTrialManager = genericTrialManager;
     }
 
-    public void add() throws IOException {
+    /**
+     * Método que pide los datos para añadir un nuevo budget, comprobando para cada dato si es correcto
+     */
+    public void add() {
         String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError(trialName, 1)) {
             String entityName = view.askForString("Enter the entity's name: ");
@@ -43,6 +54,10 @@ public class BudgetController {
 
     }
 
+    /**
+     * Muestra toda la información de un budget concreto
+     * @param index posición del budget que se quiere mostrar
+     */
     public void showBudget (int index) {
         String name = genericTrialManager.getGenericalTrial(index).getName();
         Budget budget = budgetManager.getBudgetByNameTrial(name);
@@ -51,7 +66,13 @@ public class BudgetController {
         view.showMessage("Budget: " + budget.getAmount() + " €");
     }
 
-    private boolean checkError (String aux, int mode) throws FileNotFoundException {
+    /**
+     * Comprueba, para cada tipo de dato, si hay algún error
+     * @param aux cadena que contiene la información para comprobar
+     * @param mode entero que nos permite saber qué tipo de comprobación realizar
+     * @return booleano que permite saber is ha habido error o no
+     */
+    private boolean checkError (String aux, int mode) {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista
                 if (!aux.isEmpty()) {

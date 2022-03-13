@@ -6,21 +6,32 @@ import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.MasterStudies;
 import presentation.ViewController;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+/**
+ * Controla ciertas partes de la entrada y salida de datos de los Master
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class MasterController {
     private ViewController view;
     private MasterManager masterManager;
     private GenericTrialManager genericTrialManager;
 
+    /**
+     * Constructor que crea un nuevo MasterController
+     * @param viewController clase vista
+     * @param masterManager manager de los masters que se comunica con la persistencia
+     * @param genericTrialManager manager de los triols de tipo genérico
+     */
     public MasterController(ViewController viewController, MasterManager masterManager, GenericTrialManager genericTrialManager) {
         this.view = viewController;
         this.masterManager = masterManager;
         this.genericTrialManager = genericTrialManager;
     }
 
-    public void add() throws IOException {
+    /**
+     * Método que pide los datos para añadir un nuevo master, comprobando para cada dato si es correcto
+     */
+    public void add() {
         String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError(trialName, 1)) {
             String masterName = view.askForString("Enter the master's name: ");
@@ -46,6 +57,10 @@ public class MasterController {
         }
     }
 
+    /**
+     * Muestra toda la información de un master concreto
+     * @param numTrial posición del budget que se quiere mostrar
+     */
     public void showMaster (int numTrial) {
         String name = genericTrialManager.getGenericalTrial(numTrial).getName();
         MasterStudies master = masterManager.getMasterByName(name);
@@ -56,7 +71,13 @@ public class MasterController {
                 + "% chance to pass each one");
     }
 
-    private boolean checkError (String aux, int mode) throws FileNotFoundException {
+    /**
+     * Comprueba, para cada tipo de dato, si hay algún error
+     * @param aux cadena que contiene la información para comprobar
+     * @param mode entero que nos permite saber qué tipo de comprobación realizar
+     * @return booleano que permite saber is ha habido error o no
+     */
+    private boolean checkError (String aux, int mode) {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista
                 if (!aux.isEmpty()) {

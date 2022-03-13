@@ -1,10 +1,15 @@
 package business;
 
+/**
+ * Clase que representa una edición
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class Edition {
-    private int year;
-    private int numPlayers;
-    private int numTrials;
-    private String[] articleNames;
+    private final int year;
+    private final int numPlayers;
+    private final int numTrials;
+    private final String[] articleNames;
 
     /**
      * Método constructor que crea una edición nueva

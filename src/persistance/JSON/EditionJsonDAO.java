@@ -14,12 +14,20 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Clase que gestiona la lectura y escritura del fichero JSON de las ediciones
+ * @author José Perez
+ * @author Abraham Cedeño
+ */
 public class EditionJsonDAO implements EditionDAO {
     private final String filename = "editions.json";
     private static final String route = "files/editions.json";
     private static final Path path = Path.of(route);
     private File file = new File("files", filename);
 
+    /**
+     * Método constructor que crea un fichero CSV nuevo, en caso de no existir
+     */
     public EditionJsonDAO () {
         try {
             if(!file.exists()){
@@ -31,6 +39,11 @@ public class EditionJsonDAO implements EditionDAO {
         }
     }
 
+    /**
+     * Crea una nueva edición y la escribe en el fichero
+     * @param edition Objeto a guardar
+     * @return boolean Retorna si se ha podido o no guardar en el fichero
+     */
     @Override
     public boolean create (Edition edition) {
         try {
@@ -50,6 +63,10 @@ public class EditionJsonDAO implements EditionDAO {
         }
     }
 
+    /**
+     * Lee todos los elementos de un fichero JSON
+     * @return Lista con los objetos de todos los elementos leídos
+     */
     @Override
     public LinkedList<Edition> readAll() {
         try{
@@ -67,9 +84,9 @@ public class EditionJsonDAO implements EditionDAO {
     }
 
     /**
-     * Este método nos permite obtener una edicion en concreto
-     * @param index Indice que nos indica la posicion del objeto deseado
-     * @return Edition Retorna la edicion deseada
+     * Obtiene el objeto a través de la posición en la que está escrito en el fichero
+     * @param index posición en el fichero
+     * @return objeto del Doctoral solicitado
      */
     @Override
     public Edition findByIndex (int index) {
@@ -84,6 +101,11 @@ public class EditionJsonDAO implements EditionDAO {
         }
     }
 
+    /**
+     * Elimina un dato del fichero
+     * @param index posición del dato que se quiere eliminar
+     * @return booleano que indica si se ha eliminado correctamente
+     */
     @Override
     public boolean delete (int index) {
         try {

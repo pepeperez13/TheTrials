@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * Clase que gestiona la ejecución del menú de gestión (Compositor)
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class CompositorController {
     private ViewController view;
     private BudgetController budgetController;
@@ -23,6 +28,20 @@ public class CompositorController {
     private MasterManager masterManager;
     private PaperPublicationManager paperManager;
 
+    /**
+     * Construye un nuevo CompositorController, con todos las clases que este necesita
+     * @param view ViewController que gestiona la interacción por pantall con el usuario
+     * @param budgetController BudgetController que gestiona las interacciones del Budget
+     * @param doctoralController DoctoralController que gestiona las interacciones del Doctoral
+     * @param masterController MasterController que gestiona las interacciones del Master
+     * @param paperController PaperController que gestiona las interacciones del Paper
+     * @param editionManager EditionManager que gestiona las ediciones
+     * @param genericTrialManager GenericTrialManager que gestiona las pruebas genericas
+     * @param budgetManager BudgetManager que gestiona los Budget
+     * @param doctoralManager DoctoralManager que gestiona las pruebas Doctoral
+     * @param masterManager MasterManager que gestiona las pruebas Master
+     * @param paperManager PaperManager que gestiona las pruebas Paper
+     */
     public CompositorController(ViewController view, BudgetController budgetController, DoctoralController doctoralController, MasterController masterController, PaperController paperController, EditionManager editionManager, GenericTrialManager genericTrialManager, BudgetManager budgetManager, DoctoralManager doctoralManager, MasterManager masterManager, PaperPublicationManager paperManager) {
         this.view = view;
         this.budgetController = budgetController;
@@ -37,7 +56,10 @@ public class CompositorController {
         this.paperManager = paperManager;
     }
 
-    public void run () throws IOException {
+    /**
+     * Método principal en forma de bucle, que se encarga de ejecutar los métodos hasta que lo pida el usuario
+     */
+    public void run () {
         int option;
 
         view.showMessage("\nEntering management mode...");
@@ -61,7 +83,10 @@ public class CompositorController {
         } while (option != 3);
     }
 
-    private void manageTrials () throws IOException {
+    /**
+     * Se encarga de llamar a los métodos que gestionan las diferentes acciones relacionadas con la gestión de pruebas
+     */
+    private void manageTrials () {
         String option;
         do {
             view.showSubMenuTrials();
@@ -85,7 +110,11 @@ public class CompositorController {
         } while (!option.equals("d"));
     }
 
-    private void addTrial () throws IOException {
+    /**
+     * Método privado que pide los datos de una nueva prueba a registrar, revisando la validez de los datos antes
+     * de cada petición. Si los datos son inválidos, se para la ejecución
+     */
+    private void addTrial () {
         view.showTypesTrials();
         int type_trial = view.askForInteger("Enter the trial's type: ");
 
@@ -98,11 +127,11 @@ public class CompositorController {
         }
     }
 
-    /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
-    private void listTrials () throws FileNotFoundException {
-        // Como mostramos todos? Que cada manager muestre su tipo de trials?
-        // Otra alternativa es tener un fichero que guarde los nombres
-        // de todos los trials (independientemente del tipo)
+
+    /**
+     * Se encarga de listar los métodos actualmente guardados, si es que los hay
+     */
+    private void listTrials () {
         if (!genericTrialManager.getTrials().isEmpty()) {
             int numTrial = askForInput("\nHere are the current trials, do you want to see more details or go back?", 1);
             if (numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
@@ -113,11 +142,16 @@ public class CompositorController {
                     case MASTER -> masterController.showMaster(numTrial);
                 }
             }
+        }else{
+            view.showMessage("\nNo trials can be show as there are no existing trials");
         }
     }
 
-    /**Falta ver si esto se gestiona desde aqui o desde el Controller de cada clase particular**/
-    private void deleteTrial () throws IOException {
+    /**
+     * Se encarga de eliminar una prueba concreta, según los detalles que indique el usuario. Comprueba que el nombre
+     * coincida con su número y que dicha prueba no esté en uso por ninguna edición
+     */
+    private void deleteTrial () {
         if (!genericTrialManager.getTrials().isEmpty()) {
             int numTrial = askForInput("\nWich trial do you want to delete?", 1);
             if (numTrial > 0 && numTrial <= genericTrialManager.getTrials().size()) {
@@ -129,7 +163,6 @@ public class CompositorController {
                             if (!masterManager.isInUse(confirmationName)) {
                                 genericTrialManager.deleteByname(confirmationName);
                                 masterManager.deleteMaster(masterManager.getIndexByName(confirmationName));
-
                             } else {
                                 view.showMessage("\nThe trial is in use and can not be deleted.");
                             }
@@ -170,7 +203,10 @@ public class CompositorController {
         }
     }
 
-    private void manageEditions () throws IOException {
+    /**
+     * Se encarga de llamar a los métodos que gestionan las diferentes acciones relacionadas con la gestión de ediciones
+     */
+    private void manageEditions () {
 
         String option_edition;
         do {
@@ -198,7 +234,11 @@ public class CompositorController {
         } while (!option_edition.equals("e"));
     }
 
-    private void addEdition () throws IOException {
+    /**
+     * Se encarga de añadir una nueva edición, pidiendo los datos al usuario. La petición de datos se repetirá hasta
+     * que los datos introducidos sean válidos
+     */
+    private void addEdition () {
         int year, numPlayers, numTrials;
         boolean repeatYear = false;
         if (!(genericTrialManager.getTrials().size() == 0)) {
@@ -255,7 +295,11 @@ public class CompositorController {
         }
     }
 
-    private void setTrialsInUse (ArrayList<Integer> trialsIndexes) throws IOException {
+    /**
+     * Método privado que coloca las pruebas que se hayan seleccionado para una edición como "en uso"
+     * @param trialsIndexes Índices de las pruebas que deben colocarse en uso
+     */
+    private void setTrialsInUse (ArrayList<Integer> trialsIndexes) {
 
         for (Integer trialsIndex : trialsIndexes) {
             // Según el tipo de prueba que se haya utilizado
@@ -269,7 +313,10 @@ public class CompositorController {
 
     }
 
-    private void deleteEdition () throws IOException {
+    /**
+     * Se encarga de eliminar la edición de un año concreto
+     */
+    private void deleteEdition ()  {
         if (!editionManager.getEditions().isEmpty()) {
             int numEdition = askForInput("\nWhich edition do you want to delete?", 2);
             if (numEdition > 0 && numEdition <= editionManager.getEditions().size()) {
@@ -297,7 +344,11 @@ public class CompositorController {
 
     }
 
-    private void duplicateEdition () throws IOException {
+    /**
+     * Permite duplicar una edición ya existente. Mantiene las mismas pruebas y el mismo nuevo de jugadores, cambiando
+     * únicamente el año de la misma
+     */
+    private void duplicateEdition ()  {
         if (!editionManager.getEditions().isEmpty()) {
             int numEdition = askForInput("\nWhich edition do you want to clone?", 2);
             if (numEdition > 0 && numEdition <= editionManager.getEditions().size()) {
@@ -324,7 +375,11 @@ public class CompositorController {
 
     }
 
-    private void listEditions () throws FileNotFoundException {
+    /**
+     * Método que lista las ediciones actualmente guardadas, siempre y cuando las haya. También permite mostrar info
+     * concreta de una edición
+     */
+    private void listEditions ()  {
         if (!editionManager.getEditions().isEmpty()) {
             int numEdition = askForInput("\nHere are the current editions, do you want to see more details or go back?", 2);
 
@@ -333,10 +388,6 @@ public class CompositorController {
                 view.showMessage("Players: " + editionManager.getEditionByIndex(numEdition).getNumPlayers());
                 view.showMessage("Trials: ");
                 view.showListGuion(editionManager.getEditionTrialsNames(numEdition-1));
-                /**
-                 * La parte de mostrar las pruebas que pertenecen a  una edición está mal, porque se muestra que siempre es un (paper publication).
-                 * Hay que ver como gestionamos eso, para que muestre correctamente que tipo de prueba es cada una
-                 */
             } else {
                 if (numEdition != editionManager.getEditions().size() + 1) {
                     view.showMessage("\nThe introduced option is not valid.");
@@ -348,8 +399,14 @@ public class CompositorController {
 
     }
 
-
-    private int askForInput (String message, int option) throws FileNotFoundException {
+    /**
+     * Muestra una lista (pruebas o ediciones, según el parámetro opción) y pide si se va a querer mostrar información
+     * detallada de algún elemento de dicha lista
+     * @param message Mensaje a mostrar
+     * @param option Opción binaria (1 o 2) que va a indicar al método que lista debe mostrar
+     * @return Entero que permitirá saber si se debe mostrar más información o no
+     */
+    private int askForInput (String message, int option) {
         int index;
         view.showMessage(message);
         System.out.println();
@@ -367,7 +424,11 @@ public class CompositorController {
         return view.askForInteger("Enter an option: ");
     }
 
-    private void changeStateTrial (LinkedList<String> nameTrials) throws IOException {
+    /**
+     * Cambiará el estado de todas aquellas pruebas que ya no estén siendo usadas por ninguna edición
+     * @param nameTrials Lista con los nombres de las pruebas guardadas
+     */
+    private void changeStateTrial (LinkedList<String> nameTrials) {
         boolean contained;
         // Buscamos para cada prueba, si está siendo usada por alguna edición
         for (String nameTrial : nameTrials) {

@@ -17,5 +17,9 @@ public interface TeamDAO {
 
     boolean changeLine(int index, Player player);
 
+    Player deserialize (String texto);
+
+    String serialize (Player player);
+
     boolean emptyFile();
 }

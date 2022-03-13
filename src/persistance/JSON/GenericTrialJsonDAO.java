@@ -13,12 +13,20 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Clase que gestiona la lectura y escritura del fichero JSON de los GenericTrial
+ * @author José Perez
+ * @author Abraham Cedeño
+ */
 public class GenericTrialJsonDAO implements GenericTrialDAO {
     private final String filename = "generics.json";
     private static final String route = "files/generics.json";
     private static final Path path = Path.of(route);
     private File file = new File("files", filename);
 
+    /**
+     * Método constructor que crea un fichero JSON nuevo, en caso de no existir
+     */
     public GenericTrialJsonDAO () {
         try {
             if(!file.exists()){
@@ -30,6 +38,11 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Crea un nuevo GenericTrial y lo escribe en el fichero
+     * @param generic GenericTrial que se desea escribir
+     * @return booleano que indica si se ha escrito correctamente
+     */
     @Override
     public boolean create (GenericTrial generic) {
         try {
@@ -49,6 +62,10 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Lee todos los elementos de un fichero JSON
+     * @return Lista con los objetos de todos los elementos leídos
+     */
     @Override
     public LinkedList<GenericTrial> readAll () {
         try{
@@ -65,6 +82,11 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Obtiene el objeto a través de la posición en la que está escrito en el fichero
+     * @param index posición en el fichero
+     * @return objeto del GenericTrial solicitado
+     */
     @Override
     public GenericTrial findByIndex (int index) {
         try{
@@ -78,6 +100,11 @@ public class GenericTrialJsonDAO implements GenericTrialDAO {
         }
     }
 
+    /**
+     * Elimina un dato en una posición del fichero
+     * @param index posición del dato a eliminar
+     * @return booleano que indica si se ha eliminado correctamente
+     */
     @Override
     public boolean delete (int index) {
         try {

@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Clase que se encarga de ejecutar la lógica de ejecución de cada una de las diferentes tipos de pruebas
+ */
 public class GameExecutor {
     private final TeamManager teamManager;
     private final BudgetManager budgetManager;
@@ -23,6 +26,15 @@ public class GameExecutor {
     private final DoctoralManager doctoralManager;
     private final ViewController view;
 
+    /**
+     * Constructor del GameExecutor
+     * @param teamManager Gestiona aquello relacionado con los jugadores (team)
+     * @param budgetManager Gestiona aquello relacionado con los datos de las pruebas de tipo Budget
+     * @param paperManager Gestiona aquello relacionado con los datos de las pruebas de tipo PaperPublication
+     * @param masterManager Gestiona aquello relacionado con los datos de las pruebas de tipo Master
+     * @param doctoralManager Gestiona aquello relacionado con los datos de las pruebas de tipo Doctoral
+     * @param view Gestiona aquello relacionado con la interacción por pantalla
+     */
     public GameExecutor(TeamManager teamManager, BudgetManager budgetManager, PaperPublicationManager paperManager, MasterManager masterManager, DoctoralManager doctoralManager, ViewController view) {
         this.teamManager = teamManager;
         this.budgetManager = budgetManager;
@@ -32,7 +44,11 @@ public class GameExecutor {
         this.view = view;
     }
 
-    public void playTrial (GenericTrial genericTrial) throws IOException {
+    /**
+     * Escoge qué lógica ejecutar según el tipo de prueba que se indique
+     * @param genericTrial prueba a ejecutar
+     */
+    public void playTrial (GenericTrial genericTrial)  {
         switch (genericTrial.getType()) {
             case BUDGET -> playBudget(budgetManager.getBudgetByNameTrial(genericTrial.getName()));
             case DOCTORAL -> playDoctoral(doctoralManager.getDoctoralByName(genericTrial.getName()));
@@ -41,9 +57,14 @@ public class GameExecutor {
         }
     }
 
-    /**Empieza gestión de budget**/
-    private void playBudget (Budget budget) throws IOException {
+    /*Empieza gestión de budget*/
+    /**
+     * Método que ejecuta la lógica general de una prueba de tipo Budget
+     * @param budget prueba especifica a ejecutar
+     */
+    private void playBudget (Budget budget)  {
         boolean passed;
+        // Calculamos si el equipo recibe el budget o no
         if (teamManager.getPITeam() > (int) (Math.log(budget.getAmount()) / Math.log(2))) {
             view.showMessage("The research group got the budget!\n");
             passed = true;
@@ -51,6 +72,7 @@ public class GameExecutor {
             view.showMessage("The research group didn't get the budget!\n");
             passed = false;
         }
+        // Actualizamos el PI de todos los jugadores y mostramos
         updatePiTeam(teamManager, passed);
         for (Player player : teamManager.getPlayers()) {
             if (player instanceof Engineer) {
@@ -69,10 +91,16 @@ public class GameExecutor {
         }
     }
 
-    private void updatePiTeam (TeamManager teamManager, boolean passed) throws IOException {
+    /**
+     * Actualiza el PI de todos los jugadores del equipo según si han pasado la prueba o no
+     * @param teamManager nos permitirá persistir los datos del equipo
+     * @param passed parámetro que nos indicará si el equipo ha pasado el budget o no
+     */
+    private void updatePiTeam (TeamManager teamManager, boolean passed) {
         if (passed) {
             Player aux;
             for (int i = 0; i < teamManager.getPlayers().size(); i++) {
+                // Cambiamos el PI para cada jugador y lo actualizamos
                 aux = teamManager.getPlayers().get(i);
                 aux.incrementPI((int) Math.ceil((double) aux.getPI()/2));
                 teamManager.updatePlayer(i, aux);
@@ -81,7 +109,7 @@ public class GameExecutor {
         else {
             Player aux;
             for (int i = 0; i < teamManager.getPlayers().size(); i++) {
-                //Cambios el PI por cada jugador y lo actualizamos
+                // Cambiamos el PI para cada jugador y lo actualizamos
                 aux = teamManager.getPlayers().get(i);
                 aux.decrementPI(2);
                 teamManager.updatePlayer(i, aux);
@@ -90,14 +118,19 @@ public class GameExecutor {
     }
 
 
-    /**Acaba gestión budget**/
+    /*Acaba gestión budget*/
 
 
-    /**Empieza gestión doctoral**/
-    private void playDoctoral (DoctoralThesis doctoral) throws IOException {
+    /*Empieza gestión doctoral*/
+    /**
+     * Método que ejecuta la gestión general de un Doctoral
+     * @param doctoral prueba a ejecutar
+     */
+    private void playDoctoral (DoctoralThesis doctoral)  {
         double result = 0;
         int j = 0;
 
+        // Para todos los jugadores, comprobamos si pasan la prueba y gestionamos sus PI y estado
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) { // Solo jugarán una prueba los jugadores que aún no hayan muerto
                 // Calculamos resultado
@@ -129,10 +162,14 @@ public class GameExecutor {
     }
 
 
-    /**Acaba gestión doctoral**/
+    /*Acaba gestión doctoral*/
 
     /**Empieza gestion paper**/
-    private void playPaper (PaperPublication paper) throws IOException {
+    /**
+     * Método que ejecuta la gestión general de un PaperPublication
+     * @param paper prueba a ejecutar
+     */
+    private void playPaper (PaperPublication paper) {
         int i = 0;
 
         // Hacemos que todos los jugadores publiquen su articulo y vamos actualizando su PI
@@ -153,6 +190,13 @@ public class GameExecutor {
         }
     }
 
+    /**
+     * Método que llama a los métodos que obtienen qué se hace con el artículo enviado y que calcula la puntuación
+     * final del jugador
+     * @param article Artículo que se está ejecutando (prueba)
+     * @param player Jugador que está pasando la prueba
+     * @return Nuevo jugador, con la PI actualizada según su desempeño
+     */
     private Player publishArticle (PaperPublication article, Player player) {
 
         // Calculamos de forma aleatoria si se acepta, revisa o rechaza
@@ -166,6 +210,11 @@ public class GameExecutor {
         return player;
     }
 
+    /**
+     * Método que nos dirá de forma aleatoria si el artículo se acepta, revisa o rechaza
+     * @param article Artículo que se está presentando
+     * @return Entero que puede valer: 1 (si se acepta el artículo), 2 (si se revisa el artículo), 3 (si se rechaza el artículo)
+     */
     private int calculateResponse (PaperPublication article) {
         // Generamos un número aleatorio que estará entre 0 y 100
         Random rand = new Random();
@@ -190,6 +239,13 @@ public class GameExecutor {
         return response;
     }
 
+    /**
+     * Método que, según si se ha aceptado o rechazado el artíuclo, modifica los puntos del jugador, dependiendo del
+     * Quartil de la prueba ejecutada. En caso de haber sido revisado (2), la puntuación del jugador se mantiene
+     * @param response Indica si el artículo ha sido aceptado (1), revisado (2) o rechazado (3)
+     * @param article Artículo que se está presentando (prueba)
+     * @param player Jugador que está pasando la prueba
+     */
     private void manageScore (int response, PaperPublication article, Player player) {
         String quartile = article.getQuartile();
 
@@ -211,11 +267,16 @@ public class GameExecutor {
         }
 
     }
-    /**Acaba gestión paper**/
+    /*Acaba gestión paper*/
 
     /**Empieza gestión master**/
-    private void playMaster (MasterStudies master) throws IOException {
+    /**
+     * Método que ejecuta la gestión general de una prueba Master
+     * @param master prueba a ejecutar
+     */
+    private void playMaster (MasterStudies master) {
         int i = 0;
+        // Comprobamos para cada jugador si pasan el master y actualizamos su PI
         for (Player player: teamManager.getPlayers()) {
             if (player.getPI() != 0) { // Solo jugarán una prueba los jugadores que aún no hayan muerto
                 checkPassed(master, player);
@@ -229,9 +290,13 @@ public class GameExecutor {
         for (String line: changedType) {
             view.showMessageLine(line);
         }
-
     }
 
+    /**
+     * Calcula si un jugador pasa el master o no
+     * @param masterStudies prueba a ejecutar
+     * @param player jugador que está en la prueba
+     */
     private void checkPassed (MasterStudies masterStudies, Player player) {
         Random random = new Random();
         int randomNumber;
@@ -248,6 +313,7 @@ public class GameExecutor {
             }
         }
 
+        // Modificamos PI según el resultado
         if (pass > deny) {
             if (player instanceof Engineer) {
                 player.setPi(10);
@@ -262,14 +328,20 @@ public class GameExecutor {
 
     }
 
-    /**Acaba gestión master**/
+    /*Acaba gestión master*/
 
-    // Método que revisa los PI de todos los jugadores y cambia su su estado si es necesario. Lo usan todos los tipos de pruebas
-    private LinkedList<String> checkUpdateStatus () throws IOException {
+    /**
+     * Método que revisa los PI de todos los jugadores de un equipo y cambia su estado (evoluciona) si es necesario.
+     * Lo usan todos los tipos de pruebas
+     * @return lista con los nombres de los jugadores que hayan evolucionado
+     */
+    private LinkedList<String> checkUpdateStatus () {
         int i = 0;
         LinkedList<String> changedType = new LinkedList<>();
+        // Para cada jugador, comprobamos si debe evolucionar de tipo
         for (Player player : teamManager.getPlayers()) {
             if (player instanceof Engineer) {
+                // Si debe evolucionar (tiene 10 PI, lo evolucionamos)
                 if (player.checkUpdateStatus()) {
                     Player master = new Master(player.getName(), 5);
                     teamManager.updatePlayer(i, master);
@@ -280,6 +352,7 @@ public class GameExecutor {
                     }
                 }
             } else if (player instanceof Master) {
+                // Si debe evolucionar (tiene 10 PI, lo evolucionamos)
                 if (player.checkUpdateStatus()) {
                     Player doctor = new Doctor(player.getName(), 5);
                     teamManager.updatePlayer(i, doctor);

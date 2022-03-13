@@ -14,23 +14,41 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
+/**
+ * Clase que se encarga de gestionar la ejecución del menú de ejecución (Conductor)
+ * @author José Pérez
+ * @author Abraham Cedeño
+ */
 public class ConductorController {
-    private PaperPublicationManager paperPublicationManager;
     private EditionManager editionManager;
     private TeamManager teamManager;
     private ViewController view;
     private GameExecutor gameExecutor;
     private GenericTrialManager genericTrialManager;
 
-    public ConductorController(PaperPublicationManager paperPublicationManager, EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, GenericTrialManager genericTrialManager) {
-        this.paperPublicationManager = paperPublicationManager;
+    /**
+     * Construye un nuevo ConductorController, con todas las clases que este necesita
+     * @param editionManager Gestiona aquello relacionado con las ediciones
+     * @param teamManager Gestiona aquello relacionado con los jugadores (team)
+     * @param view Gestiona aquello relacionado con la interacción por pantalla
+     * @param gameExecutor Se encarga de gestionar la ejecución de todos los tipos de pruebas
+     * @param genericTrialManager Gestiona lo relacdionado con las pruebas genéricas
+     */
+    public ConductorController(EditionManager editionManager, TeamManager teamManager, ViewController view, GameExecutor gameExecutor, GenericTrialManager genericTrialManager) {
         this.editionManager = editionManager;
         this.teamManager = teamManager;
         this.view = view;
         this.gameExecutor = gameExecutor;
         this.genericTrialManager = genericTrialManager;
     }
-    public int run (int finalIndex) throws IOException {
+
+    /**
+     * Método principal que va llamado a los diferentes método que permiten la ejecución de una edición
+     * @param finalIndex Variable que nos permitirá saber qué prueba se ha ejecutado la última (por ejemplo si el jugador
+     *                   ha decidido pausar la ejecución anteriormente) y por tanto si la próxima vez que entremos
+     *                   se tiene que continuar la ejecución a partir de ese punto o empezar de nuevo
+     */
+    public int run (int finalIndex) {
         // Variable que nos permitirá saber qué prueba se ha ejecutado la última, y por tanto si la próxima
         // vez que entremos tiene que continuar la ejecución o empezar de nuevo
         view.showMessage("\nEntering execution mode ...");
@@ -65,7 +83,10 @@ public class ConductorController {
         return finalIndex;
     }
 
-    private void savePlayers () throws IOException {
+    /**
+     * Se encarga de pedir los jugadores de la edición y guardarlos
+     */
+    private void savePlayers () {
         int numPlayers = editionManager.getEditionCurrentYear().getNumPlayers();
 
         for (int j = 0; j < numPlayers; j++) {
@@ -76,7 +97,13 @@ public class ConductorController {
 
     }
 
-    private int playTrials (int numTrials, int index) throws IOException {
+    /**
+     * Encargado de ejecutar y organizar la ejecución de la edición, llamando al resto de métodos que permiten su ejecución
+     * @param numTrials Número de pruebas con las que cuenta esa edición
+     * @param index Indice que permite al método saber a partir de qué prueba se debe ejecutar la edición
+     * @return Entero que nos permitirá saber cuál ha sido la última prueba ejecutada (si se ha parado la ejecución o no)
+     */
+    private int playTrials (int numTrials, int index)  {
         int i;
         boolean continueExecution = true;
         String aux = "";
@@ -99,11 +126,16 @@ public class ConductorController {
         return i;
     }
 
-    private boolean checkYear (LinkedList<Edition> edition) {
+    /**
+     * Se encarga de comprobar que exista una edición para el año actual
+     * @param editions Lista con las ediciones donde buscaremos la de este año
+     * @return Nos permitirá saber si se ha encontrado una edición para este año o no
+     */
+    private boolean checkYear (LinkedList<Edition> editions) {
         Calendar calendar = new GregorianCalendar();
         boolean ok = false;
-        for (int i = 0; i < edition.size(); i++) {
-            if (edition.get(i).getYear() == calendar.get(Calendar.YEAR)) {
+        for (int i = 0; i < editions.size(); i++) {
+            if (editions.get(i).getYear() == calendar.get(Calendar.YEAR)) {
                 ok = true;
             }
         }

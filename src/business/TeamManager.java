@@ -10,10 +10,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
+/**
+ * Controla aquello relacionado con el equipo jugando una edición
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class TeamManager {
     private TeamDAO teamDAO;
 
-    public TeamManager(DataSourceOptions options) throws IOException {
+    /**
+     * Método constructor que crea un nuevo manager, relacionándolo con JSON o CSV
+     * @param options opción del tipo de persistencia que se quiere escoger
+     */
+    public TeamManager(DataSourceOptions options) {
         switch (options) {
             case JSON -> teamDAO = new TeamJsonDAO();
             case CSV -> teamDAO = new TeamCsvDAO();
@@ -40,7 +49,7 @@ public class TeamManager {
      * Método que elimina los jugadores muertos de un equipo
      * @return Booleano que indica si TODOS los jugadores han muerto o no
      */
-    public boolean checkDeadPlayers () throws FileNotFoundException {
+    public boolean checkDeadPlayers () {
         boolean dead = true;
         LinkedList<Player> players = getPlayers();
         for (int i = 0; i < players.size() && dead; i++) {

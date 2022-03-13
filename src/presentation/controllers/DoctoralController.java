@@ -6,21 +6,32 @@ import business.ManagersTrials.TrialTypeOptions;
 import business.typeTrials.DoctoralThesis;
 import presentation.ViewController;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+/**
+ * Controla ciertas partes de la entrada y salida de datos de los Doctoral
+ * @author Abraham Cedeño
+ * @author José Pérez
+ */
 public class DoctoralController {
     private ViewController view;
     private DoctoralManager doctoralManager;
     private GenericTrialManager genericTrialManager;
 
+    /**
+     * Constructor que crea un nuevo DoctoralController
+     * @param view clase vista
+     * @param doctoralManager manager de los doctorals que se comunica con la persistencia
+     * @param genericTrialManager manager de los triols de tipo genérico
+     */
     public DoctoralController(ViewController view, DoctoralManager doctoralManager, GenericTrialManager genericTrialManager) {
         this.view = view;
         this.doctoralManager = doctoralManager;
         this.genericTrialManager = genericTrialManager;
     }
 
-    public void add() throws IOException {
+    /**
+     * Método que pide los datos para añadir un nuevo doctoral, comprobando para cada dato si es correcto
+     */
+    public void add() {
         String trialName = view.askForString("\nEnter the trial's name: ");
         if (checkError(trialName, 1)) {
             String thesis = view.askForString("Enter the thesis field of study: ");
@@ -41,6 +52,10 @@ public class DoctoralController {
         }
     }
 
+    /**
+     * Muestra toda la información de un doctoral concreto
+     * @param index posición del doctoral que se quiere mostrar
+     */
     public void showDoctoral (int index) {
         String name = genericTrialManager.getGenericalTrial(index).getName();
         DoctoralThesis doctor = doctoralManager.getDoctoralByName(name);
@@ -49,7 +64,13 @@ public class DoctoralController {
         view.showMessage("Difficulty: " + doctor.getDifficulty());
     }
 
-    private boolean checkError (String aux, int mode) throws FileNotFoundException {
+    /**
+     * Comprueba, para cada tipo de dato, si hay algún error
+     * @param aux cadena que contiene la información para comprobar
+     * @param mode entero que nos permite saber qué tipo de comprobación realizar
+     * @return booleano que permite saber is ha habido error o no
+     */
+    private boolean checkError (String aux, int mode) {
         switch (mode) {
             case 1: // Comprobamos que el nombre no este vacío y que no exista
                 if (!aux.isEmpty()) {

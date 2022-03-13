@@ -13,12 +13,20 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Clase que gestiona la lectura y escritura del fichero JSON del team
+ * @author Jose Perez
+ * @author Abraham Cedeño
+ */
 public class BudgetJsonDAO implements BudgetDAO {
     private final String filename = "budgets.json";
     private static final String route = "files/budgets.json";
     private static final Path path = Path.of(route);
     private File file = new File("files", filename);
 
+    /**
+     * Método constructor que crea un fichero JSON nuevo, en caso de no existir
+     */
     public BudgetJsonDAO () {
         try {
             if(!file.exists()){
@@ -30,6 +38,11 @@ public class BudgetJsonDAO implements BudgetDAO {
         }
     }
 
+    /**
+     * Crea un nuevo budget y lo escribe en el fichero
+     * @param budget budget que se desea escribir
+     * @return booleano que indica si se ha escrito correctamente
+     */
     @Override
     public boolean create(Budget budget)  {
         try {
@@ -49,6 +62,10 @@ public class BudgetJsonDAO implements BudgetDAO {
         }
     }
 
+    /**
+     * Lee todos los elementos de un fichero JSON
+     * @return Lista con los objetos de todos los elementos leídos
+     */
     @Override
     public LinkedList<Budget> readAll() {
         try{
@@ -65,6 +82,11 @@ public class BudgetJsonDAO implements BudgetDAO {
         }
     }
 
+    /**
+     * Obtiene el objeto a través de la posición en la que está escrito en el fichero
+     * @param index posición en el fichero
+     * @return objeto del budget solicitado
+     */
     @Override
     public Budget findByIndex(int index) {
         try{
@@ -78,8 +100,13 @@ public class BudgetJsonDAO implements BudgetDAO {
         }
     }
 
+    /**
+     * Elimina un dato del fichero
+     * @param index posición del dato a eliminar
+     * @return booleano que indica si se ha eliminado correctamente
+     */
     @Override
-    public boolean delete (int index) throws IOException {
+    public boolean delete (int index) {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             List<Budget> budgets = readAll();
@@ -91,6 +118,13 @@ public class BudgetJsonDAO implements BudgetDAO {
             return false;
         }
     }
+
+    /**
+     * Actualiza un dato en el fichero
+     * @param index Posición del dato a modificar
+     * @param budget Nuevo objeto que quiere escribirse en la posición
+     * @return booleano que indica si se ha modificado correctamente
+     */
     @Override
     public boolean changeLine (int index, Budget budget)  {
         try {
