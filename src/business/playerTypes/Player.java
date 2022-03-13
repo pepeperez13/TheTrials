@@ -13,8 +13,8 @@ public abstract class Player {
     }
 
     public void decrementPI (int change) {
-        if (this.PI - change >= 0) {
-            this.PI = this.PI - change;
+        if (PI - change >= 0) {
+            PI = PI - change;
         }else{
             this.PI = 0;
         }

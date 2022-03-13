@@ -84,7 +84,7 @@ public class ConductorController {
         int i;
         boolean continueExecution = true;
         String aux = "";
-        for (i = index; i < numTrials; i++) {
+        for (i = index; i < numTrials && continueExecution && !teamManager.checkDeadPlayers(); i++) {
             view.showMessage("\nTrial #" + (i+1) + " - " + editionManager.getEditionCurrentYear().getTrialNameByIndex(i));
             //Pasamos un GenericTrial al gameExecutor
             gameExecutor.playTrial(genericTrialManager.getGenericalTrial(genericTrialManager.getIndexByName(editionManager.getEditionCurrentYear().getTrialNameByIndex(i))+1));

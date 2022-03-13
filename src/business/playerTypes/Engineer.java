@@ -21,7 +21,7 @@ public class Engineer extends Player{
         if (this.PI - change >= 0) {
             this.PI = this.PI - change;
         }else{
-            this.PI = 0;
+            PI = 0;
         }
     }
 

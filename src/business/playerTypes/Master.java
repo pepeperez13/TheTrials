@@ -11,15 +11,15 @@ public class Master extends Player {
 
     @Override
     public void incrementPI (int change) {
-        this.PI = this.PI + change;
+        PI = PI + change;
     }
 
     @Override
     public void decrementPI (int change) {
-        if (super.getPI() - change >= 0) {
-            super.setPi(super.getPI() - change);
+        if (PI - change/2 >= 0) {
+            PI = PI - change/2;
         }else{
-            super.setPi(0);
+            PI = 0;
         }
     }
 
@@ -30,5 +30,15 @@ public class Master extends Player {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public int getPI () {
+        return PI;
+    }
+
+    @Override
+    public String getName () {
+        return name;
     }
 }

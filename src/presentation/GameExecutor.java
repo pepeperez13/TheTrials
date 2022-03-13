@@ -97,24 +97,26 @@ public class GameExecutor {
         int j = 0;
 
         for (Player player: teamManager.getPlayers()) {
-            // Calculamos resultado
-            for (int i = 1; i <= doctoral.getDifficulty(); i++) {
-                result = result + ((2*i) - 1);
-            }
-            // Comprobamos si pasa y actualizamos PI, mostrandolo
-            if (player.getPI() > result) {
-                if (player instanceof Doctor) {
-                    player.setPi(10);
-                }else{
-                    player.incrementPI(5);
+            if (player.getPI() != 0) { // Solo jugarán una prueba los jugadores que aún no hayan muerto
+                // Calculamos resultado
+                for (int i = 1; i <= doctoral.getDifficulty(); i++) {
+                    result = result + ((2 * i) - 1);
                 }
-                view.showMessage(player.getName() + " was successful. Congrats! PI count: " + player.getPI());
-            }else{
-                player.decrementPI(5);
-                view.showMessage(player.getName() + " was not successful. Sorry... PI count: " + player.getPI());
+                // Comprobamos si pasa y actualizamos PI, mostrandolo
+                if (player.getPI() > result) {
+                    if (player instanceof Doctor) {
+                        player.setPi(10);
+                    } else {
+                        player.incrementPI(5);
+                    }
+                    view.showMessage(player.getName() + " was successful. Congrats! PI count: " + player.getPI());
+                } else {
+                    player.decrementPI(5);
+                    view.showMessage(player.getName() + " was not successful. Sorry... PI count: " + player.getPI());
+                }
+                teamManager.updatePlayer(j, player);
+                j++;
             }
-            teamManager.updatePlayer(j, player);
-            j++;
         }
 
         // Mostramos todos los jugadores que hayan evolucionado
@@ -133,7 +135,7 @@ public class GameExecutor {
 
         // Hacemos que todos los jugadores publiquen su articulo y vamos actualizando su PI
         for (Player player: teamManager.getPlayers()){
-            if (player.getPI() != 0) {
+            if (player.getPI() != 0) { // Solo jugarán una prueba los jugadores que aún no hayan muerto
                 view.showMessageLine(player.getName() + " is submitting...");
                 player = publishArticle(paper, player);
                 teamManager.updatePlayer(i, player);
@@ -213,9 +215,11 @@ public class GameExecutor {
     private void playMaster (MasterStudies master) throws IOException {
         int i = 0;
         for (Player player: teamManager.getPlayers()) {
-            checkPassed(master, player);
-            teamManager.updatePlayer(i, player);
-            i++;
+            if (player.getPI() != 0) { // Solo jugarán una prueba los jugadores que aún no hayan muerto
+                checkPassed(master, player);
+                teamManager.updatePlayer(i, player);
+                i++;
+            }
         }
 
         // Mostramos todos los jugadores que hayan evolucionado
@@ -277,7 +281,7 @@ public class GameExecutor {
                     Player doctor = new Doctor(player.getName(), 5);
                     teamManager.updatePlayer(i, doctor);
                     // Añadimos a la lista de jugadores evolucionados para mostrarlo
-                    changedType.add(player.getName() + "is now a doctor (with 5 PI). ");
+                    changedType.add(player.getName() + " is now a doctor (with 5 PI). ");
                     if (i == teamManager.getPlayers().size() - 1) { // Añade un espacio al final
                         view.showMessage("");
                     }

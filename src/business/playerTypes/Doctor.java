@@ -11,7 +11,7 @@ public class Doctor extends Player{
 
     @Override
     public void incrementPI (int change) {
-        super.setPi(super.getPI() + change*2);
+        PI = PI + change*2;
     }
 
     @Override
@@ -21,5 +21,15 @@ public class Doctor extends Player{
         }else {
             return false;
         }
+    }
+
+    @Override
+    public String getName () {
+        return name;
+    }
+
+    @Override
+    public int getPI () {
+        return PI;
     }
 }
