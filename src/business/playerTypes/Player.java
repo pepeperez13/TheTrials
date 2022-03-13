@@ -1,10 +1,9 @@
 package business.playerTypes;
 
-import java.io.Serializable;
+public abstract class Player {
+    private transient String name;
+    private transient int PI;
 
-public abstract class Player implements Serializable {
-    private String name;
-    private int PI;
     ///@SerializedName("type")
     //private String typeName;
 

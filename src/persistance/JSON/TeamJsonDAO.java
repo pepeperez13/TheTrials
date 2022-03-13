@@ -35,9 +35,6 @@ public class TeamJsonDAO implements TeamDAO {
     public boolean create (Player player) {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            /*GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(Player.class, new JsonDeserializerWithInheritance<Player>());
-            Gson gson = builder.setPrettyPrinting().create();*/
             String lines = Files.readString(path);
             LinkedList<Player> playersList = new LinkedList<>();
             // Solo leeremos elementos si el json no está vacío
@@ -63,6 +60,7 @@ public class TeamJsonDAO implements TeamDAO {
             if (gson.fromJson(lines, listType) != null) {
                 playersList = gson.fromJson(lines, listType);
             }
+
             return new LinkedList<>(playersList);
         } catch (IOException e) {
             return new LinkedList<>();
