@@ -297,7 +297,7 @@ public class CompositorController {
 
     /**
      * Método privado que coloca las pruebas que se hayan seleccionado para una edición como "en uso"
-     * @param trialsIndexes Índices de las pruebas que deben colocarse en uso
+     * @param trialsIndexes indices de las pruebas que deben colocarse en uso
      */
     private void setTrialsInUse (ArrayList<Integer> trialsIndexes) {
 

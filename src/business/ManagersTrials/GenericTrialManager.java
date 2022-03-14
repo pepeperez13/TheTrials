@@ -55,9 +55,8 @@ public class GenericTrialManager {
 
     /**
      * Según una lista de índices, devuelve un array con los nombres de las pruebas que se encuentran en dichos indices
-     * @param indexes Índices de las pruebas que se quiere obtener su nombre
+     * @param indexes indices de las pruebas que se quiere obtener su nombre
      * @return Array con los nombres de las pruebas
-     * @throws FileNotFoundException
      */
     public String[] getTrialsNamesByIndexes (ArrayList<Integer> indexes) {
         LinkedList<String> allNames = getTrialsNames(); // Obtenemos los nombres de todas las pruebas disponibles

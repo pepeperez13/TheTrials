@@ -69,7 +69,7 @@ public class BudgetManager {
 
     /**
      * Elimina una prueba a partir de su posición en la lista
-     * @param index Índice de la prueba a eliminar
+     * @param index indice de la prueba a eliminar
      */
     public void deleteBudget (int index) {
         budgetDAO.delete(index);

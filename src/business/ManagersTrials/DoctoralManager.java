@@ -62,7 +62,7 @@ public class DoctoralManager {
 
     /**
      * Elimina una prueba a partir de su posición en la lista
-     * @param index Índice de la prueba a eliminar
+     * @param index indice de la prueba a eliminar
      */
     public void deleteMaster (int index) {
         doctoralDAO.delete(index);
